@@ -16,11 +16,38 @@ export type YouTubePlaylistItem = {
   videos: YouTubeVideoItem[];
 };
 
+type UnknownRecord = Record<string, unknown>;
+
 const apiKey = import.meta.env.YOUTUBE_API_KEY;
 const explicitChannelId = import.meta.env.YOUTUBE_CHANNEL_ID;
 const fallbackChannelId = 'UC4H2VHO5BN36TvnQwUWYPKg';
 const channelHandle = '@corparteyvida';
 const channelUrl = 'https://www.youtube.com/@corparteyvida';
+
+const isRecord = (value: unknown): value is UnknownRecord => Boolean(value) && typeof value === 'object' && !Array.isArray(value);
+
+const readText = (value: unknown): string => {
+  if (typeof value === 'string') return value.trim();
+  if (typeof value === 'number') return String(value);
+  return '';
+};
+
+const readRenderedText = (value: unknown): string => {
+  if (typeof value === 'string') return value.trim();
+  if (!isRecord(value)) return '';
+
+  const simpleText = readText(value.simpleText);
+  if (simpleText) return simpleText;
+
+  if (Array.isArray(value.runs)) {
+    return value.runs
+      .map((run) => (isRecord(run) ? readText(run.text) : ''))
+      .join('')
+      .trim();
+  }
+
+  return '';
+};
 
 const readThumbnail = (snippet: any) =>
   snippet?.thumbnails?.high?.url ??
@@ -39,6 +66,135 @@ const decodeXml = (value: string) =>
     .trim();
 
 const matchXml = (block: string, pattern: RegExp) => decodeXml(block.match(pattern)?.[1] ?? '');
+
+const readThumbnailFromNode = (value: unknown): string => {
+  if (!value) return '';
+
+  if (Array.isArray(value)) {
+    for (let index = value.length - 1; index >= 0; index -= 1) {
+      const url = readThumbnailFromNode(value[index]);
+      if (url) return url;
+    }
+    return '';
+  }
+
+  if (!isRecord(value)) return '';
+
+  const directUrl = readText(value.url);
+  if (directUrl.startsWith('http')) return directUrl;
+
+  if (Array.isArray(value.thumbnails)) {
+    const url = readThumbnailFromNode(value.thumbnails);
+    if (url) return url;
+  }
+
+  for (const key of ['maxres', 'standard', 'high', 'medium', 'default']) {
+    if (key in value) {
+      const url = readThumbnailFromNode(value[key]);
+      if (url) return url;
+    }
+  }
+
+  for (const nestedValue of Object.values(value)) {
+    const url = readThumbnailFromNode(nestedValue);
+    if (url) return url;
+  }
+
+  return '';
+};
+
+const countTextToNumber = (value: string): number => {
+  const digits = value.replace(/[^\d]/g, '');
+  return digits ? Number(digits) : 0;
+};
+
+const collectValuesByKey = (value: unknown, key: string, results: unknown[] = []): unknown[] => {
+  if (Array.isArray(value)) {
+    value.forEach((entry) => collectValuesByKey(entry, key, results));
+    return results;
+  }
+
+  if (!isRecord(value)) return results;
+
+  for (const [entryKey, entryValue] of Object.entries(value)) {
+    if (entryKey === key) {
+      results.push(entryValue);
+    }
+    collectValuesByKey(entryValue, key, results);
+  }
+
+  return results;
+};
+
+const extractJsonAfterMarker = (html: string, marker: string): string => {
+  const markerIndex = html.indexOf(marker);
+  if (markerIndex < 0) return '';
+
+  const start = html.indexOf('{', markerIndex);
+  if (start < 0) return '';
+
+  let depth = 0;
+  let inString = false;
+  let escaped = false;
+
+  for (let index = start; index < html.length; index += 1) {
+    const char = html[index];
+
+    if (escaped) {
+      escaped = false;
+      continue;
+    }
+
+    if (char === '\\') {
+      escaped = inString;
+      continue;
+    }
+
+    if (char === '"') {
+      inString = !inString;
+      continue;
+    }
+
+    if (inString) continue;
+
+    if (char === '{') depth += 1;
+    if (char === '}') depth -= 1;
+
+    if (depth === 0) {
+      return html.slice(start, index + 1);
+    }
+  }
+
+  return '';
+};
+
+const parseYouTubeInitialData = (html: string): unknown => {
+  const jsonPayload =
+    extractJsonAfterMarker(html, 'var ytInitialData =') ||
+    extractJsonAfterMarker(html, 'window["ytInitialData"] =') ||
+    extractJsonAfterMarker(html, 'ytInitialData =');
+
+  if (!jsonPayload) return null;
+
+  try {
+    return JSON.parse(jsonPayload);
+  } catch {
+    return null;
+  }
+};
+
+const fetchPublicYouTubePage = async (url: string): Promise<string> => {
+  const response = await fetch(url, {
+    headers: {
+      Accept: 'text/html,application/xhtml+xml',
+      'Accept-Language': 'es-CL,es;q=0.9,en;q=0.8',
+      'User-Agent': 'Mozilla/5.0',
+    },
+  });
+
+  if (!response.ok) return '';
+  return response.text();
+};
 
 const parseFeedVideos = (xml: string, maxResults: number): YouTubeVideoItem[] => {
   const entries = Array.from(xml.matchAll(/<entry>([\s\S]*?)<\/entry>/g)).slice(0, maxResults);
@@ -183,6 +339,119 @@ const fetchPlaylists = async (channelId: string, maxResults: number): Promise<Yo
   }
 };
 
+const extractPlaylistsFromPublicData = (data: unknown, maxResults: number): YouTubePlaylistItem[] => {
+  const playlists = new Map<string, YouTubePlaylistItem>();
+
+  const visit = (node: unknown) => {
+    if (Array.isArray(node)) {
+      node.forEach(visit);
+      return;
+    }
+
+    if (!isRecord(node)) return;
+
+    const directPlaylistId = readText(node.playlistId);
+    const navigationEndpoint = isRecord(node.navigationEndpoint) ? node.navigationEndpoint : null;
+    const watchEndpoint =
+      navigationEndpoint && isRecord(navigationEndpoint.watchEndpoint) ? navigationEndpoint.watchEndpoint : null;
+    const onTap = isRecord(node.onTap) ? node.onTap : null;
+    const innertubeCommand =
+      onTap && isRecord(onTap.innertubeCommand) ? onTap.innertubeCommand : null;
+    const tapWatchEndpoint =
+      innertubeCommand && isRecord(innertubeCommand.watchEndpoint) ? innertubeCommand.watchEndpoint : null;
+
+    const playlistId = directPlaylistId || readText(watchEndpoint?.playlistId) || readText(tapWatchEndpoint?.playlistId);
+    const title = readRenderedText(node.title);
+    const directVideoId = readText(node.videoId);
+    const videoCount =
+      countTextToNumber(readRenderedText(node.videoCountText)) ||
+      countTextToNumber(readRenderedText(node.videoCountShortText)) ||
+      countTextToNumber(readRenderedText(node.thumbnailText));
+
+    if (playlistId && title && !directVideoId && !playlists.has(playlistId)) {
+      playlists.set(playlistId, {
+        id: playlistId,
+        title,
+        description: readRenderedText(node.descriptionText) || readRenderedText(node.descriptionSnippet),
+        thumbnail: readThumbnailFromNode(node.thumbnail),
+        publishedAt: '',
+        videoCount,
+        playlistUrl: `https://www.youtube.com/playlist?list=${playlistId}`,
+        videos: [],
+      });
+    }
+
+    Object.values(node).forEach(visit);
+  };
+
+  visit(data);
+
+  return Array.from(playlists.values()).slice(0, maxResults);
+};
+
+const fetchPlaylistVideosFromPublicPage = async (playlistId: string, maxResults: number): Promise<YouTubeVideoItem[]> => {
+  try {
+    const html = await fetchPublicYouTubePage(`https://www.youtube.com/playlist?list=${playlistId}`);
+    if (!html) return [];
+
+    const data = parseYouTubeInitialData(html);
+    if (!data) return [];
+
+    return collectValuesByKey(data, 'playlistVideoRenderer')
+      .map((entry) => {
+        if (!isRecord(entry)) return null;
+
+        const id = readText(entry.videoId);
+        const title = readRenderedText(entry.title);
+        const thumbnail = readThumbnailFromNode(entry.thumbnail) || (id ? `https://i.ytimg.com/vi/${id}/hqdefault.jpg` : '');
+        const publishedAt = readRenderedText(entry.publishedTimeText);
+
+        if (!id || !title || !thumbnail) return null;
+
+        return {
+          id,
+          title,
+          thumbnail,
+          publishedAt,
+        } as YouTubeVideoItem;
+      })
+      .filter((video): video is YouTubeVideoItem => Boolean(video))
+      .slice(0, maxResults);
+  } catch {
+    return [];
+  }
+};
+
+const fetchPlaylistsFromPublicPages = async (channelId: string, maxResults: number): Promise<YouTubePlaylistItem[]> => {
+  try {
+    const html = await fetchPublicYouTubePage(
+      `https://www.youtube.com/channel/${channelId}/playlists?view=1&sort=dd&shelf_id=0`,
+    );
+    if (!html) return [];
+
+    const data = parseYouTubeInitialData(html);
+    if (!data) return [];
+
+    const playlistBase = extractPlaylistsFromPublicData(data, maxResults);
+    if (!playlistBase.length) return [];
+
+    const playlistsWithVideos = await Promise.all(
+      playlistBase.map(async (playlist) => {
+        const videos = await fetchPlaylistVideosFromPublicPage(playlist.id, 6);
+        return {
+          ...playlist,
+          thumbnail: playlist.thumbnail || videos[0]?.thumbnail || '',
+          videos,
+        };
+      }),
+    );
+
+    return playlistsWithVideos.filter((playlist) => playlist.videos.length > 0);
+  } catch {
+    return [];
+  }
+};
+
 const buildChannelSelections = (videos: YouTubeVideoItem[], playlistLimit: number): YouTubePlaylistItem[] => {
   if (!videos.length) return [];
 
@@ -260,9 +529,10 @@ const fallbackPlaylists: YouTubePlaylistItem[] = [
   },
 ];
 
-export const formatYouTubeDate = (isoString: string) => {
-  if (!isoString) return 'En YouTube';
-  const date = new Date(isoString);
+export const formatYouTubeDate = (value: string) => {
+  if (!value) return 'En YouTube';
+  const date = new Date(value);
+  if (Number.isNaN(date.valueOf())) return value;
   return date.toLocaleDateString('es-CL', { day: '2-digit', month: 'short', year: 'numeric' });
 };
 
@@ -295,6 +565,10 @@ export const getYouTubeLibrary = async (playlistLimit = 8) => {
 
   if (channelId && apiKey) {
     playlists = await fetchPlaylists(channelId, playlistLimit);
+  }
+
+  if (!playlists.length && channelId) {
+    playlists = await fetchPlaylistsFromPublicPages(channelId, playlistLimit);
   }
 
   if (!playlists.length && channelId) {

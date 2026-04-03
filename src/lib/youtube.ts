@@ -1,3 +1,5 @@
+import { curatedYouTubePlaylists } from './youtube-curated';
+
 export type YouTubeVideoItem = {
   id: string;
   title: string;
@@ -23,6 +25,17 @@ const explicitChannelId = import.meta.env.YOUTUBE_CHANNEL_ID;
 const fallbackChannelId = 'UC4H2VHO5BN36TvnQwUWYPKg';
 const channelHandle = '@corparteyvida';
 const channelUrl = 'https://www.youtube.com/@corparteyvida';
+const curatedFallbackPlaylists: YouTubePlaylistItem[] = curatedYouTubePlaylists.map((playlist) => ({
+  ...playlist,
+  videos: playlist.videos.map((video) => ({ ...video })),
+}));
+const curatedFallbackVideos: YouTubeVideoItem[] = Array.from(
+  new Map(
+    curatedFallbackPlaylists
+      .flatMap((playlist) => playlist.videos)
+      .map((video) => [video.id, { ...video }] as const),
+  ).values(),
+);
 
 const isRecord = (value: unknown): value is UnknownRecord => Boolean(value) && typeof value === 'object' && !Array.isArray(value);
 
@@ -552,7 +565,10 @@ export const getYouTubeVideos = async (maxResults = 3) => {
   }
 
   return {
-    videos: videos.length ? videos : fallbackVideos.slice(0, Math.max(1, maxResults)),
+    videos:
+      videos.length
+        ? videos
+        : (curatedFallbackVideos.length ? curatedFallbackVideos : fallbackVideos).slice(0, Math.max(1, maxResults)),
     loadError,
   };
 };
@@ -569,6 +585,10 @@ export const getYouTubeLibrary = async (playlistLimit = 8) => {
 
   if (!playlists.length && channelId) {
     playlists = await fetchPlaylistsFromPublicPages(channelId, playlistLimit);
+  }
+
+  if (!playlists.length) {
+    playlists = curatedFallbackPlaylists.slice(0, Math.max(1, playlistLimit));
   }
 
   if (!playlists.length && channelId) {

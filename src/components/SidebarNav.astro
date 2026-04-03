@@ -1,0 +1,238 @@
+---
+const navSections = [
+  { type: 'link', label: 'Inicio', href: '/' },
+  {
+    type: 'group',
+    label: 'Nosotros',
+    children: [
+      { label: 'Nuestra historia', href: '/nuestra-historia' },
+      { label: 'Nuestros socios', href: '/socios' },
+      { label: 'Transparencia', href: '/transparencia' },
+    ],
+  },
+  { type: 'link', label: 'Noticias', href: '/noticias' },
+  { type: 'link', label: 'Proyectos', href: '/proyectos' },
+  { type: 'link', label: 'Arte y Vida TV', href: '/arte-y-vida-tv' },
+  { type: 'link', label: 'Contacto', href: '/contacto' },
+];
+
+const socialLinks = [
+  {
+    name: 'Facebook',
+    href: 'http://facebook.com/@corparteyvida',
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24" class="w-5 h-5"><path d="M13.4 20.8v-7h2.3l.3-2.7h-2.6v-1.7c0-.8.2-1.3 1.4-1.3h1.3V5c-.2 0-1.1-.1-2.1-.1-2.1 0-3.6 1.3-3.6 3.7v2.1H8v2.7h2.4v7h3z"/></svg>`
+  },
+  {
+    name: 'Instagram',
+    href: 'http://instagram.com/corparteyvida',
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-5 h-5"><rect x="3" y="3" width="18" height="18" rx="5" ry="5" stroke-width="2"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37Z" stroke-width="2"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor"/></svg>`
+  },
+  {
+    name: 'YouTube',
+    href: 'https://www.youtube.com/@corparteyvida',
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24" class="w-5 h-5"><path d="M21.6 7.2s-.2-1.4-.8-2c-.7-.7-1.5-.7-1.9-.7C16.4 4.2 12 4.2 12 4.2h-.1s-4.4 0-6.9.3c-.4 0-1.2 0-1.9.7-.6.6-.8 2-.8 2S2 8.8 2 10.4v1.2c0 1.6.2 3.2.2 3.2s.2 1.4.8 2c.7.7 1.7.7 2.2.7 1.6.2 6.8.3 6.8.3s4.4 0 6.9-.3c.4 0 1.2 0 1.9-.7.6-.6.8-2 .8-2s.2-1.6.2-3.2v-1.2c0-1.6-.2-3.2-.2-3.2ZM10 14.8V8.9l5.1 3-5.1 2.9Z"/></svg>`
+  }
+];
+---
+
+<aside id="sidebar-shell" class="fixed left-4 top-4 md:top-1/2 md:-translate-y-1/2 z-50 flex flex-col gap-6">
+  <div class="hidden md:flex flex-col gap-6 pl-1">
+    <div class="flex items-center gap-3 text-brand-white">
+      <img src="/blanco-scaled.webp" alt="Corporación Arte y Vida" class="h-14 w-auto drop-shadow-[0_10px_30px_rgba(0,0,0,0.35)]" />
+      <div class="flex flex-col leading-tight">
+        <span class="text-sm font-semibold tracking-[0.18em] uppercase text-brand-white/80">Corporación</span>
+        <span class="text-xl font-black tracking-tight">Arte y Vida</span>
+      </div>
+    </div>
+
+    <nav class="flex flex-col gap-4 text-brand-white leading-tight">
+      {navSections.map((entry) =>
+        entry.type === 'link' ? (
+          <a
+            href={entry.href}
+            class="pl-2 border-l border-brand-white/10 hover:border-brand-accent/70 transition-colors hover:text-brand-accent text-base font-semibold"
+          >
+            {entry.label}
+          </a>
+        ) : (
+          <div class="sidebar-group pl-2 border-l border-brand-white/10">
+            <div class="sidebar-group-trigger flex items-center justify-between gap-3 text-base font-semibold text-brand-white transition-colors">
+              <span>{entry.label}</span>
+              <span class="sidebar-group-chevron h-2.5 w-2.5 inline-block rotate-45 border-r border-b border-brand-white/45 transition-all duration-300"></span>
+            </div>
+            <div class="sidebar-group-menu flex flex-col gap-2">
+              {entry.children.map((child) => (
+                <a href={child.href} class="text-sm text-brand-white/80 hover:text-brand-white transition-colors">
+                  {child.label}
+                </a>
+              ))}
+            </div>
+          </div>
+        )
+      )}
+    </nav>
+  </div>
+
+  <button
+    id="sidebar-toggle"
+    class="md:hidden group relative z-50 w-12 h-12 rounded-full border border-brand-white/15 bg-brand-bg/80 backdrop-blur-xl shadow-[0_18px_50px_rgba(0,0,0,0.45)] flex items-center justify-center transition-all duration-300 hover:border-brand-accent/70 hover:shadow-[0_12px_38px_rgba(254,209,0,0.2)]"
+    aria-label="Abrir navegación lateral"
+    aria-expanded="false"
+  >
+    <span class="line line-1"></span>
+    <span class="line line-2"></span>
+    <span class="line line-3"></span>
+  </button>
+
+  <div
+    id="sidebar-overlay"
+    class="md:hidden fixed inset-0 z-40 bg-black/45 backdrop-blur-3xl opacity-0 invisible pointer-events-none transition-all duration-300 ease-out"
+  ></div>
+
+  <div
+    id="sidebar-panel"
+    data-open="false"
+    class="md:hidden fixed top-0 right-0 z-50 h-[100dvh] w-[320px] max-w-[78vw] rounded-l-3xl border border-brand-white/10 bg-gradient-to-b from-brand-bg/95 via-brand-bg/92 to-brand-bg/88 backdrop-blur-3xl shadow-[0_25px_90px_rgba(0,0,0,0.55)] overflow-hidden flex flex-col translate-x-full opacity-0 pointer-events-none transition-all duration-500 ease-[cubic-bezier(.25,.8,.25,1)]"
+  >
+    <div class="absolute inset-0 opacity-40 bg-[radial-gradient(circle_at_80%_20%,#31CCE7_0%,transparent_30%),radial-gradient(circle_at_10%_70%,#C53095_0%,transparent_28%)]"></div>
+
+    <div class="relative flex flex-col h-full">
+      <div class="flex items-center justify-between px-6 pt-7 pb-4 text-[11px] uppercase tracking-[0.28em] text-brand-white/70">
+        <span class="font-semibold">Navegación</span>
+        <span class="px-2 py-1 rounded-full bg-brand-white/10 border border-brand-white/10 text-[10px]">Arte y Vida</span>
+      </div>
+
+      <nav class="flex-1 px-6 space-y-4 overflow-y-auto">
+        {navSections.map((entry, index) =>
+          entry.type === 'link' ? (
+            <a
+              href={entry.href}
+              class="nav-item group block rounded-2xl border border-brand-white/5 bg-brand-white/5 px-4 py-3 text-sm font-semibold tracking-[0.14em] uppercase text-brand-white/85 transition-all duration-300 hover:border-brand-accent/50 hover:bg-brand-white/10 hover:text-brand-white"
+              style={`animation-delay: ${index * 70}ms;`}
+            >
+              <div class="flex items-center justify-between gap-3">
+                <span>{entry.label}</span>
+                <span class="h-px w-8 bg-brand-white/25 transition-all duration-300 group-hover:w-14 group-hover:bg-brand-accent"></span>
+              </div>
+            </a>
+          ) : (
+            <div
+              class="nav-item rounded-2xl border border-brand-white/5 bg-brand-white/5 px-4 py-4"
+              style={`animation-delay: ${index * 70}ms;`}
+            >
+              <div class="text-[11px] font-black uppercase tracking-[0.24em] text-brand-accent mb-3">{entry.label}</div>
+              <div class="space-y-2">
+                {entry.children.map((child) => (
+                  <a
+                    href={child.href}
+                    class="group flex items-center justify-between gap-3 rounded-2xl border border-brand-white/5 bg-brand-bg/45 px-4 py-3 text-sm font-semibold tracking-[0.08em] text-brand-white/85 transition-all duration-300 hover:border-brand-accent/50 hover:text-brand-white"
+                  >
+                    <span>{child.label}</span>
+                    <span class="h-px w-6 bg-brand-white/25 transition-all duration-300 group-hover:w-10 group-hover:bg-brand-accent"></span>
+                  </a>
+                ))}
+              </div>
+            </div>
+          )
+        )}
+      </nav>
+
+      <div class="mt-2 border-t border-brand-white/10 px-6 py-5 flex items-center justify-between text-[11px] uppercase tracking-[0.22em] text-brand-white/70">
+        <span class="font-semibold">Síguenos</span>
+        <div class="flex items-center gap-4 text-brand-white/80">
+          {socialLinks.map((item) => (
+            <a
+              href={item.href}
+              aria-label={item.name}
+              class="hover:text-brand-accent transition-colors"
+              target="_blank"
+              rel="noreferrer"
+              innerHTML={item.icon}
+            />
+          ))}
+        </div>
+      </div>
+    </div>
+  </div>
+</aside>
+
+<style>
+  #sidebar-toggle .line {
+    position: absolute;
+    width: 20px;
+    height: 2px;
+    background: #f0f0f0;
+    border-radius: 999px;
+    transition: transform 0.3s ease, opacity 0.3s ease, width 0.3s ease;
+  }
+  #sidebar-toggle .line-1 { transform: translateY(-6px); }
+  #sidebar-toggle .line-2 { transform: translateY(0); width: 16px; }
+  #sidebar-toggle .line-3 { transform: translateY(6px); }
+  #sidebar-toggle[data-open="true"] .line-1 { transform: translateY(0) rotate(45deg); width: 20px; }
+  #sidebar-toggle[data-open="true"] .line-2 { opacity: 0; transform: translateX(-8px); }
+  #sidebar-toggle[data-open="true"] .line-3 { transform: translateY(0) rotate(-45deg); width: 20px; }
+  #sidebar-panel[data-open="true"] { transform: translateX(0); opacity: 1; pointer-events: auto; }
+  #sidebar-overlay[data-open="true"] { opacity: 1; visibility: visible; pointer-events: auto; }
+  .nav-item { opacity: 0; transform: translateX(12px); animation: slideIn 0.45s ease forwards; animation-play-state: paused; }
+  .sidebar-group { position: relative; }
+  .sidebar-group-trigger { min-height: 28px; }
+  .sidebar-group-menu {
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    padding-top: 0;
+    transform: translateY(-4px);
+    transition: max-height 0.3s ease, opacity 0.25s ease, transform 0.25s ease, padding-top 0.25s ease;
+  }
+  .sidebar-group:hover,
+  .sidebar-group:focus-within { border-color: rgba(254, 209, 0, 0.7); }
+  .sidebar-group:hover .sidebar-group-trigger,
+  .sidebar-group:focus-within .sidebar-group-trigger { color: #fed100; }
+  .sidebar-group:hover .sidebar-group-chevron,
+  .sidebar-group:focus-within .sidebar-group-chevron { transform: rotate(45deg) translate(2px, 2px); border-color: #fed100; }
+  .sidebar-group:hover .sidebar-group-menu,
+  .sidebar-group:focus-within .sidebar-group-menu { max-height: 180px; opacity: 1; padding-top: 10px; transform: translateY(0); }
+  #sidebar-panel[data-open="true"] .nav-item { animation-play-state: running; }
+  #sidebar-panel[data-open="false"] .nav-item { animation: none; opacity: 0; transform: translateX(12px); }
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateX(12px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+</style>
+
+<script>
+  const toggle = document.getElementById('sidebar-toggle');
+  const panel = document.getElementById('sidebar-panel');
+  const overlay = document.getElementById('sidebar-overlay');
+  const shell = document.getElementById('sidebar-shell');
+
+  const setOpen = (value) => {
+    const state = value ? 'true' : 'false';
+    panel?.setAttribute('data-open', state);
+    overlay?.setAttribute('data-open', state);
+    toggle?.setAttribute('data-open', state);
+    toggle?.setAttribute('aria-expanded', state);
+  };
+
+  toggle?.addEventListener('click', () => {
+    const isOpen = panel?.getAttribute('data-open') === 'true';
+    setOpen(!isOpen);
+  });
+
+  document.addEventListener('click', (event) => {
+    const target = event.target;
+    const isOpen = panel?.getAttribute('data-open') === 'true';
+    const clickedInside = shell && target instanceof Node && shell.contains(target);
+    if (overlay && target === overlay) setOpen(false);
+    if (isOpen && !clickedInside) setOpen(false);
+  });
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && panel?.getAttribute('data-open') === 'true') setOpen(false);
+  });
+
+  panel?.addEventListener('click', (event) => {
+    const target = event.target;
+    if (target instanceof HTMLAnchorElement) setOpen(false);
+  });
+</script>

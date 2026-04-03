@@ -1,0 +1,306 @@
+---
+import type { ArchiveImage } from '../lib/projectArchive';
+
+interface Props {
+  galleryId: string;
+  title: string;
+  images: ArchiveImage[];
+}
+
+const { galleryId, title, images } = Astro.props;
+const previewImages = images.slice(0, 6);
+---
+
+<div class="project-gallery" data-project-gallery data-gallery-id={galleryId}>
+  <div class="grid grid-cols-2 gap-4 lg:grid-cols-3">
+    {previewImages.map((image, index) => (
+      <button
+        type="button"
+        class={`project-gallery__preview group ${index === 0 ? 'col-span-2 row-span-2 min-h-[280px] lg:min-h-[420px]' : 'min-h-[140px] lg:min-h-[200px]'}`}
+        data-gallery-open={index}
+        aria-label={`Abrir galería de ${title}, imagen ${index + 1}`}
+      >
+        <img src={image.src} alt={image.alt} class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]" loading="lazy" />
+      </button>
+    ))}
+  </div>
+
+  <div class="mt-5 flex flex-wrap items-center justify-between gap-4">
+    <p class="text-sm leading-relaxed text-brand-white/68">
+      {images.length} {images.length === 1 ? 'imagen disponible' : 'imágenes disponibles'} en la galería completa.
+    </p>
+    <button
+      type="button"
+      class="inline-flex items-center gap-2 rounded-full border border-brand-white/14 bg-brand-white/6 px-5 py-3 text-xs font-black uppercase tracking-[0.18em] text-brand-white transition-colors hover:border-brand-accent/60 hover:text-brand-accent"
+      data-gallery-open={0}
+    >
+      Ver galería completa
+    </button>
+  </div>
+
+  <div class="project-gallery__modal hidden" data-gallery-modal aria-hidden="true">
+    <div class="project-gallery__backdrop" data-gallery-close></div>
+    <div class="project-gallery__dialog">
+      <button type="button" class="project-gallery__close" data-gallery-close aria-label="Cerrar galería">×</button>
+
+      <div class="project-gallery__main">
+        <button type="button" class="project-gallery__nav" data-gallery-prev aria-label="Imagen anterior">‹</button>
+        <img data-gallery-main-image alt={title} />
+        <button type="button" class="project-gallery__nav" data-gallery-next aria-label="Imagen siguiente">›</button>
+      </div>
+
+      <div class="mt-4 flex items-center justify-between gap-4 text-sm text-brand-white/70">
+        <strong class="text-brand-white">{title}</strong>
+        <span data-gallery-counter></span>
+      </div>
+
+      <div class="project-gallery__thumbs" data-gallery-thumbs>
+        {images.map((image, index) => (
+          <button type="button" class="project-gallery__thumb" data-gallery-thumb={index} aria-label={`Ir a imagen ${index + 1}`}>
+            <img src={image.src} alt={image.alt} loading="lazy" />
+          </button>
+        ))}
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .project-gallery__preview {
+    position: relative;
+    overflow: hidden;
+    border: 1px solid rgba(240, 240, 240, 0.08);
+    border-radius: 1.6rem;
+    background: rgba(255, 255, 255, 0.04);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.22);
+  }
+
+  .project-gallery__modal {
+    position: fixed;
+    inset: 0;
+    z-index: 80;
+    display: grid;
+    place-items: center;
+    padding: 1.5rem;
+  }
+
+  .project-gallery__modal.hidden {
+    display: none;
+  }
+
+  .project-gallery__backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(5, 5, 5, 0.88);
+    backdrop-filter: blur(10px);
+  }
+
+  .project-gallery__dialog {
+    position: relative;
+    z-index: 1;
+    width: min(1100px, 100%);
+    border: 1px solid rgba(240, 240, 240, 0.08);
+    border-radius: 2rem;
+    background: rgba(8, 8, 8, 0.96);
+    padding: 1.25rem;
+    box-shadow: 0 28px 90px rgba(0, 0, 0, 0.48);
+  }
+
+  .project-gallery__close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    z-index: 2;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    border: 1px solid rgba(240, 240, 240, 0.12);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.06);
+    color: rgba(240, 240, 240, 0.92);
+    font-size: 1.6rem;
+    line-height: 1;
+  }
+
+  .project-gallery__main {
+    position: relative;
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .project-gallery__main img {
+    width: 100%;
+    max-height: min(72vh, 760px);
+    border-radius: 1.4rem;
+    object-fit: contain;
+    background: rgba(255, 255, 255, 0.02);
+  }
+
+  .project-gallery__nav {
+    width: 2.8rem;
+    height: 2.8rem;
+    border: 1px solid rgba(240, 240, 240, 0.12);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.06);
+    color: rgba(240, 240, 240, 0.92);
+    font-size: 1.8rem;
+    line-height: 1;
+  }
+
+  .project-gallery__thumbs {
+    margin-top: 1rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(96px, 1fr));
+    gap: 0.65rem;
+    max-height: 24vh;
+    overflow: auto;
+  }
+
+  .project-gallery__thumb {
+    overflow: hidden;
+    border: 1px solid rgba(240, 240, 240, 0.08);
+    border-radius: 1rem;
+    opacity: 0.55;
+    transition: opacity 180ms ease, transform 180ms ease, border-color 180ms ease;
+  }
+
+  .project-gallery__thumb.is-active {
+    opacity: 1;
+    transform: translateY(-1px);
+    border-color: rgba(254, 209, 0, 0.78);
+  }
+
+  .project-gallery__thumb img {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+  }
+
+  @media (max-width: 768px) {
+    .project-gallery__dialog {
+      padding: 1rem;
+      border-radius: 1.4rem;
+    }
+
+    .project-gallery__main {
+      grid-template-columns: 1fr;
+    }
+
+    .project-gallery__nav {
+      position: absolute;
+      top: calc(50% - 1.4rem);
+      z-index: 2;
+    }
+
+    .project-gallery__nav[data-gallery-prev] {
+      left: 0.5rem;
+    }
+
+    .project-gallery__nav[data-gallery-next] {
+      right: 0.5rem;
+    }
+  }
+</style>
+
+<script>
+  if (!window.__projectGalleryBound) {
+    window.__projectGalleryBound = true;
+
+    const setupProjectGalleries = () => {
+      const roots = Array.from(document.querySelectorAll('[data-project-gallery]')).filter(
+        (root) => root instanceof HTMLElement,
+      );
+
+      roots.forEach((root) => {
+        if (root.dataset.galleryBound === 'true') return;
+        root.dataset.galleryBound = 'true';
+
+        const modal = root.querySelector('[data-gallery-modal]');
+        const mainImage = root.querySelector('[data-gallery-main-image]');
+        const counter = root.querySelector('[data-gallery-counter]');
+        const thumbs = Array.from(root.querySelectorAll('[data-gallery-thumb]'));
+        const openButtons = Array.from(root.querySelectorAll('[data-gallery-open]'));
+        const closeButtons = Array.from(root.querySelectorAll('[data-gallery-close]'));
+        const prevButton = root.querySelector('[data-gallery-prev]');
+        const nextButton = root.querySelector('[data-gallery-next]');
+
+        if (!(modal instanceof HTMLElement) || !(mainImage instanceof HTMLImageElement) || !(counter instanceof HTMLElement)) return;
+
+        let currentIndex = 0;
+
+        const getImages = () =>
+          thumbs
+            .map((thumb) => thumb.querySelector('img'))
+            .filter((image) => image instanceof HTMLImageElement);
+
+        const sync = (index) => {
+          const images = getImages();
+          if (!images.length) return;
+
+          currentIndex = (index + images.length) % images.length;
+          const current = images[currentIndex];
+          mainImage.src = current.src;
+          mainImage.alt = current.alt;
+          counter.textContent = `${currentIndex + 1} / ${images.length}`;
+
+          thumbs.forEach((thumb, thumbIndex) => {
+            thumb.classList.toggle('is-active', thumbIndex === currentIndex);
+          });
+        };
+
+        const open = (index) => {
+          sync(index);
+          modal.classList.remove('hidden');
+          modal.setAttribute('aria-hidden', 'false');
+          document.body.style.overflow = 'hidden';
+        };
+
+        const close = () => {
+          modal.classList.add('hidden');
+          modal.setAttribute('aria-hidden', 'true');
+          document.body.style.overflow = '';
+        };
+
+        openButtons.forEach((button) => {
+          button.addEventListener('click', () => {
+            const index = Number(button.getAttribute('data-gallery-open') ?? 0);
+            open(index);
+          });
+        });
+
+        thumbs.forEach((thumb, index) => {
+          thumb.addEventListener('click', () => sync(index));
+        });
+
+        closeButtons.forEach((button) => button.addEventListener('click', close));
+        prevButton?.addEventListener('click', () => sync(currentIndex - 1));
+        nextButton?.addEventListener('click', () => sync(currentIndex + 1));
+
+        modal.addEventListener('click', (event) => {
+          if (event.target === modal) close();
+        });
+
+        document.addEventListener('keydown', (event) => {
+          if (modal.classList.contains('hidden')) return;
+          if (event.key === 'Escape') close();
+          if (event.key === 'ArrowLeft') sync(currentIndex - 1);
+          if (event.key === 'ArrowRight') sync(currentIndex + 1);
+        });
+
+        sync(0);
+      });
+    };
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', setupProjectGalleries, { once: true });
+    } else {
+      setupProjectGalleries();
+    }
+
+    document.addEventListener('astro:page-load', setupProjectGalleries);
+  }
+</script>

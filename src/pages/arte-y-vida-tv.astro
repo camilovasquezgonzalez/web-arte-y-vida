@@ -1,0 +1,284 @@
+---
+import Layout from '../layouts/Layout.astro';
+import SidebarNav from '../components/SidebarNav.astro';
+import { formatYouTubeDate, getYouTubeLibrary, getYouTubeVideos } from '../lib/youtube';
+
+const { videos, loadError } = await getYouTubeVideos(6);
+const { playlists, loadError: libraryError } = await getYouTubeLibrary(50);
+
+const featuredVideo = videos[0];
+const featuredUrl = featuredVideo?.id?.startsWith('http')
+  ? featuredVideo.id
+  : `https://www.youtube.com/watch?v=${featuredVideo?.id ?? ''}`;
+const featuredEmbed = featuredVideo?.id && !featuredVideo.id.startsWith('http')
+  ? `https://www.youtube-nocookie.com/embed/${featuredVideo.id}`
+  : '';
+const spotlightVideos = videos.slice(1, 4);
+const libraryLead = playlists[0];
+const libraryRest = playlists.slice(1);
+---
+
+<Layout title="Arte y Vida TV">
+  <SidebarNav />
+
+  <section class="relative overflow-hidden bg-brand-bg text-brand-white pt-20 pb-14 lg:pt-24 lg:pb-18">
+    <div class="absolute inset-0 opacity-80 bg-[radial-gradient(circle_at_top_right,rgba(197,48,149,0.24),transparent_28%),radial-gradient(circle_at_left,rgba(49,204,231,0.2),transparent_26%),linear-gradient(180deg,rgba(255,255,255,0.02),rgba(255,255,255,0))]"></div>
+    <div class="relative max-w-[1280px] xl:max-w-[1440px] mx-auto px-6 sm:px-10 grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-start">
+      <div class="lg:col-span-4 space-y-5">
+        <p class="text-xs font-black uppercase tracking-[0.3em] text-brand-secondary">Arte y Vida TV</p>
+        <h1 class="text-4xl md:text-5xl font-black leading-tight">Una pantalla para nuestra memoria audiovisual.</h1>
+        <p class="text-brand-white/70 text-base md:text-lg leading-relaxed max-w-xl">
+          Documentales, registros territoriales, coberturas y estrenos que muestran la vida cultural que compartimos con las comunidades.
+        </p>
+
+        <div class="flex flex-wrap items-center gap-3 text-[11px] uppercase tracking-[0.22em] text-brand-white/65">
+          <span class="rounded-full border border-brand-white/10 bg-brand-white/5 px-3 py-2">Canal oficial</span>
+          <span class="rounded-full border border-brand-white/10 bg-brand-white/5 px-3 py-2">YouTube</span>
+          <span class="rounded-full border border-brand-white/10 bg-brand-white/5 px-3 py-2">Series y especiales</span>
+        </div>
+
+        {(loadError || libraryError) && (
+          <div class="rounded-3xl border border-brand-white/10 bg-brand-white/5 px-5 py-4 text-sm leading-relaxed text-brand-white/80">
+            {loadError || libraryError}
+          </div>
+        )}
+
+        <div class="flex flex-wrap gap-3">
+          <a
+            href="https://www.youtube.com/@corparteyvida"
+            target="_blank"
+            rel="noreferrer"
+            class="inline-flex items-center gap-2 rounded-full bg-brand-accent text-brand-bg px-5 py-3 text-xs font-black uppercase tracking-[0.2em] shadow-[0_12px_40px_rgba(254,209,0,0.28)] hover:-translate-y-[2px] transition-transform duration-300"
+          >
+            Ir al canal
+          </a>
+          <a
+            href="#biblioteca-proyectos"
+            class="inline-flex items-center gap-2 rounded-full border border-brand-white/15 px-5 py-3 text-xs font-black uppercase tracking-[0.2em] text-brand-white hover:border-brand-accent/70 hover:text-brand-accent transition-colors"
+          >
+            Explorar catálogo
+          </a>
+        </div>
+      </div>
+
+      <div class="lg:col-span-8">
+        <div class="rounded-[32px] border border-brand-white/10 bg-brand-white/5 backdrop-blur-xl overflow-hidden shadow-[0_25px_100px_rgba(0,0,0,0.45)]">
+          <div class="flex items-center justify-between px-5 py-3 border-b border-brand-white/10 text-[11px] uppercase tracking-[0.24em] text-brand-white/55">
+            <span>Señal destacada</span>
+            <span>Arte y Vida TV</span>
+          </div>
+
+          {featuredEmbed ? (
+            <div class="aspect-video bg-black">
+              <iframe
+                src={featuredEmbed}
+                title={featuredVideo?.title ?? 'Video destacado de Arte y Vida TV'}
+                class="h-full w-full border-0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowfullscreen
+                loading="lazy"
+                referrerpolicy="strict-origin-when-cross-origin"
+              ></iframe>
+            </div>
+          ) : (
+            <a href={featuredUrl} target="_blank" rel="noreferrer" class="group block relative aspect-video overflow-hidden bg-black">
+              <img src={featuredVideo?.thumbnail ?? '/DSC06842-scaled.webp'} alt={featuredVideo?.title ?? 'Arte y Vida TV'} class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]" />
+              <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent"></div>
+              <div class="absolute inset-0 flex items-center justify-center">
+                <span class="inline-flex h-18 w-18 items-center justify-center rounded-full border border-white/20 bg-white/15 text-brand-white backdrop-blur">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="h-8 w-8">
+                    <path d="M8 5v14l11-7z" />
+                  </svg>
+                </span>
+              </div>
+            </a>
+          )}
+
+          <div class="px-6 py-6 lg:px-8 space-y-3">
+            <div class="flex flex-wrap items-center gap-3 text-[11px] uppercase tracking-[0.22em] text-brand-white/60">
+              <span>{formatYouTubeDate(featuredVideo?.publishedAt ?? '')}</span>
+              <span class="inline-flex items-center gap-2 text-brand-accent">
+                <span class="h-1.5 w-1.5 rounded-full bg-brand-accent"></span>
+                Estreno destacado
+              </span>
+            </div>
+            <h2 class="text-2xl md:text-3xl font-black leading-tight">{featuredVideo?.title ?? 'Visita nuestro canal de YouTube'}</h2>
+            <p class="text-sm text-brand-white/72 leading-relaxed max-w-3xl">
+              Una selección de registros y contenidos audiovisuales para seguir la programación, la memoria y los procesos culturales que impulsamos desde Coelemu y Ñuble.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-brand-white/5 text-brand-white py-16 lg:py-20">
+    <div class="max-w-[1280px] xl:max-w-[1440px] mx-auto px-6 sm:px-10 space-y-8">
+      <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
+        <div>
+          <p class="text-xs font-black uppercase tracking-[0.3em] text-brand-accent">En vitrina</p>
+          <h2 class="text-3xl font-black leading-tight">Cápsulas, registros y estrenos recientes.</h2>
+        </div>
+        <p class="text-sm text-brand-white/65 max-w-xl">
+          Explora una selección pensada como parrilla audiovisual: piezas para ver, compartir y volver a visitar.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {spotlightVideos.map((video, index) => (
+          <a
+            href={video.id.startsWith('http') ? video.id : `https://www.youtube.com/watch?v=${video.id}`}
+            target="_blank"
+            rel="noreferrer"
+            class="group rounded-[28px] overflow-hidden border border-brand-white/10 bg-brand-bg/80 shadow-[0_20px_70px_rgba(0,0,0,0.3)] transition-all duration-300 hover:border-brand-accent/60 hover:-translate-y-1"
+            style={`animation-delay: ${index * 120}ms;`}
+          >
+            <div class="relative h-52">
+              <img src={video.thumbnail} alt={video.title} class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]" loading="lazy" />
+              <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/15 to-transparent"></div>
+              <div class="absolute left-4 top-4 inline-flex items-center gap-2 rounded-full border border-white/15 bg-black/30 px-3 py-1 text-[11px] font-black uppercase tracking-[0.18em] text-brand-white backdrop-blur">
+                Señal {index + 1}
+              </div>
+            </div>
+            <div class="px-5 py-5 space-y-3">
+              <div class="text-[11px] uppercase tracking-[0.22em] text-brand-white/55">{formatYouTubeDate(video.publishedAt)}</div>
+              <h3 class="text-xl font-bold leading-tight group-hover:text-brand-accent">{video.title}</h3>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section id="biblioteca-proyectos" class="bg-brand-bg text-brand-white py-16 lg:py-20">
+    <div class="max-w-[1280px] xl:max-w-[1440px] mx-auto px-6 sm:px-10 space-y-8">
+      <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
+        <div>
+          <p class="text-xs font-black uppercase tracking-[0.3em] text-brand-secondary">Colecciones</p>
+          <h2 class="text-3xl font-black leading-tight">Series, proyectos y especiales para seguir viendo.</h2>
+        </div>
+        <p class="text-sm text-brand-white/65 max-w-2xl">
+          Elige una colección y sumérgete en documentales, registros, coberturas y momentos clave de nuestro trabajo cultural.
+        </p>
+      </div>
+
+      <div class="text-[11px] uppercase tracking-[0.22em] text-brand-white/50">
+        {playlists.length} colecciones visibles en Arte y Vida TV
+      </div>
+
+      {libraryLead && (
+        <article class="rounded-[36px] border border-brand-white/10 bg-brand-white/5 overflow-hidden shadow-[0_20px_70px_rgba(0,0,0,0.28)]">
+          <div class="grid grid-cols-1 lg:grid-cols-12">
+            <div class="lg:col-span-5 relative min-h-[280px]">
+              <img src={libraryLead.thumbnail || libraryLead.videos[0]?.thumbnail || '/DSC06842-scaled.webp'} alt={libraryLead.title} class="absolute inset-0 h-full w-full object-cover" loading="lazy" />
+              <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/35 to-transparent"></div>
+              <div class="absolute left-6 bottom-6 right-6">
+                <div class="inline-flex items-center gap-2 rounded-full border border-white/15 bg-black/30 px-3 py-1 text-[11px] font-black uppercase tracking-[0.18em] text-brand-white backdrop-blur mb-3">
+                  Colección destacada
+                </div>
+                <h3 class="text-3xl font-black leading-tight">{libraryLead.title}</h3>
+              </div>
+            </div>
+
+            <div class="lg:col-span-7 px-6 py-6 lg:px-8 lg:py-8 flex flex-col gap-6">
+              <div class="space-y-3">
+                <div class="flex flex-wrap items-center gap-3 text-[11px] uppercase tracking-[0.22em] text-brand-white/55">
+                  <span>{libraryLead.videoCount || libraryLead.videos.length} videos</span>
+                  <span class="inline-flex items-center gap-2 text-brand-accent">
+                    <span class="h-1.5 w-1.5 rounded-full bg-brand-accent"></span>
+                    Selección destacada
+                  </span>
+                </div>
+                <p class="text-sm text-brand-white/72 leading-relaxed max-w-2xl">
+                  {libraryLead.description || 'Una selección audiovisual para recorrer la memoria, los hitos y los momentos principales de esta serie.'}
+                </p>
+                <a
+                  href={libraryLead.playlistUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  class="inline-flex items-center gap-2 rounded-full border border-brand-accent/40 px-4 py-2 text-xs font-black uppercase tracking-[0.18em] text-brand-accent hover:bg-brand-accent hover:text-brand-bg transition-colors duration-300"
+                >
+                  Ver serie completa
+                  <span class="h-2.5 w-2.5 inline-block rotate-45 border-t border-r border-current"></span>
+                </a>
+              </div>
+
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {libraryLead.videos.slice(0, 4).map((video) => (
+                  <a
+                    href={`https://www.youtube.com/watch?v=${video.id}`}
+                    target="_blank"
+                    rel="noreferrer"
+                    class="group flex items-center gap-4 rounded-3xl border border-brand-white/10 bg-brand-bg/60 px-4 py-4 transition-all duration-300 hover:border-brand-accent/50"
+                  >
+                    <img src={video.thumbnail} alt={video.title} class="h-20 w-32 rounded-2xl object-cover shrink-0" loading="lazy" />
+                    <div class="min-w-0">
+                      <div class="text-[11px] uppercase tracking-[0.22em] text-brand-white/55 mb-2">{formatYouTubeDate(video.publishedAt)}</div>
+                      <h4 class="text-base font-bold leading-tight text-brand-white/85 group-hover:text-brand-accent line-clamp-2">{video.title}</h4>
+                    </div>
+                  </a>
+                ))}
+              </div>
+            </div>
+          </div>
+        </article>
+      )}
+
+      {libraryRest.length > 0 && (
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {libraryRest.map((playlist, index) => (
+            <article
+              class="rounded-[32px] border border-brand-white/10 bg-brand-white/5 overflow-hidden shadow-[0_20px_70px_rgba(0,0,0,0.28)]"
+              style={`animation-delay: ${index * 90}ms;`}
+            >
+              <div class="relative h-52">
+                <img src={playlist.thumbnail || playlist.videos[0]?.thumbnail || '/DSC06842-scaled.webp'} alt={playlist.title} class="h-full w-full object-cover" loading="lazy" />
+                <div class="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent"></div>
+                <div class="absolute left-5 right-5 bottom-5">
+                  <div class="flex items-center justify-between gap-3 text-[11px] uppercase tracking-[0.22em] text-brand-white/65 mb-2">
+                    <span>{playlist.videoCount || playlist.videos.length} videos</span>
+                    <span>Serie</span>
+                  </div>
+                  <h3 class="text-2xl font-black leading-tight">{playlist.title}</h3>
+                </div>
+              </div>
+
+              <div class="px-5 py-5 space-y-4">
+                <p class="text-sm text-brand-white/72 leading-relaxed">
+                  {playlist.description || 'Una colección disponible para seguir viendo esta serie en Arte y Vida TV.'}
+                </p>
+
+                <div class="space-y-3">
+                  {playlist.videos.slice(0, 3).map((video) => (
+                    <a
+                      href={`https://www.youtube.com/watch?v=${video.id}`}
+                      target="_blank"
+                      rel="noreferrer"
+                      class="group flex items-center gap-3 rounded-2xl border border-brand-white/10 bg-brand-bg/60 px-3 py-3 hover:border-brand-accent/50 transition-colors"
+                    >
+                      <img src={video.thumbnail} alt={video.title} class="h-16 w-24 rounded-xl object-cover shrink-0" loading="lazy" />
+                      <div class="min-w-0">
+                        <div class="text-[11px] uppercase tracking-[0.2em] text-brand-white/50 mb-1">{formatYouTubeDate(video.publishedAt)}</div>
+                        <h4 class="text-sm font-bold leading-tight text-brand-white/82 group-hover:text-brand-accent line-clamp-2">{video.title}</h4>
+                      </div>
+                    </a>
+                  ))}
+                </div>
+
+                <a
+                  href={playlist.playlistUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  class="inline-flex items-center gap-2 text-xs font-black uppercase tracking-[0.18em] text-brand-accent hover:text-brand-white"
+                >
+                  Ver serie completa
+                  <span class="h-2.5 w-2.5 inline-block rotate-45 border-t border-r border-current"></span>
+                </a>
+              </div>
+            </article>
+          ))}
+        </div>
+      )}
+    </div>
+  </section>
+</Layout>

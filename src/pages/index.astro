@@ -1,0 +1,635 @@
+---
+import { getCollection } from 'astro:content';
+import HeroVideo from '../components/HeroVideo.astro';
+import InstagramFeed from '../components/InstagramFeed.astro';
+import SidebarNav from '../components/SidebarNav.astro';
+import TculturaAgenda from '../components/TculturaAgenda.astro';
+import YouTubeGallery from '../components/YouTubeGallery.astro';
+import { getArchiveProjectByKey } from '../lib/projectArchive';
+import { getTculturaAgenda } from '../lib/tcultura';
+import Layout from '../layouts/Layout.astro';
+
+const reactivemosArchive = getArchiveProjectByKey('Reactivemos el teatro 2026');
+const culturaViveArchive = getArchiveProjectByKey('Cultura vive en tu barrio 2024');
+const medioambienteArchive = getArchiveProjectByKey('Fotos para Proyectos medioambientales/2024/Liceo DOR');
+
+const stats = [
+  { value: 11000, prefix: '+', label: 'personas participantes en 2024' },
+  { value: 18, prefix: '', label: 'barrios acompañados' },
+  { value: 13, prefix: '', label: 'comunas alcanzadas' },
+  { value: 250, prefix: '+', label: 'árboles nativos plantados' },
+];
+
+const areas = [
+  {
+    title: 'FormArte',
+    description: 'Talleres y experiencias de formación artística abiertas a niñas, niños, jóvenes y personas adultas.',
+  },
+  {
+    title: 'EduCultura',
+    description: 'Programación cultural gratuita para acercar funciones, encuentros y actividades a la comunidad.',
+  },
+  {
+    title: 'InvestigAcción',
+    description: 'Procesos de memoria, diagnóstico y participación para crear proyectos con sentido territorial.',
+  },
+];
+
+const projects = [
+  {
+    title: 'Reactivemos el Teatro',
+    description:
+      'Cartelera artística gratuita y permanente en el Teatro Municipal de Coelemu, con funciones para distintos públicos.',
+    image: reactivemosArchive?.coverImage ?? '/DSC06842-scaled.webp',
+    href: '/proyectos/2026#reactivemos-el-teatro-2026',
+  },
+  {
+    title: 'La Cultura Vive en tu Barrio',
+    description:
+      'Iniciativa territorial con talleres, documentales, murales y programación comunitaria en barrios de Ñuble.',
+    image: culturaViveArchive?.coverImage ?? '/DSC04138-Enhanced-NR-scaled.webp',
+    href: '/proyectos/2024#cultura-vive-en-tu-barrio-2024',
+  },
+  {
+    title: 'Arboretum Escolar Nativo',
+    description:
+      'Proyecto educativo y medioambiental que promueve la flora nativa mediante plantaciones, mediación y trabajo escolar.',
+    image: medioambienteArchive?.coverImage ?? '/CVG08164-1-scaled.webp',
+    href: '/proyectos/2024',
+  },
+];
+
+const strategicAlliances = [
+  {
+    name: 'Municipalidad de Coelemu',
+    src: '/alianzas-estrategicas/trimmed/logo-muni-escala-de-grises.webp',
+    tone: 'grayscale',
+    scale: 1.02,
+  },
+  {
+    name: 'ELC',
+    src: '/alianzas-estrategicas/trimmed/logo-elc-2025-film---tv-copyright-compliance-2025-blanco.webp',
+    tone: 'white',
+    scale: 0.98,
+  },
+  {
+    name: 'Logo institucional vertical',
+    src: '/alianzas-estrategicas/trimmed/logo_blancovert.webp',
+    tone: 'white',
+    scale: 1.08,
+  },
+  {
+    name: 'Logo institucional horizontal',
+    src: '/alianzas-estrategicas/trimmed/logo_grande_1.webp',
+    tone: 'white',
+    scale: 1.18,
+  },
+  {
+    name: 'Plus Ultra',
+    src: '/alianzas-estrategicas/trimmed/plus-sin-fondo.webp',
+    tone: 'white',
+    scale: 0.84,
+  },
+  {
+    name: 'Sello PAOCC',
+    src: '/alianzas-estrategicas/trimmed/sello-paocc-detalle_mesa-de-trabajo-1-copia-5.webp',
+    tone: 'grayscale',
+    scale: 1.04,
+  },
+];
+
+const toSlug = (entry) => entry.slug ?? entry.id?.split('/').pop()?.replace(/\.(md|mdx)$/i, '') ?? '';
+
+const posts = (await getCollection('posts'))
+  .map((entry) => ({ ...entry, _slug: toSlug(entry) }))
+  .filter((item) => typeof item._slug === 'string' && item._slug.length > 0)
+  .sort((a, b) => new Date(b.data.date).valueOf() - new Date(a.data.date).valueOf())
+  .slice(0, 3);
+
+const tculturaAgenda = await getTculturaAgenda({ limit: 6 });
+---
+
+<Layout title="Inicio">
+  <SidebarNav />
+
+  <HeroVideo
+    videoSrc="/video/video-web-optimized.mp4"
+    poster="/DSC06842-scaled.webp"
+    title="Arte y Cultura que transforma comunidades"
+    kicker="Corporación Cultural y Social Arte y Vida"
+    scrollLabel="Explorar"
+    scrollTarget="contenido"
+  />
+
+  <section id="contenido" class="reveal-section bg-brand-bg text-brand-white">
+    <div class="mx-auto grid max-w-[1280px] grid-cols-1 items-start gap-12 px-6 py-20 sm:px-10 lg:grid-cols-12 lg:gap-16 lg:py-28 xl:max-w-[1440px]">
+      <div class="space-y-6 lg:col-span-5">
+        <p class="text-xs font-black uppercase tracking-[0.3em] text-brand-white/60">Coelemu, Ñuble</p>
+        <h2 class="text-3xl font-black leading-tight md:text-4xl">
+          Somos una corporación cultural y social que impulsa formación, creación y encuentro comunitario.
+        </h2>
+        <p class="max-w-xl text-base leading-relaxed text-brand-white/80 md:text-lg">
+          Acompañamos procesos artísticos y comunitarios en distintos territorios de Ñuble, articulando formación,
+          programación cultural y memoria participativa junto a vecinas, vecinos y organizaciones locales.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-2 gap-6 md:grid-cols-4 lg:col-span-7">
+        {stats.map((item) => (
+          <div class="stat-card rounded-3xl border border-brand-white/10 bg-brand-white/5 px-4 py-5 shadow-[0_15px_60px_rgba(0,0,0,0.25)]">
+            <div class="text-2xl font-black tracking-tight md:text-3xl">
+              <span class="stat-number" data-target={item.value} data-prefix={item.prefix ?? ''}></span>
+            </div>
+            <div class="mt-2 text-xs uppercase leading-tight tracking-[0.18em] text-brand-white/70">{item.label}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+    <div class="mx-auto flex max-w-[1280px] flex-col gap-4 px-6 pb-6 text-sm text-brand-white/70 sm:px-10 md:flex-row md:items-center md:justify-between xl:max-w-[1440px]">
+      <span>Datos correspondientes a la gestión 2024.</span>
+      <a
+        href="/memoria-anual-2024"
+        class="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-brand-accent hover:text-brand-white"
+      >
+        Ver memoria 2024
+        <span class="inline-block h-2.5 w-2.5 rotate-45 border-r border-t border-current"></span>
+      </a>
+    </div>
+  </section>
+
+  <section class="reveal-section mission-highlight bg-brand-bg text-brand-white">
+    <div class="mx-auto max-w-[1280px] px-6 py-24 sm:px-10 lg:py-32 xl:max-w-[1440px]">
+      <div class="mission-highlight__frame rounded-[40px] border border-brand-white/10 px-6 py-8 shadow-[0_24px_80px_rgba(0,0,0,0.28)] md:px-10 md:py-12">
+        <p class="mb-8 text-center text-xs font-black uppercase tracking-[0.32em] text-brand-gray/80">Nuestra misión</p>
+        <h2 class="mission-highlight__title">
+          <span class="mission-highlight__unit mission-highlight__unit--white" data-mission-step>Generar</span>
+          <span class="mission-highlight__unit mission-highlight__unit--white" data-mission-step>instancias</span>
+          <span class="mission-highlight__unit" data-mission-step>de</span>
+          <span class="mission-highlight__unit" data-mission-step>encuentro</span>
+          <span class="mission-highlight__chip mission-highlight__chip--gold" data-mission-step>
+            <img src="/DSC06842-scaled.webp" alt="Encuentro artístico en comunidad" loading="lazy" />
+          </span>
+          <span class="mission-highlight__unit" data-mission-step>con</span>
+          <span class="mission-highlight__unit mission-highlight__unit--cyan" data-mission-step>el arte</span>
+          <span class="mission-highlight__unit" data-mission-step>y la</span>
+          <span class="mission-highlight__chip mission-highlight__chip--magenta" data-mission-step>
+            <img src="/DSC04138-Enhanced-NR-scaled.webp" alt="Acción cultural de Arte y Vida" loading="lazy" />
+          </span>
+          <span class="mission-highlight__unit mission-highlight__unit--magenta" data-mission-step>cultura</span>
+        </h2>
+      </div>
+    </div>
+  </section>
+
+  <section class="reveal-section bg-brand-white/5 text-brand-white">
+    <div class="mx-auto grid max-w-[1280px] grid-cols-1 items-start gap-12 px-6 py-20 sm:px-10 lg:grid-cols-12 lg:gap-16 lg:py-28 xl:max-w-[1440px]">
+      <div class="space-y-4 lg:col-span-4">
+        <p class="text-xs font-black uppercase tracking-[0.3em] text-brand-accent">Áreas estratégicas</p>
+        <h3 class="text-3xl font-black leading-tight">Tres líneas para activar cultura y comunidad.</h3>
+        <p class="max-w-sm text-sm leading-relaxed text-brand-white/70">
+          Formamos, programamos y documentamos junto a las comunidades para que el arte sea una herramienta de
+          encuentro, identidad y futuro.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 gap-6 md:grid-cols-3 lg:col-span-8">
+        {areas.map((area, index) => (
+          <div
+            class="reveal-card flex flex-col gap-4 rounded-3xl border border-brand-white/10 bg-brand-bg/70 px-6 py-8 shadow-[0_20px_70px_rgba(0,0,0,0.35)] backdrop-blur-xl"
+            style={`animation-delay: ${index * 140}ms;`}
+          >
+            <div class="flex h-10 w-10 items-center justify-center rounded-full border border-brand-white/10 bg-brand-white/10 text-sm font-black uppercase tracking-[0.18em] text-brand-white/70">
+              {area.title.charAt(0)}
+            </div>
+            <div>
+              <h4 class="mb-2 text-xl font-bold">{area.title}</h4>
+              <p class="text-sm leading-relaxed text-brand-white/75">{area.description}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="reveal-section bg-brand-bg text-brand-white">
+    <div class="mx-auto grid max-w-[1280px] grid-cols-1 items-start gap-12 px-6 py-20 sm:px-10 lg:grid-cols-12 lg:gap-16 lg:py-28 xl:max-w-[1440px]">
+      <div class="space-y-4 lg:col-span-4">
+        <p class="text-xs font-black uppercase tracking-[0.3em] text-brand-secondary">Proyectos destacados</p>
+        <h3 class="text-3xl font-black leading-tight">Acciones que mantienen vivo el territorio.</h3>
+        <p class="max-w-sm text-sm leading-relaxed text-brand-white/70">
+          Programación cultural, mediación comunitaria y cuidado medioambiental en distintos puntos de Ñuble.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 gap-6 md:grid-cols-3 lg:col-span-8">
+        {projects.map((project, index) => (
+          <a
+            href={project.href}
+            class="reveal-card group flex flex-col overflow-hidden rounded-3xl border border-brand-white/10 bg-brand-white/5 shadow-[0_20px_70px_rgba(0,0,0,0.3)] transition-all duration-300 hover:-translate-y-1 hover:border-brand-accent/60"
+            style={`animation-delay: ${index * 160}ms;`}
+          >
+            <img src={project.image} alt={project.title} class="h-40 w-full object-cover" loading="lazy" />
+            <div class="flex flex-1 flex-col gap-4 px-6 py-7">
+              <div class="flex items-center justify-between gap-3">
+                <h4 class="text-xl font-bold leading-tight">{project.title}</h4>
+                <span class="h-2 w-2 rounded-full bg-brand-accent"></span>
+              </div>
+              <p class="flex-1 text-sm leading-relaxed text-brand-white/75">{project.description}</p>
+              <span class="text-xs uppercase tracking-[0.2em] text-brand-accent">Conoce más</span>
+            </div>
+          </a>
+        ))}
+        <div class="flex justify-end md:col-span-3">
+          <a
+            href="/proyectos"
+            class="inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.14em] text-brand-white/80 hover:text-brand-accent"
+          >
+            Ver todos los proyectos
+            <span class="inline-block h-2.5 w-2.5 rotate-45 border-r border-t border-current"></span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <TculturaAgenda items={tculturaAgenda.items} error={tculturaAgenda.error} updatedAt={tculturaAgenda.generatedAt} />
+
+  <InstagramFeed />
+
+  <YouTubeGallery maxVideos={3} />
+
+  <section class="reveal-section bg-brand-white/5 text-brand-white">
+    <div class="mx-auto grid max-w-[1280px] grid-cols-1 items-start gap-12 px-6 py-20 sm:px-10 lg:grid-cols-12 lg:gap-16 lg:py-28 xl:max-w-[1440px]">
+      <div class="space-y-4 lg:col-span-4">
+        <p class="text-xs font-black uppercase tracking-[0.3em] text-brand-accent">Noticias</p>
+        <h3 class="text-3xl font-black leading-tight">Historias recientes de Arte y Vida.</h3>
+        <p class="max-w-sm text-sm leading-relaxed text-brand-white/70">
+          Actividades, hitos y procesos que conectan cultura, comunidad y territorio.
+        </p>
+      </div>
+
+      <div class="space-y-4 lg:col-span-8">
+        {posts.map((post, index) => {
+          const rawCats = Array.isArray(post.data.categories) ? post.data.categories : [];
+          const cleanCats = rawCats.filter((cat) => cat && cat.toLowerCase() !== 'sin-categoria');
+          const categoriesToShow = cleanCats.length ? cleanCats : ['agenda-cultural'];
+          return (
+            <a
+              href={`/posts/${post._slug}`}
+              class="reveal-card group block overflow-hidden rounded-3xl border border-brand-white/10 bg-brand-bg/70 transition-all duration-300 hover:-translate-y-0.5 hover:border-brand-accent/60"
+              style={`animation-delay: ${index * 120}ms;`}
+            >
+              <img
+                src={post.data.coverImage ?? '/DSC06842-scaled.webp'}
+                alt={post.data.title}
+                class="h-44 w-full object-cover"
+                loading="lazy"
+              />
+              <div class="flex flex-col gap-3 px-6 py-5">
+                <div class="flex items-baseline justify-between gap-4">
+                  <h4 class="text-xl font-bold leading-tight group-hover:text-brand-accent">{post.data.title}</h4>
+                  <span class="text-xs uppercase tracking-[0.18em] text-brand-white/60">
+                    {new Date(post.data.date).toLocaleDateString('es-CL', {
+                      day: '2-digit',
+                      month: 'short',
+                      year: 'numeric',
+                    })}
+                  </span>
+                </div>
+                {categoriesToShow.length > 0 && (
+                  <div class="flex flex-wrap gap-2 text-[11px] uppercase tracking-[0.18em] text-brand-white/60">
+                    {categoriesToShow.map((cat) => (
+                      <span class="rounded-full border border-brand-white/10 bg-brand-white/5 px-2 py-1">{cat}</span>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </a>
+          );
+        })}
+
+        <div class="pt-2">
+          <a
+            href="/noticias"
+            class="inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.14em] text-brand-white/80 hover:text-brand-accent"
+          >
+            Ver todas las noticias
+            <span class="inline-block h-2.5 w-2.5 rotate-45 border-r border-t border-current"></span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="reveal-section bg-brand-white/5 text-brand-white">
+    <div class="mx-auto max-w-[1280px] px-6 py-20 sm:px-10 lg:py-28 xl:max-w-[1440px]">
+      <div class="overflow-hidden rounded-[36px] border border-brand-white/10 bg-[linear-gradient(135deg,rgba(255,255,255,0.05),rgba(255,255,255,0.02))] shadow-[0_20px_70px_rgba(0,0,0,0.28)]">
+        <div class="grid grid-cols-1 gap-0 lg:grid-cols-12">
+          <div class="relative min-h-[300px] bg-brand-bg lg:col-span-5">
+            <img src="/arbol.webp" alt="Programa Amig@s de Arte y Vida" class="absolute inset-0 h-full w-full object-cover opacity-75" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent"></div>
+            <div class="absolute bottom-6 left-6 right-6 space-y-3">
+              <p class="text-xs font-black uppercase tracking-[0.3em] text-brand-accent">Amig@s de Arte y Vida</p>
+              <h3 class="text-3xl font-black leading-tight md:text-4xl">Una comunidad que sostiene la cultura en movimiento.</h3>
+            </div>
+          </div>
+
+          <div class="space-y-6 px-6 py-8 md:px-8 lg:col-span-7 lg:px-10 lg:py-10">
+            <p class="max-w-3xl text-base leading-relaxed text-brand-white/78 md:text-lg">
+              Tu aporte ayuda a fortalecer la programación artística, los talleres, la circulación territorial y las
+              acciones comunitarias que impulsamos durante el año.
+            </p>
+
+            <div class="grid grid-cols-1 gap-4 md:grid-cols-3">
+              {[
+                'Funciones y actividades gratuitas para la comunidad.',
+                'Procesos formativos y espacios de encuentro cultural.',
+                'Memoria, producción y continuidad de proyectos territoriales.',
+              ].map((item, index) => (
+                <div
+                  class="reveal-card rounded-3xl border border-brand-white/10 bg-brand-bg/55 px-5 py-5 text-sm leading-relaxed text-brand-white/74"
+                  style={`animation-delay: ${120 + index * 80}ms;`}
+                >
+                  {item}
+                </div>
+              ))}
+            </div>
+
+            <div class="flex flex-wrap items-center gap-4">
+              <a
+                href="/amigos#impacto"
+                class="inline-flex items-center justify-center rounded-full bg-brand-accent px-6 py-3 text-sm font-black uppercase tracking-[0.22em] text-brand-bg shadow-[0_15px_50px_rgba(254,209,0,0.3)] transition-transform duration-300 hover:translate-y-[-2px]"
+              >
+                Conoce el programa
+              </a>
+              <a
+                href="/amigos#planes"
+                class="inline-flex items-center gap-2 rounded-full border border-brand-white/15 px-5 py-3 text-xs font-black uppercase tracking-[0.2em] text-brand-white transition-colors hover:border-brand-accent/70 hover:text-brand-accent"
+              >
+                Quiero apoyar
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="reveal-section bg-brand-bg text-brand-white">
+    <div class="mx-auto max-w-[1280px] px-6 py-20 sm:px-10 lg:py-28 xl:max-w-[1440px]">
+      <div class="mb-10 max-w-2xl space-y-4">
+        <p class="text-xs font-black uppercase tracking-[0.3em] text-brand-secondary">Alianzas estratégicas</p>
+        <h3 class="text-3xl font-black leading-tight md:text-4xl">Organizaciones que hacen posible ampliar nuestro alcance.</h3>
+        <p class="text-sm leading-relaxed text-brand-white/70 md:text-base">
+          Estas colaboraciones fortalecen la circulación cultural, la formación artística y el trabajo territorial que
+          sostenemos junto a las comunidades.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-2 gap-4 md:grid-cols-3 xl:grid-cols-6">
+        {strategicAlliances.map((alliance, index) => (
+          <div
+            class="reveal-card alliance-card flex min-h-[150px] items-center justify-center rounded-[28px] border border-brand-white/10 bg-brand-white/[0.04] px-6 py-8 shadow-[0_18px_60px_rgba(0,0,0,0.24)]"
+            style={`animation-delay: ${index * 90}ms;`}
+          >
+            <img
+              src={alliance.src}
+              alt={alliance.name}
+              class:list={['alliance-logo', alliance.tone === 'white' ? 'alliance-logo--white' : 'alliance-logo--grayscale']}
+              style={`--alliance-scale: ${alliance.scale ?? 1};`}
+              loading="lazy"
+            />
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style is:global>
+  .stat-card {
+    opacity: 0;
+    transform: translateY(16px) scale(0.98);
+  }
+
+  .stat-card.is-visible {
+    animation: rise 0.9s ease forwards;
+  }
+
+  @keyframes rise {
+    from {
+      opacity: 0;
+      transform: translateY(16px) scale(0.98);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+
+  .reveal-card {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+
+  .reveal-card.is-visible {
+    animation: fadeUp 0.85s ease forwards;
+  }
+
+  @keyframes fadeUp {
+    from {
+      opacity: 0;
+      transform: translateY(18px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .reveal-section {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+
+  .reveal-section.is-visible {
+    animation: sectionFade 0.9s ease forwards;
+  }
+
+  .alliance-card {
+    backdrop-filter: blur(16px);
+  }
+
+  .alliance-logo {
+    max-height: 88px;
+    width: 100%;
+    object-fit: contain;
+    opacity: 0.9;
+    transform: scale(var(--alliance-scale, 1));
+    transform-origin: center;
+    transition:
+      transform 220ms ease,
+      opacity 220ms ease,
+      filter 220ms ease;
+  }
+
+  .alliance-card:hover .alliance-logo {
+    transform: translateY(-2px) scale(calc(var(--alliance-scale, 1) * 1.02));
+    opacity: 1;
+  }
+
+  .alliance-logo--white {
+    filter: grayscale(1) brightness(0) invert(1);
+  }
+
+  .alliance-logo--grayscale {
+    filter: grayscale(1) brightness(1.15) contrast(1.05);
+  }
+
+  @keyframes sectionFade {
+    from {
+      opacity: 0;
+      transform: translateY(24px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+</style>
+
+<script>
+  const observerOptions = { threshold: 0.2 };
+
+  const addVisibleOnIntersect = (elements, datasetKey) => {
+    if (!elements.length) return;
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, observerOptions);
+    elements.forEach((el) => {
+      if (!(el instanceof HTMLElement) || el.dataset[datasetKey] === 'true') return;
+      el.dataset[datasetKey] = 'true';
+      observer.observe(el);
+    });
+  };
+
+  const animateStats = () => {
+    const statCards = Array.from(document.querySelectorAll('.stat-card')).filter(
+      (card) => card instanceof HTMLElement && card.dataset.statsBound !== 'true',
+    );
+    if (!statCards.length) return;
+
+    const animateNumber = (el) => {
+      const target = Number(el.getAttribute('data-target') ?? 0);
+      const prefix = el.getAttribute('data-prefix') ?? '';
+      const duration = 900;
+      const start = performance.now();
+
+      const format = (value) => {
+        const formatted = value.toLocaleString('es-CL');
+        return `${prefix}${formatted}`;
+      };
+
+      const step = (now) => {
+        const progress = Math.min((now - start) / duration, 1);
+        const current = Math.floor(progress * target);
+        el.textContent = format(current);
+        if (progress < 1) requestAnimationFrame(step);
+        else el.textContent = format(target);
+      };
+
+      requestAnimationFrame(step);
+    };
+
+    const statObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          const numberEl = entry.target.querySelector('.stat-number');
+          if (numberEl) animateNumber(numberEl);
+          statObserver.unobserve(entry.target);
+        }
+      });
+    }, observerOptions);
+
+    statCards.forEach((card) => {
+      if (!(card instanceof HTMLElement)) return;
+      card.dataset.statsBound = 'true';
+      statObserver.observe(card);
+    });
+  };
+
+  const initMissionHighlight = () => {
+    const sections = Array.from(document.querySelectorAll('.mission-highlight')).filter(
+      (section) => section instanceof HTMLElement,
+    );
+    if (!sections.length) return;
+
+    window.__missionHighlightCleanup?.();
+
+    let frame = 0;
+
+    const updateMission = () => {
+      const viewportHeight = window.innerHeight || 1;
+
+      sections.forEach((section) => {
+        const steps = Array.from(section.querySelectorAll('[data-mission-step]')).filter(
+          (item) => item instanceof HTMLElement,
+        );
+        if (!steps.length) return;
+
+        const rect = section.getBoundingClientRect();
+        const progress = Math.min(1, Math.max(0, (viewportHeight - rect.top) / (viewportHeight + rect.height * 0.35)));
+        const activeSteps = Math.min(steps.length, Math.max(1, Math.ceil(progress * steps.length)));
+
+        steps.forEach((step, index) => {
+          step.classList.toggle('is-active', index < activeSteps);
+        });
+      });
+    };
+
+    const requestUpdate = () => {
+      if (frame) return;
+      frame = requestAnimationFrame(() => {
+        frame = 0;
+        updateMission();
+      });
+    };
+
+    const onScroll = () => requestUpdate();
+    const onResize = () => requestUpdate();
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onResize);
+    updateMission();
+
+    window.__missionHighlightCleanup = () => {
+      window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('resize', onResize);
+      if (frame) cancelAnimationFrame(frame);
+    };
+  };
+
+  const initHomeAnimations = () => {
+    addVisibleOnIntersect(Array.from(document.querySelectorAll('.reveal-card')), 'revealBound');
+    addVisibleOnIntersect(Array.from(document.querySelectorAll('.reveal-section')), 'sectionBound');
+    animateStats();
+    initMissionHighlight();
+  };
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initHomeAnimations, { once: true });
+  } else {
+    initHomeAnimations();
+  }
+
+  document.addEventListener('astro:page-load', initHomeAnimations);
+</script>

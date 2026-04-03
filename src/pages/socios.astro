@@ -1,0 +1,90 @@
+---
+import Layout from '../layouts/Layout.astro';
+import SidebarNav from '../components/SidebarNav.astro';
+import { sociosCav } from '../lib/sociosCav';
+---
+
+<Layout title="Nuestros socios">
+  <SidebarNav />
+
+  <section class="relative overflow-hidden bg-brand-bg text-brand-white pt-20 pb-14 lg:pt-24 lg:pb-18">
+    <div class="pointer-events-none absolute inset-0 opacity-90">
+      <div class="absolute -left-24 top-16 h-72 w-72 rounded-full bg-brand-accent/18 blur-3xl"></div>
+      <div class="absolute right-[-6rem] top-[-3rem] h-80 w-80 rounded-full bg-brand-secondary/18 blur-3xl"></div>
+      <div class="absolute bottom-[-5rem] left-1/3 h-72 w-72 rounded-full bg-brand-primary/18 blur-3xl"></div>
+    </div>
+
+    <div class="relative max-w-[1320px] xl:max-w-[1480px] mx-auto px-6 sm:px-10 space-y-6">
+      <div class="space-y-6 max-w-4xl">
+        <p class="text-xs font-black uppercase tracking-[0.32em] text-brand-secondary">Nosotros</p>
+        <h1 class="max-w-4xl text-4xl md:text-5xl xl:text-6xl font-black leading-[0.95]">
+          Personas que dan vida a nuestra labor cultural.
+        </h1>
+        <p class="max-w-2xl text-base md:text-lg leading-relaxed text-brand-white/72">
+          Conoce a quienes integran la Corporación Arte y Vida y forman parte de un trabajo comprometido con la cultura, el encuentro y el desarrollo territorial.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-black text-brand-white pb-20 lg:pb-24">
+    <div class="max-w-[1320px] xl:max-w-[1480px] mx-auto px-6 sm:px-10">
+      <div class="rounded-[36px] border border-brand-white/10 bg-brand-white/5 p-6 sm:p-8 lg:p-10 shadow-[0_24px_80px_rgba(0,0,0,0.34)]">
+        <div class="flex flex-col gap-4 md:flex-row md:items-end md:justify-between mb-8">
+          <div class="space-y-3">
+            <p class="text-xs font-black uppercase tracking-[0.3em] text-brand-secondary">Retratos de la corporación</p>
+            <h2 class="text-3xl md:text-4xl font-black leading-tight">Nuestros socios.</h2>
+          </div>
+          <p class="max-w-xl text-sm md:text-base text-brand-white/68 leading-relaxed">
+            Un recorrido visual por las personas que forman parte de la Corporación y acompañan su quehacer artístico, cultural y comunitario.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-5">
+          {sociosCav.map((socio, index) => (
+            <article class={`group relative overflow-hidden rounded-[28px] border border-brand-white/10 bg-[#090909] shadow-[0_22px_70px_rgba(0,0,0,0.34)] ${index % 5 === 0 ? 'xl:translate-y-6' : ''} ${index % 5 === 3 ? 'xl:-translate-y-4' : ''}`}>
+              <div class="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(254,209,0,0.18),_transparent_52%)] opacity-80"></div>
+              <img
+                src={socio.image}
+                alt={socio.name}
+                class="relative block h-[420px] w-full object-cover object-top transition-all duration-700 group-hover:scale-[1.04] group-hover:translate-y-[-6px]"
+                loading="lazy"
+                decoding="async"
+              />
+              <div class="absolute inset-x-0 bottom-0 p-5 bg-gradient-to-t from-black via-black/78 to-transparent">
+                <div class="inline-flex items-center rounded-full border border-brand-white/12 bg-brand-white/10 px-3 py-1 text-[0.62rem] font-black uppercase tracking-[0.24em] text-brand-white/72">
+                  Socio CAV
+                </div>
+                <h3 class="mt-3 text-xl font-black leading-tight">{socio.name}</h3>
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-brand-bg text-brand-white pb-20">
+    <div class="max-w-[1320px] xl:max-w-[1480px] mx-auto px-6 sm:px-10">
+      <div class="rounded-[36px] border border-brand-white/10 bg-brand-white/5 px-8 py-10 shadow-[0_20px_70px_rgba(0,0,0,0.28)]">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+          <div class="lg:col-span-8 space-y-4">
+            <p class="text-xs font-black uppercase tracking-[0.3em] text-brand-secondary">Sigamos tejiendo red</p>
+            <h2 class="text-3xl font-black leading-tight">La cultura se fortalece cuando se construye en comunidad.</h2>
+            <p class="text-brand-white/70 text-sm leading-relaxed max-w-2xl">
+              En Arte y Vida creemos en el valor de los vínculos, la colaboración y el compromiso con los territorios como base para impulsar proyectos con sentido.
+            </p>
+          </div>
+          <div class="lg:col-span-4 flex lg:justify-end">
+            <a
+              href="/contacto"
+              class="inline-flex items-center justify-center rounded-full bg-brand-accent text-brand-bg px-6 py-3 text-sm font-black uppercase tracking-[0.22em] shadow-[0_15px_50px_rgba(254,209,0,0.3)] hover:translate-y-[-2px] transition-transform duration-300"
+            >
+              Contactar
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>

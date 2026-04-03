@@ -1,0 +1,71 @@
+---
+import { formatYouTubeDate, getYouTubeVideos } from '../lib/youtube';
+
+const { maxVideos = 3 } = Astro.props;
+const { videos: displayVideos, loadError } = await getYouTubeVideos(Math.max(1, maxVideos));
+---
+
+<section class="bg-brand-bg text-brand-white reveal-section">
+  <div class="max-w-[1280px] xl:max-w-[1440px] mx-auto px-6 sm:px-10 py-20 lg:py-28 grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
+    <div class="lg:col-span-4 space-y-4">
+      <p class="text-xs font-black uppercase tracking-[0.3em] text-brand-secondary">Arte y Vida TV</p>
+      <h3 class="text-3xl font-black leading-tight">Últimos videos del canal.</h3>
+      <p class="text-brand-white/70 text-sm leading-relaxed max-w-sm">
+        Conecta con nuestros estrenos, cápsulas y coberturas audiovisuales directamente desde YouTube.
+      </p>
+      {loadError && (
+        <p class="text-xs text-brand-white/60 leading-relaxed rounded-2xl border border-dashed border-brand-white/15 bg-brand-white/5 px-4 py-3">
+          {loadError}
+        </p>
+      )}
+      <a
+        href="/arte-y-vida-tv"
+        class="inline-flex items-center gap-2 text-sm font-semibold tracking-[0.16em] uppercase text-brand-accent hover:text-brand-white"
+      >
+        Ir a Arte y Vida TV
+        <span class="h-2.5 w-2.5 inline-block rotate-45 border-t border-r border-current"></span>
+      </a>
+    </div>
+
+    <div class="lg:col-span-8 grid grid-cols-1 md:grid-cols-3 gap-6">
+      {displayVideos.map((video, index) => (
+        <a
+          href={video.id.startsWith('http') ? video.id : `https://www.youtube.com/watch?v=${video.id}`}
+          target="_blank"
+          rel="noreferrer"
+          class="reveal-card group relative overflow-hidden rounded-3xl border border-brand-white/10 bg-brand-bg/70 shadow-[0_20px_70px_rgba(0,0,0,0.3)] transition-all duration-300 hover:border-brand-accent/60 hover:-translate-y-1"
+          style={`animation-delay: ${index * 140}ms;`}
+        >
+          <div class="relative h-44 w-full">
+            <img
+              src={video.thumbnail}
+              alt={video.title}
+              loading="lazy"
+              class="h-full w-full object-cover"
+            />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
+            <div class="absolute inset-0 flex items-center justify-center">
+              <span class="inline-flex items-center gap-2 rounded-full bg-white/15 px-3 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-brand-white backdrop-blur-sm border border-white/20">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="h-4 w-4">
+                  <path d="M21.6 7.2s-.2-1.4-.8-2c-.7-.7-1.5-.7-1.9-.7C16.4 4.2 12 4.2 12 4.2h-.1s-4.4 0-6.9.3c-.4 0-1.2 0-1.9.7-.6.6-.8 2-.8 2S2 8.8 2 10.4v1.2c0 1.6.2 3.2.2 3.2s.2 1.4.8 2c.7.7 1.7.7 2.2.7 1.6.2 6.8.3 6.8.3s4.4 0 6.9-.3c.4 0 1.2 0 1.9-.7.6-.6.8-2 .8-2s.2-1.6.2-3.2v-1.2c0-1.6-.2-3.2-.2-3.2ZM10 14.8V8.9l5.1 3-5.1 2.9Z" />
+                </svg>
+                Ver video
+              </span>
+            </div>
+          </div>
+
+          <div class="px-6 py-5 flex flex-col gap-3">
+            <div class="flex items-center justify-between text-[11px] uppercase tracking-[0.2em] text-brand-white/60">
+              <span>{formatYouTubeDate(video.publishedAt)}</span>
+              <span class="inline-flex items-center gap-1 text-brand-accent font-semibold">
+                <span class="h-1.5 w-1.5 rounded-full bg-brand-accent"></span>
+                YouTube
+              </span>
+            </div>
+            <h4 class="text-lg font-bold leading-tight group-hover:text-brand-accent line-clamp-2">{video.title}</h4>
+          </div>
+        </a>
+      ))}
+    </div>
+  </div>
+</section>

@@ -1,0 +1,50 @@
+---
+import SidebarNav from '../components/SidebarNav.astro';
+import Layout from '../layouts/Layout.astro';
+
+const workshopForms = [
+  { image: '/banner-1024x256.webp', href: 'https://forms.gle/GqKrg6jcnjvqdTUa6' },
+  { image: '/banner-1-1024x256.webp', href: 'https://forms.gle/KnpPre7owe8BsWM89' },
+  { image: '/banner-6-1024x256.webp', href: 'https://forms.gle/eRT9PaeKM83dUV897' },
+  { image: '/banner-2-1024x256.webp', href: 'https://forms.gle/ZS43BFGTH4uPwm8JA' },
+  { image: '/banner-3-1024x256.webp', href: 'https://forms.gle/uxz6v5wJNbN5vYRa8' },
+  { image: '/banner-4-1024x256.webp', href: 'https://forms.gle/DstsMLYriEhoyNLG8' },
+  { image: '/banner-5-1024x256.webp', href: 'https://forms.gle/WmFodppdrRqrXQmP8' },
+];
+---
+
+<Layout title="FormArte">
+  <SidebarNav />
+
+  <section class="bg-brand-bg pb-14 pt-20 text-brand-white lg:pb-16 lg:pt-24">
+    <div class="mx-auto grid max-w-[1280px] grid-cols-1 items-start gap-10 px-6 sm:px-10 lg:grid-cols-12 lg:gap-14 xl:max-w-[1440px]">
+      <div class="space-y-5 lg:col-span-7">
+        <p class="text-xs font-black uppercase tracking-[0.3em] text-brand-secondary">FormArte</p>
+        <h1 class="text-4xl font-black leading-tight md:text-5xl">Talleres e inscripciones disponibles.</h1>
+        <p class="max-w-3xl text-base leading-relaxed text-brand-white/70 md:text-lg">
+          Aquí puedes revisar formularios de inscripción a talleres y convocatorias. Si alguno ya no está disponible,
+          te recomendamos escribirnos o revisar nuestras redes para nuevas fechas.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-brand-white/5 py-16 text-brand-white lg:py-20">
+    <div class="mx-auto max-w-[1280px] space-y-6 px-6 sm:px-10 xl:max-w-[1440px]">
+      {workshopForms.map((form, index) => (
+        <a
+          href={form.href}
+          target="_blank"
+          rel="noreferrer"
+          class="group block overflow-hidden rounded-3xl border border-brand-white/10 bg-brand-bg/70 shadow-[0_20px_70px_rgba(0,0,0,0.28)] transition-all duration-300 hover:-translate-y-0.5 hover:border-brand-accent/60"
+        >
+          <img src={form.image} alt={`Formulario FormArte ${index + 1}`} class="h-auto w-full object-cover" loading="lazy" />
+          <div class="flex items-center justify-between gap-4 px-6 py-4">
+            <span class="text-sm font-semibold uppercase tracking-[0.14em] text-brand-white/80">Abrir formulario</span>
+            <span class="text-xs uppercase tracking-[0.18em] text-brand-accent">Google Forms</span>
+          </div>
+        </a>
+      ))}
+    </div>
+  </section>
+</Layout>

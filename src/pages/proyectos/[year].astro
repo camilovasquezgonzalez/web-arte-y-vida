@@ -1,0 +1,84 @@
+---
+import ProjectGallery from '../../components/ProjectGallery.astro';
+import SidebarNav from '../../components/SidebarNav.astro';
+import { getArchiveYear, getArchiveYears } from '../../lib/projectArchive';
+import Layout from '../../layouts/Layout.astro';
+
+export function getStaticPaths() {
+  return getArchiveYears().map((entry) => ({
+    params: { year: String(entry.year) },
+  }));
+}
+
+const year = Number(Astro.params.year);
+const archiveYear = getArchiveYear(year);
+
+if (!archiveYear) {
+  throw new Error(`No se encontro archivo de proyectos para ${Astro.params.year}.`);
+}
+---
+
+<Layout title={`Proyectos ${archiveYear.year}`}>
+  <SidebarNav />
+
+  <section class="bg-brand-bg pb-14 pt-20 text-brand-white lg:pb-16 lg:pt-24">
+    <div class="mx-auto max-w-[1280px] px-6 sm:px-10 xl:max-w-[1440px]">
+      <a href="/proyectos" class="inline-flex items-center gap-2 text-xs font-black uppercase tracking-[0.22em] text-brand-white/60 hover:text-brand-accent">
+        <span class="inline-block h-2.5 w-2.5 rotate-[225deg] border-r border-t border-current"></span>
+        Volver a proyectos
+      </a>
+      <p class="mt-6 text-xs font-black uppercase tracking-[0.3em] text-brand-secondary">{archiveYear.title}</p>
+      <h1 class="mt-3 max-w-5xl text-4xl font-black leading-tight md:text-5xl">
+        {archiveYear.projectCount} proyectos y {archiveYear.photoCount.toLocaleString('es-CL')} imagenes registradas durante {archiveYear.year}.
+      </h1>
+      <p class="mt-4 max-w-3xl text-base leading-relaxed text-brand-white/70 md:text-lg">{archiveYear.description}</p>
+
+      <div class="mt-8 flex flex-wrap gap-3">
+        {archiveYear.projects.map((project) => (
+          <a
+            href={`#${project.slug}`}
+            class="rounded-full border border-brand-white/10 bg-brand-white/5 px-4 py-2 text-[11px] uppercase tracking-[0.18em] text-brand-white/68 transition-colors hover:border-brand-accent/60 hover:text-brand-accent"
+          >
+            {project.title}
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-brand-white/5 py-16 text-brand-white lg:py-20">
+    <div class="mx-auto flex max-w-[1280px] flex-col gap-8 px-6 sm:px-10 xl:max-w-[1440px]">
+      {archiveYear.projects.map((project, index) => (
+        <article
+          id={project.slug}
+          class="grid grid-cols-1 gap-8 rounded-[36px] border border-brand-white/10 bg-brand-bg/72 px-6 py-6 shadow-[0_24px_80px_rgba(0,0,0,0.32)] lg:grid-cols-12 lg:px-8 lg:py-8"
+          style={`scroll-margin-top: 120px; animation-delay: ${index * 70}ms;`}
+        >
+          <div class="space-y-5 lg:col-span-4">
+            <div class="space-y-3">
+              <p class="text-xs font-black uppercase tracking-[0.24em] text-brand-accent">{project.year}</p>
+              <h2 class="text-3xl font-black leading-tight">{project.title}</h2>
+            </div>
+
+            <p class="text-sm leading-relaxed text-brand-white/76">{project.summary}</p>
+
+            <div class="flex flex-wrap gap-2 text-[11px] uppercase tracking-[0.18em] text-brand-white/60">
+              {project.tags.map((tag) => (
+                <span class="rounded-full border border-brand-white/10 bg-brand-white/5 px-2 py-1">{tag}</span>
+              ))}
+            </div>
+
+            <div class="rounded-3xl border border-brand-white/10 bg-brand-white/5 px-4 py-4 text-sm text-brand-white/70">
+              <strong class="block text-brand-white">{project.photoCount.toLocaleString('es-CL')} imagenes</strong>
+              Registro correspondiente a <span class="text-brand-white">{project.directoryLabel}</span>.
+            </div>
+          </div>
+
+          <div class="lg:col-span-8">
+            <ProjectGallery galleryId={project.slug} title={project.title} images={project.images} />
+          </div>
+        </article>
+      ))}
+    </div>
+  </section>
+</Layout>

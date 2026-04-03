@@ -1,0 +1,122 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+}
+
+const { title } = Astro.props;
+---
+
+<!doctype html>
+<html lang="es" class="scroll-smooth bg-brand-bg text-brand-white">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="description"
+      content="Corporación Cultural y Social Arte y Vida, proyectos artísticos y comunitarios desde Coelemu."
+    />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+
+    <title>{title} | Arte y Vida</title>
+  </head>
+  <body class="flex min-h-screen flex-col bg-brand-bg text-brand-white">
+    <main class="flex-grow">
+      <slot />
+    </main>
+
+    <footer class="border-t border-brand-white/10 bg-brand-bg py-16">
+      <div class="mx-auto max-w-[1280px] px-6 text-brand-white sm:px-10 xl:max-w-[1440px]">
+        <div class="grid grid-cols-1 gap-12 pb-12 md:grid-cols-4">
+          <div class="space-y-4">
+            <img src="/blanco-scaled.webp" alt="Logo de Arte y Vida" class="h-12 w-auto" />
+            <p class="max-w-sm text-sm leading-relaxed text-brand-white/70">
+              Impulsamos experiencias artísticas, culturales y comunitarias que fortalecen el encuentro y la vida
+              en el territorio.
+            </p>
+          </div>
+
+          <div class="space-y-3">
+            <h3 class="text-sm font-semibold uppercase tracking-[0.2em] text-brand-accent">Explora</h3>
+            <ul class="space-y-2 text-sm text-brand-white/70">
+              <li><a href="/" class="transition-colors hover:text-brand-white">Inicio</a></li>
+              <li><a href="/proyectos" class="transition-colors hover:text-brand-white">Proyectos</a></li>
+              <li><a href="/noticias" class="transition-colors hover:text-brand-white">Noticias</a></li>
+              <li><a href="/arte-y-vida-tv" class="transition-colors hover:text-brand-white">Arte y Vida TV</a></li>
+              <li><a href="/contacto" class="transition-colors hover:text-brand-white">Contacto</a></li>
+            </ul>
+          </div>
+
+          <div class="space-y-3">
+            <h3 class="text-sm font-semibold uppercase tracking-[0.2em] text-brand-accent">Nosotros</h3>
+            <ul class="space-y-2 text-sm text-brand-white/70">
+              <li><a href="/nuestra-historia" class="transition-colors hover:text-brand-white">Nuestra historia</a></li>
+              <li><a href="/socios" class="transition-colors hover:text-brand-white">Redes y socios</a></li>
+              <li><a href="/transparencia" class="transition-colors hover:text-brand-white">Transparencia</a></li>
+            </ul>
+          </div>
+
+          <div class="space-y-3">
+            <h3 class="text-sm font-semibold uppercase tracking-[0.2em] text-brand-accent">Contacto</h3>
+            <p class="text-sm leading-relaxed text-brand-white/70">
+              Pedro León Gallo 547
+              <br />
+              Coelemu, Región de Ñuble, Chile
+              <br />
+              arteyvidacorporacion@gmail.com
+            </p>
+          </div>
+        </div>
+
+        <div class="flex flex-col items-center justify-between gap-4 border-t border-brand-white/10 pt-6 text-sm text-brand-white/60 md:flex-row">
+          <div>&copy; {new Date().getFullYear()} Corporación Cultural y Social Arte y Vida.</div>
+          <div class="flex gap-6">
+            <a href="/privacidad" class="transition-colors hover:text-brand-white">Privacidad</a>
+            <a href="/terminos" class="transition-colors hover:text-brand-white">Términos</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
+
+<style is:global>
+  .animate-fade-in {
+    animation: fadeIn 1.5s ease-out forwards;
+  }
+
+  .animate-reveal-up {
+    animation: revealUp 1s ease-out forwards;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes revealUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+</style>

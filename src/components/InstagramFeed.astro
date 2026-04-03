@@ -1,0 +1,178 @@
+---
+type PostItem = {
+  id: string;
+  permalink: string;
+  timestamp: string;
+  caption: string;
+  mediaType: string;
+  cover: string;
+};
+
+const feed = {
+  username: 'corparteyvida',
+  biography:
+    '📌Creemos que la gestión cultural es el marco en el que se asienta el desarrollo de las comunidades.\nTickets eventos e inscripción a talleres ⬇️',
+  profilePictureUrl:
+    'https://cdn2.behold.pictures/6CJI9ZwlwXWfIMGd2pPh7MvdAxk2/17841407353889211/profile.webp',
+  website: 'http://www.facebook.com/corparteyvida',
+  followersCount: 3411,
+  followsCount: 323,
+  posts: [
+    {
+      id: '18389074348152754',
+      timestamp: '2026-03-31T15:02:53+0000',
+      permalink: 'https://www.instagram.com/p/DWjZpZIiCDt/',
+      mediaType: 'CAROUSEL_ALBUM',
+      caption:
+        '🧘‍♀️🌿 Taller de Yoga | FormArte 2026\n\nTe invitamos a participar de este espacio de bienestar y conexión guiado por Veruchka Concha.\n\n📍 Lugar: Centro Cultural COS, ubicado en José Matus 762\n🕖 Horario: Martes 19:00 hrs.\n👥 Público: Mayores de 18 años\n\nInscríbete a través del link en nuestra bio o busca el formulario en nuestras historias destacadas 💜',
+      cover:
+        'https://behold.pictures/6CJI9ZwlwXWfIMGd2pPh7MvdAxk2/4gCtfgh1AA9Oqq4SFGb5/18389074348152754/medium.jpg'
+    },
+    {
+      id: '18092758589143595',
+      timestamp: '2026-03-31T15:02:42+0000',
+      permalink: 'https://www.instagram.com/p/DWjZoBIiOq_/',
+      mediaType: 'CAROUSEL_ALBUM',
+      caption:
+        '💃🔥 Taller de Danzas latinas | FormArte 2026\n\nTe invitamos a moverte, aprender y disfrutar este espacio junto a Felipe González.\n\n📍 Lugar: Casa Taller Arte y Vida, ubicada en Pedro León Gallo 547\n🕖 Horario: Jueves 19:00 hrs.\n👥 Público: Mayores de 18 años\n\nInscríbete a través del link en nuestra bio o busca el formulario en nuestras historias destacadas 💜',
+      cover:
+        'https://behold.pictures/6CJI9ZwlwXWfIMGd2pPh7MvdAxk2/4gCtfgh1AA9Oqq4SFGb5/18092758589143595/medium.jpg'
+    },
+    {
+      id: '18104860603730361',
+      timestamp: '2026-03-31T15:02:33+0000',
+      permalink: 'https://www.instagram.com/p/DWjZm2viW1B/',
+      mediaType: 'CAROUSEL_ALBUM',
+      caption:
+        '🧶✨ Taller de Telar de bastidor | FormArte 2026\n\nTe invitamos a ser parte de este espacio formativo junto a Constanza von Shwedler.\n\n📍 Lugar: Casa Taller Arte y Vida, ubicada en Pedro León Gallo 547\n🕡 Horario: Lunes 18:30 hrs.\n👥 Público: Mayores de 18 años\n\nInscríbete a través del link en nuestra bio o busca el formulario en nuestras historias destacadas 💜',
+      cover:
+        'https://behold.pictures/6CJI9ZwlwXWfIMGd2pPh7MvdAxk2/4gCtfgh1AA9Oqq4SFGb5/18104860603730361/medium.jpg'
+    },
+    {
+      id: '18309931123285996',
+      timestamp: '2026-03-31T15:01:26+0000',
+      permalink: 'https://www.instagram.com/p/DWjZexkEf0J/',
+      mediaType: 'CAROUSEL_ALBUM',
+      caption:
+        '🎶🧒 Taller de Música infantil | FormArte 2026\n\nInvitamos a niños y niñas a ser parte de este espacio musical guiado por Carolina Figueroa.\n\n📍 Lugar: Casa Taller Arte y Vida, ubicada en Pedro León Gallo 547\n🕒 Horario: Viernes 15:00 hrs.\n👥 Público: Niños y niñas de 5 a 8 años\n\nInscríbete a través del link en nuestra bio o busca el formulario en nuestras historias destacadas 💜',
+      cover:
+        'https://behold.pictures/6CJI9ZwlwXWfIMGd2pPh7MvdAxk2/4gCtfgh1AA9Oqq4SFGb5/18309931123285996/medium.jpg'
+    },
+    {
+      id: '18098963651067063',
+      timestamp: '2026-03-31T15:01:23+0000',
+      permalink: 'https://www.instagram.com/p/DWjZeZ0Db2c/',
+      mediaType: 'CAROUSEL_ALBUM',
+      caption:
+        '🎬🍿 Taller de Cine | FormArte 2026\n\nTe invitamos a sumarte a este espacio de apreciación y creación audiovisual junto a Camilo Vásquez.\n\n📍 Lugar: Casa Taller Arte y Vida, ubicada en Pedro León Gallo 547\n🕕 Horario: Sábados 18:00 hrs.\n👥 Público: Mayores de 15 años\n\nInscríbete a través del link en nuestra bio o busca el formulario en nuestras historias destacadas 💜',
+      cover:
+        'https://behold.pictures/6CJI9ZwlwXWfIMGd2pPh7MvdAxk2/4gCtfgh1AA9Oqq4SFGb5/18098963651067063/medium.jpg'
+    },
+    {
+      id: '18261836056293477',
+      timestamp: '2026-03-31T15:01:22+0000',
+      permalink: 'https://www.instagram.com/p/DWjZePHiHfP/',
+      mediaType: 'CAROUSEL_ALBUM',
+      caption:
+        '🎭✨ Taller de Teatro para adultos | FormArte 2026\n\nAbrimos este espacio de expresión, encuentro y creación junto a Natalia Valenzuela.\n\n📍 Lugar: Casa Taller Arte y Vida, ubicada en Pedro León Gallo 547\n🕖 Horario: Miércoles 19:00 hrs.\n👥 Público: Mayores de 18 años\n\nInscríbete a través del link en nuestra bio o busca el formulario en nuestras historias destacadas 💜',
+      cover:
+        'https://behold.pictures/6CJI9ZwlwXWfIMGd2pPh7MvdAxk2/4gCtfgh1AA9Oqq4SFGb5/18261836056293477/medium.jpg'
+    }
+  ]
+};
+const facebookFollowersCount: number | null = 3900;
+
+const formatDate = (isoString: string) => {
+  const date = new Date(isoString);
+  if (Number.isNaN(date.valueOf())) return 'Instagram';
+  return date.toLocaleDateString('es-CL', { day: '2-digit', month: 'short', year: 'numeric' });
+};
+
+const displayPosts: PostItem[] = feed.posts.slice(0, 6);
+---
+
+<section class="bg-brand-white/5 text-brand-white reveal-section" id="instagram">
+  <div class="max-w-[1280px] xl:max-w-[1440px] mx-auto px-6 sm:px-10 py-20 lg:py-28 grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
+    <div class="lg:col-span-4 space-y-5">
+      <p class="text-xs font-black uppercase tracking-[0.3em] text-brand-secondary">Instagram</p>
+      <div class="flex items-start gap-4">
+        <img src={feed.profilePictureUrl} alt={`Avatar de ${feed.username}`} loading="lazy" class="h-14 w-14 rounded-2xl border border-brand-white/15 shadow-[0_15px_40px_rgba(0,0,0,0.35)] object-cover" />
+        <div class="space-y-1.5">
+          <div class="flex items-center gap-2">
+            <h3 class="text-2xl font-black leading-tight">@{feed.username}</h3>
+            <span class="inline-flex items-center gap-1 rounded-full bg-brand-accent text-brand-bg text-[11px] font-black uppercase tracking-[0.2em] px-2.5 py-1 shadow-[0_10px_30px_rgba(254,209,0,0.35)]">Online</span>
+          </div>
+          <p class="text-brand-white/70 text-sm leading-relaxed whitespace-pre-line">{feed.biography}</p>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-3 gap-3">
+        <div class="rounded-2xl border border-brand-white/10 bg-brand-bg/70 px-4 py-3">
+          <div class="text-xl font-black">{feed.followersCount.toLocaleString('es-CL')}</div>
+          <div class="text-[11px] uppercase tracking-[0.2em] text-brand-white/60">Seguidores</div>
+        </div>
+        <div class="rounded-2xl border border-brand-white/10 bg-brand-bg/70 px-4 py-3">
+          <div class="text-xl font-black">{feed.followsCount.toLocaleString('es-CL')}</div>
+          <div class="text-[11px] uppercase tracking-[0.2em] text-brand-white/60">Siguiendo</div>
+        </div>
+        <div class="rounded-2xl border border-brand-white/10 bg-brand-bg/70 px-4 py-3">
+          <div class="text-xl font-black">{facebookFollowersCount !== null ? facebookFollowersCount.toLocaleString('es-CL') : '—'}</div>
+          <div class="text-[11px] uppercase tracking-[0.2em] text-brand-white/60">Seguidores en Facebook</div>
+        </div>
+      </div>
+
+      <div class="flex flex-wrap gap-3 items-center">
+        <a
+          href={`https://www.instagram.com/${feed.username}`}
+          target="_blank"
+          rel="noreferrer"
+          class="inline-flex items-center gap-2 rounded-full bg-brand-accent text-brand-bg px-5 py-2.5 text-xs font-black uppercase tracking-[0.2em] shadow-[0_15px_50px_rgba(254,209,0,0.3)] hover:translate-y-[-1px] transition-transform duration-300"
+        >
+          Ver perfil completo
+          <span class="h-2.5 w-2.5 inline-block rotate-45 border-t border-r border-current"></span>
+        </a>
+
+        <a
+          href={feed.website}
+          target="_blank"
+          rel="noreferrer"
+          class="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-brand-white/80 hover:text-brand-accent"
+        >
+          Visita nuestro Facebook
+          <span class="h-2.5 w-2.5 inline-block rotate-45 border-t border-r border-current"></span>
+        </a>
+      </div>
+    </div>
+
+    <div class="lg:col-span-8 grid grid-cols-1 md:grid-cols-3 gap-6">
+      {displayPosts.map((post, index) => (
+        <a
+          href={post.permalink}
+          target="_blank"
+          rel="noreferrer"
+          class="reveal-card group relative overflow-hidden rounded-3xl border border-brand-white/10 bg-brand-bg/70 shadow-[0_20px_70px_rgba(0,0,0,0.3)] transition-all duration-300 hover:border-brand-accent/60 hover:-translate-y-1"
+          style={`animation-delay: ${index * 120}ms;`}
+        >
+          <div class="relative h-52 w-full">
+            <img src={post.cover} alt={`Publicación de ${feed.username}`} loading="lazy" class="h-full w-full object-cover" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/25 to-transparent"></div>
+            <div class="absolute top-3 left-3 inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.2em] text-brand-white backdrop-blur-sm border border-white/20">
+              <span class="h-2 w-2 rounded-full bg-brand-accent"></span>
+              {post.mediaType === 'CAROUSEL_ALBUM' ? 'Carrusel' : 'Post'}
+            </div>
+          </div>
+
+          <div class="px-5 py-4 flex flex-col gap-3">
+            <div class="flex items-center justify-between text-[11px] uppercase tracking-[0.18em] text-brand-white/60">
+              <span>{formatDate(post.timestamp)}</span>
+              <span class="inline-flex items-center gap-1 text-brand-accent font-semibold">
+                Instagram
+              </span>
+            </div>
+            <p class="text-sm leading-relaxed text-brand-white/80 line-clamp-3">{post.caption}</p>
+          </div>
+        </a>
+      ))}
+    </div>
+  </div>
+</section>

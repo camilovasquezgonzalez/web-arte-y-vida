@@ -1,0 +1,133 @@
+---
+interface Props {
+  videoSrc: string;
+  poster?: string;
+  title: string;
+  kicker?: string;
+  scrollLabel?: string;
+  scrollTarget?: string;
+}
+
+const {
+  videoSrc,
+  poster,
+  title,
+  kicker,
+  scrollLabel = 'Explorar',
+  scrollTarget
+} = Astro.props as Props;
+---
+
+<section class="relative h-screen w-full overflow-hidden flex items-center justify-center text-white">
+  <video
+    autoplay
+    muted
+    loop
+    playsinline
+    preload="metadata"
+    poster={poster}
+    data-hero-video
+    class="absolute inset-0 w-full h-full object-cover z-0"
+  >
+    <source src={videoSrc} type="video/mp4" />
+    Tu navegador no soporta videos.
+  </video>
+
+  <div class="absolute inset-0 bg-black/35 backdrop-blur-[1.2px] z-10 pointer-events-none"></div>
+
+  <div class="relative z-20 w-full h-full px-6 sm:px-10 md:px-14 lg:px-20 xl:px-24 flex items-center">
+    <div class="max-w-5xl text-left space-y-6 animate-fade-in md:ml-36 lg:ml-52 xl:ml-64">
+      {kicker && (
+        <span class="block text-sm md:text-base font-semibold tracking-[0.24em] uppercase text-[#D4AF37] opacity-90">
+          {kicker}
+        </span>
+      )}
+      <h1 class="text-5xl md:text-7xl lg:text-8xl font-black uppercase leading-[0.92] tracking-tight drop-shadow-[0_10px_30px_rgba(0,0,0,0.35)]">
+        {title}
+      </h1>
+
+      {scrollLabel && (
+        <button
+          id="hero-scroll-btn"
+          data-target={scrollTarget}
+          class="group inline-flex items-center gap-3 text-sm font-semibold tracking-[0.18em] uppercase text-brand-white/80 transition-all duration-300 hover:text-[#D4AF37]"
+        >
+          <span>{scrollLabel}</span>
+          <span class="flex h-10 w-10 items-center justify-center rounded-full border border-white/30 group-hover:border-[#D4AF37]">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M7 13l5 5 5-5M7 6l5 5 5-5" />
+            </svg>
+          </span>
+        </button>
+      )}
+    </div>
+  </div>
+</section>
+
+<style>
+  .animate-fade-in {
+    animation: fadeIn 1.5s ease-out forwards;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+</style>
+
+<script>
+  const initHeroVideo = () => {
+    const scrollBtn = document.getElementById('hero-scroll-btn');
+
+    if (scrollBtn && scrollBtn.dataset.bound !== 'true') {
+      scrollBtn.dataset.bound = 'true';
+      scrollBtn.addEventListener('click', () => {
+        const targetId = scrollBtn.getAttribute('data-target');
+        if (targetId) {
+          const targetElement = document.getElementById(targetId);
+          targetElement?.scrollIntoView({ behavior: 'smooth' });
+        } else {
+          window.scrollBy({ top: window.innerHeight, behavior: 'smooth' });
+        }
+      });
+    }
+
+    document.querySelectorAll('video[data-hero-video]').forEach((heroVideo) => {
+      if (!(heroVideo instanceof HTMLVideoElement) || heroVideo.dataset.bound === 'true') return;
+
+      heroVideo.dataset.bound = 'true';
+      heroVideo.muted = true;
+      heroVideo.defaultMuted = true;
+      heroVideo.playsInline = true;
+      heroVideo.autoplay = true;
+
+      const tryPlay = () => {
+        heroVideo.muted = true;
+        heroVideo.defaultMuted = true;
+
+        const playPromise = heroVideo.play();
+        if (playPromise?.catch) {
+          playPromise.catch(() => {});
+        }
+      };
+
+      heroVideo.addEventListener('canplay', tryPlay);
+      heroVideo.addEventListener('loadeddata', tryPlay);
+      heroVideo.addEventListener('loadedmetadata', tryPlay);
+      document.addEventListener('visibilitychange', () => {
+        if (document.visibilityState === 'visible' && heroVideo.paused) tryPlay();
+      });
+
+      if (heroVideo.readyState >= 2) tryPlay();
+      else heroVideo.load();
+    });
+  };
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initHeroVideo, { once: true });
+  } else {
+    initHeroVideo();
+  }
+
+  document.addEventListener('astro:page-load', initHeroVideo);
+</script>

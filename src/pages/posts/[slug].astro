@@ -1,0 +1,93 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import SidebarNav from '../../components/SidebarNav.astro';
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+  const entries = await getCollection('posts');
+  return entries
+    .map((entry) => {
+      const slug = entry.slug ?? entry.id?.split('/').pop()?.replace(/\.(md|mdx)$/i, '') ?? '';
+      return { params: { slug } };
+    })
+    .filter((item) => typeof item.params.slug === 'string' && item.params.slug.length > 0);
+}
+
+const { slug } = Astro.params;
+const entry = (await getCollection('posts')).find((item) => {
+  const itemSlug = item.slug ?? item.id?.split('/').pop()?.replace(/\.(md|mdx)$/i, '') ?? '';
+  return itemSlug === slug;
+});
+
+if (!entry) {
+  return Astro.redirect('/noticias');
+}
+
+let Content;
+
+const rawCategories = Array.isArray(entry.data.categories) ? entry.data.categories : [];
+const displayCategories = rawCategories.filter((cat) => cat && cat.toLowerCase() !== 'sin-categoria');
+const categoriesToShow = displayCategories.length ? displayCategories : ['agenda-cultural'];
+
+if (typeof entry.render === 'function') {
+  const rendered = await entry.render();
+  Content = rendered.Content;
+} else {
+  const modules = import.meta.glob('../../content/posts/**/*.md');
+  const match = Object.keys(modules).find((path) => path.endsWith(`${slug}.md`));
+  if (!match) {
+    return Astro.redirect('/noticias');
+  }
+  const mod = await modules[match]();
+  Content = mod.Content;
+}
+---
+
+<Layout title={entry.data.title}>
+  <SidebarNav />
+
+  <article class="bg-brand-bg text-brand-white min-h-screen">
+    <header class="max-w-[1200px] mx-auto px-6 sm:px-10 pt-16 pb-10 lg:pt-20 lg:pb-12 space-y-4">
+      <p class="text-xs font-black uppercase tracking-[0.3em] text-brand-accent">Noticia</p>
+      <h1 class="text-4xl md:text-5xl font-black leading-tight">{entry.data.title}</h1>
+      <div class="flex items-center gap-3 text-sm text-brand-white/65">
+        <span>{new Date(entry.data.date).toLocaleDateString('es-CL', { day: '2-digit', month: 'long', year: 'numeric' })}</span>
+        {categoriesToShow.length > 0 && (
+          <span class="inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.18em]">
+            {categoriesToShow.map((cat) => (
+              <span class="px-2 py-1 rounded-full border border-brand-white/10 bg-brand-white/5 text-brand-white/70">{cat}</span>
+            ))}
+          </span>
+        )}
+      </div>
+      {entry.data.coverImage && (
+        <div class="rounded-3xl overflow-hidden border border-brand-white/10 shadow-[0_20px_70px_rgba(0,0,0,0.32)]">
+          <img src={entry.data.coverImage} alt={entry.data.title} class="w-full h-auto" loading="lazy" />
+        </div>
+      )}
+    </header>
+
+    <div class="max-w-[900px] mx-auto px-6 sm:px-10 pb-16 prose prose-invert prose-img:rounded-2xl prose-a:text-brand-accent prose-strong:text-brand-white post-body">
+      <Content />
+    </div>
+
+    <div class="max-w-[900px] mx-auto px-6 sm:px-10 pb-16">
+      <a
+        href="/noticias"
+        class="inline-flex items-center gap-2 text-sm font-semibold tracking-[0.14em] uppercase text-brand-white/80 hover:text-brand-accent"
+      >
+        Volver a noticias
+        <span class="h-2.5 w-2.5 inline-block rotate-45 border-t border-r border-current"></span>
+      </a>
+    </div>
+  </article>
+</Layout>
+
+<style>
+  .post-body h1:first-of-type { display: none; }
+  .post-body img:first-of-type { display: none; }
+  .post-body p { margin: 1.25rem 0; line-height: 1.75; }
+  .post-body img { margin: 1.5rem 0; }
+  .post-body h2, .post-body h3, .post-body h4 { margin-top: 1.75rem; margin-bottom: 0.75rem; }
+  .post-body ul, .post-body ol { margin: 1.25rem 0 1.25rem 1.5rem; }
+</style>

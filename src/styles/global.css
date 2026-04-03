@@ -1,0 +1,229 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: 'Poppins', 'Inter', ui-sans-serif, system-ui, sans-serif;
+  --font-display: 'Poppins', 'Inter', ui-sans-serif, system-ui, sans-serif;
+
+  /* Paleta corporativa Arte y Vida */
+  --color-brand-bg: #050505;
+  --color-brand-primary: #C53095; /* Magenta acento */
+  --color-brand-secondary: #31CCE7; /* Cian acento */
+  --color-brand-accent: #FED100; /* Amarillo principal */
+  --color-brand-white: #F0F0F0; /* Blanco tipográfico */
+  --color-brand-gray: #5F5C5B; /* Gris de apoyo */
+}
+
+@layer base {
+  body {
+    @apply font-sans antialiased bg-brand-bg text-brand-white selection:bg-brand-accent selection:text-brand-bg;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-display font-bold tracking-tight text-brand-white;
+  }
+}
+
+@layer utilities {
+  .section-padding {
+    @apply py-32 lg:py-52;
+  }
+
+  .card-premium {
+    @apply bg-brand-white/5 border border-brand-white/10 rounded-[40px] transition-all duration-500 overflow-hidden;
+  }
+
+  /* Micro-animaciones opcionales */
+  .fade-up,
+  .fade-up-delay,
+  .fade-up-delay-2,
+  .fade-left,
+  .fade-scale {
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+
+  /* Subrayado sutil en enlaces */
+  .link-underline {
+    position: relative;
+  }
+  .link-underline::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -4px;
+    width: 100%;
+    height: 1px;
+    background: currentColor;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s ease;
+    opacity: 0.5;
+  }
+  .link-underline:hover::after {
+    transform: scaleX(1);
+    opacity: 1;
+  }
+
+  /* Marquee */
+  .marquee {
+    overflow: hidden;
+    white-space: nowrap;
+    position: relative;
+  }
+  .marquee-track {
+    display: inline-flex;
+    align-items: center;
+    gap: 2.5rem;
+    animation: marquee 18s linear infinite;
+  }
+  .marquee-track.reverse {
+    animation-direction: reverse;
+  }
+  @keyframes marquee {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+
+  .mission-highlight {
+    background:
+      radial-gradient(circle at top left, rgba(254, 209, 0, 0.12), transparent 24%),
+      radial-gradient(circle at right center, rgba(49, 204, 231, 0.1), transparent 24%),
+      linear-gradient(180deg, #050505 0%, #0c0c0c 100%);
+  }
+
+  .mission-highlight__frame {
+    background:
+      radial-gradient(circle at top left, rgba(254, 209, 0, 0.08), transparent 28%),
+      radial-gradient(circle at right center, rgba(49, 204, 231, 0.08), transparent 24%),
+      linear-gradient(180deg, rgba(8, 8, 8, 0.96) 0%, rgba(12, 12, 12, 0.98) 100%);
+    backdrop-filter: blur(12px);
+  }
+
+  .mission-highlight__title {
+    max-width: 1120px;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 0.08em 0.22em;
+    font-size: clamp(2.8rem, 7.8vw, 5.8rem);
+    line-height: 1.02;
+    letter-spacing: -0.055em;
+    text-align: center;
+  }
+
+  .mission-highlight__unit {
+    display: inline-flex;
+    align-items: center;
+    white-space: nowrap;
+    color: rgba(240, 240, 240, 0.2);
+    opacity: 0.55;
+    transform: translateY(0) scale(1);
+    transition:
+      color 240ms ease,
+      opacity 240ms ease,
+      transform 240ms ease,
+      text-shadow 240ms ease;
+  }
+
+  .mission-highlight__unit--white {
+    --mission-active-color: rgba(240, 240, 240, 0.98);
+  }
+
+  .mission-highlight__unit--cyan {
+    --mission-active-color: #31CCE7;
+  }
+
+  .mission-highlight__unit--magenta {
+    --mission-active-color: #C53095;
+  }
+
+  .mission-highlight__unit.is-active {
+    color: var(--mission-active-color, rgba(240, 240, 240, 0.88));
+    opacity: 1;
+    text-shadow: 0 0 28px rgba(255, 255, 255, 0.06);
+  }
+
+  .mission-highlight__chip {
+    position: relative;
+    display: inline-flex;
+    height: 0.92em;
+    width: 1.82em;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    border: 1px solid rgba(240, 240, 240, 0.1);
+    border-radius: 999px;
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.28);
+    opacity: 0.34;
+    transform: scale(0.9);
+    filter: saturate(0.8) brightness(0.85);
+    transition:
+      opacity 260ms ease,
+      transform 260ms ease,
+      filter 260ms ease,
+      box-shadow 260ms ease;
+  }
+
+  .mission-highlight__chip::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    mix-blend-mode: multiply;
+  }
+
+  .mission-highlight__chip img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    transform: scale(1.08);
+  }
+
+  .mission-highlight__chip--gold::after {
+    background: linear-gradient(135deg, rgba(254, 209, 0, 0.26), rgba(254, 209, 0, 0.04));
+  }
+
+  .mission-highlight__chip--magenta::after {
+    background: linear-gradient(135deg, rgba(197, 48, 149, 0.24), rgba(49, 204, 231, 0.08));
+  }
+
+  .mission-highlight__chip.is-active {
+    opacity: 1;
+    transform: scale(1);
+    filter: saturate(1) brightness(1);
+    box-shadow: 0 22px 54px rgba(0, 0, 0, 0.36);
+  }
+
+  .mission-highlight__frame > p {
+    color: rgba(240, 240, 240, 0.5);
+  }
+
+  @media (max-width: 768px) {
+    .mission-highlight__title {
+      max-width: 18rem;
+      gap: 0.08em 0.18em;
+      font-size: clamp(2.7rem, 10vw, 4rem);
+      line-height: 1.04;
+    }
+
+    .mission-highlight__chip {
+      width: 1.62em;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .mission-highlight__unit,
+    .mission-highlight__chip {
+      opacity: 1;
+      transform: none;
+      filter: none;
+    }
+  }
+}

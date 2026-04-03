@@ -1,0 +1,30 @@
+---
+import SidebarNav from '../components/SidebarNav.astro';
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Términos">
+  <SidebarNav />
+
+  <section class="min-h-screen bg-brand-bg pb-20 pt-20 text-brand-white lg:pt-24">
+    <div class="mx-auto max-w-[960px] space-y-6 px-6 sm:px-10">
+      <p class="text-xs font-black uppercase tracking-[0.3em] text-brand-secondary">Términos</p>
+      <h1 class="text-4xl font-black leading-tight md:text-5xl">Condiciones generales de uso.</h1>
+      <p class="leading-relaxed text-brand-white/75">
+        Este sitio tiene fines informativos e institucionales. Sus contenidos, imágenes y enlaces buscan difundir la
+        actividad cultural y social de la Corporación Cultural y Social Arte y Vida.
+      </p>
+      <p class="leading-relaxed text-brand-white/75">
+        Algunos accesos llevan a servicios de terceros para inscripciones, pagos, formularios o visualización de
+        documentos. El uso de esos servicios depende de sus propias condiciones y disponibilidad.
+      </p>
+      <p class="leading-relaxed text-brand-white/75">
+        Si detectas enlaces caídos, información desactualizada o necesitas una versión oficial de algún documento,
+        puedes escribir a
+        <a href="mailto:arteyvidacorporacion@gmail.com" class="text-brand-accent hover:text-brand-white">
+          arteyvidacorporacion@gmail.com
+        </a>.
+      </p>
+    </div>
+  </section>
+</Layout>

@@ -1,0 +1,31 @@
+---
+import SidebarNav from '../components/SidebarNav.astro';
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Privacidad">
+  <SidebarNav />
+
+  <section class="min-h-screen bg-brand-bg pb-20 pt-20 text-brand-white lg:pt-24">
+    <div class="mx-auto max-w-[960px] space-y-6 px-6 sm:px-10">
+      <p class="text-xs font-black uppercase tracking-[0.3em] text-brand-secondary">Privacidad</p>
+      <h1 class="text-4xl font-black leading-tight md:text-5xl">Política de privacidad del sitio.</h1>
+      <p class="leading-relaxed text-brand-white/75">
+        Este sitio presenta información institucional y enlaces externos a plataformas como Google Forms, Google Drive,
+        TCULTURA, Mercado Pago, Instagram, YouTube y WhatsApp. Cada uno de esos servicios aplica sus propias políticas
+        de privacidad cuando decides usarlos.
+      </p>
+      <p class="leading-relaxed text-brand-white/75">
+        Arte y Vida no solicita registro obligatorio dentro de este sitio. Si nos escribes por correo, WhatsApp o
+        formularios externos, los datos entregados se usan exclusivamente para responder tu solicitud, coordinar
+        actividades o gestionar inscripciones relacionadas con la corporación.
+      </p>
+      <p class="leading-relaxed text-brand-white/75">
+        Para consultas sobre tratamiento de datos o actualización de información, escribe a
+        <a href="mailto:arteyvidacorporacion@gmail.com" class="text-brand-accent hover:text-brand-white">
+          arteyvidacorporacion@gmail.com
+        </a>.
+      </p>
+    </div>
+  </section>
+</Layout>

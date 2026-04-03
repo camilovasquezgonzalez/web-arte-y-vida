@@ -1,0 +1,138 @@
+---
+import SidebarNav from '../components/SidebarNav.astro';
+import Layout from '../layouts/Layout.astro';
+
+const plans = [
+  {
+    name: '$5.000',
+    subtitle: 'Materiales esenciales',
+    descr: 'Ayuda a financiar materiales para talleres gratuitos y actividades abiertas a la comunidad.',
+    link: 'https://www.mercadopago.cl/subscriptions/checkout?preapproval_plan_id=d3db0537b24747c5a21ebc5727585ef8',
+    image: '/seed.webp',
+  },
+  {
+    name: '$10.000',
+    subtitle: 'Raíz comunitaria',
+    descr: 'Aporta a la movilidad y a la llegada de nuevos talleres a barrios y sectores rurales.',
+    link: 'https://www.mercadopago.cl/subscriptions/checkout?preapproval_plan_id=17ab800c03bf4573ae691f9e54de4600',
+    image: '/raiz.webp',
+  },
+  {
+    name: '$20.000',
+    subtitle: 'Rama creativa',
+    descr: 'Contribuye a exposiciones, conciertos y encuentros culturales en distintos territorios.',
+    link: 'https://www.mercadopago.cl/subscriptions/checkout?preapproval_plan_id=871f0b5f754c41ccab641d7b9f2941fc',
+    image: '/2-1.webp',
+  },
+  {
+    name: '$30.000',
+    subtitle: 'Árbol vivo',
+    descr: 'Fortalece la continuidad anual de la programación y el trabajo comunitario de Arte y Vida.',
+    link: 'https://www.mercadopago.cl/subscriptions/checkout?preapproval_plan_id=5df64d2a7be94d048ef0f6148e8d806b',
+    image: '/arbol.webp',
+  },
+];
+
+const impactItems = [
+  {
+    title: 'Programación cultural',
+    description: 'Funciones y actividades abiertas en teatros, barrios, escuelas y espacios comunitarios.',
+  },
+  {
+    title: 'Formación artística',
+    description: 'Talleres gratuitos para infancias, juventudes y personas adultas.',
+  },
+  {
+    title: 'Territorio y memoria',
+    description: 'Registros audiovisuales, publicaciones y acciones de memoria comunitaria.',
+  },
+  {
+    title: 'Acceso y circulación',
+    description: 'Apoyo para mover equipos, materiales y públicos hacia actividades gratuitas.',
+  },
+];
+---
+
+<Layout title="Amig@s de Arte y Vida">
+  <SidebarNav />
+
+  <section class="bg-brand-bg pb-14 pt-20 text-brand-white lg:pb-16 lg:pt-24">
+    <div class="mx-auto grid max-w-[1280px] grid-cols-1 items-start gap-10 px-6 sm:px-10 lg:grid-cols-12 lg:gap-14 xl:max-w-[1440px]">
+      <div class="space-y-5 lg:col-span-7">
+        <p class="text-xs font-black uppercase tracking-[0.3em] text-brand-secondary">Programa</p>
+        <h1 class="text-4xl font-black leading-tight md:text-5xl">Amig@s de Arte y Vida</h1>
+        <p class="max-w-3xl text-base leading-relaxed text-brand-white/70 md:text-lg">
+          Una forma concreta de sostener la programación cultural, los procesos formativos y el trabajo territorial que
+          impulsa Arte y Vida durante el año.
+        </p>
+      </div>
+
+      <div class="space-y-4 rounded-3xl border border-brand-white/10 bg-brand-white/5 p-6 shadow-[0_22px_80px_rgba(0,0,0,0.32)] lg:col-span-5">
+        <h2 class="text-xl font-bold">Aportes mensuales</h2>
+        <p class="text-sm leading-relaxed text-brand-white/75">
+          Elige el plan que mejor se ajuste a ti y suscríbete en línea. Cada aporte ayuda a sostener actividades,
+          talleres y procesos culturales en el territorio.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section id="planes" class="scroll-mt-24 bg-brand-white/5 py-16 text-brand-white lg:py-20">
+    <div class="mx-auto max-w-[1280px] space-y-8 px-6 sm:px-10 xl:max-w-[1440px]">
+      <div class="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+        <div>
+          <p class="text-xs font-black uppercase tracking-[0.3em] text-brand-accent">Planes mensuales</p>
+          <h2 class="text-3xl font-black leading-tight md:text-4xl">Elige cómo quieres apoyar.</h2>
+        </div>
+        <p class="max-w-xl text-sm text-brand-white/65">
+          Cada plan fortalece una misma red de trabajo cultural y comunitario, con distintos niveles de apoyo para
+          sostener acciones durante todo el año.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-4">
+        {plans.map((plan, index) => (
+          <a
+            href={plan.link}
+            target="_blank"
+            rel="noreferrer"
+            class="reveal-card group overflow-hidden rounded-[32px] border border-brand-white/10 bg-brand-bg/80 shadow-[0_20px_70px_rgba(0,0,0,0.3)] transition-all duration-300 hover:-translate-y-1 hover:border-brand-accent/60"
+            style={`animation-delay: ${index * 90}ms;`}
+          >
+            <div class="h-40 bg-cover bg-center" style={`background-image: linear-gradient(180deg,rgba(0,0,0,0.22),rgba(0,0,0,0.58)), url('${plan.image}')`}></div>
+            <div class="space-y-3 px-5 py-5">
+              <div class="text-2xl font-black">{plan.name}</div>
+              <div class="text-xs uppercase tracking-[0.22em] text-brand-accent">{plan.subtitle}</div>
+              <p class="text-sm leading-relaxed text-brand-white/72">{plan.descr}</p>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section id="impacto" class="scroll-mt-24 bg-brand-bg py-16 text-brand-white lg:py-20">
+    <div class="mx-auto grid max-w-[1280px] grid-cols-1 items-start gap-12 px-6 sm:px-10 lg:grid-cols-12 lg:gap-16 xl:max-w-[1440px]">
+      <div class="space-y-4 lg:col-span-5">
+        <p class="text-xs font-black uppercase tracking-[0.3em] text-brand-secondary">Impacto de tu aporte</p>
+        <h2 class="text-3xl font-black leading-tight">Lo que hacemos gracias a esta comunidad.</h2>
+        <p class="max-w-xl text-sm leading-relaxed text-brand-white/70">
+          Los aportes mensuales ayudan a fortalecer la programación artística, los procesos formativos, la memoria
+          comunitaria y la continuidad de proyectos territoriales.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:col-span-7">
+        {impactItems.map((item, index) => (
+          <div
+            class="reveal-card rounded-3xl border border-brand-white/10 bg-brand-white/5 px-5 py-6 shadow-[0_20px_70px_rgba(0,0,0,0.32)] backdrop-blur-xl"
+            style={`animation-delay: ${index * 100}ms;`}
+          >
+            <h3 class="mb-2 text-lg font-bold">{item.title}</h3>
+            <p class="text-sm leading-relaxed text-brand-white/75">{item.description}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+</Layout>

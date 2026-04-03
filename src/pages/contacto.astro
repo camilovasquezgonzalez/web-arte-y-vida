@@ -1,0 +1,93 @@
+---
+import SidebarNav from '../components/SidebarNav.astro';
+import { getArchiveProjectByKey } from '../lib/projectArchive';
+import Layout from '../layouts/Layout.astro';
+
+const casaAbiertaArchive = getArchiveProjectByKey('Casa Abierta 2024');
+
+const contactCards = [
+  {
+    title: 'Dirección',
+    value: 'Pedro León Gallo 547, Coelemu, Región de Ñuble, Chile.',
+    href: 'https://www.google.com/maps/search/?api=1&query=Pedro+Leon+Gallo+547,+Coelemu,+Chile',
+    action: 'Abrir en mapas',
+  },
+  {
+    title: 'WhatsApp',
+    value: '+56 9 4689 5128',
+    href: 'https://wa.me/56946895128',
+    action: 'Escribir por WhatsApp',
+  },
+  {
+    title: 'Correo',
+    value: 'arteyvidacorporacion@gmail.com',
+    href: 'mailto:arteyvidacorporacion@gmail.com',
+    action: 'Enviar correo',
+  },
+];
+---
+
+<Layout title="Contacto">
+  <SidebarNav />
+
+  <section class="bg-brand-bg pb-14 pt-20 text-brand-white lg:pb-16 lg:pt-24">
+    <div class="mx-auto grid max-w-[1280px] grid-cols-1 items-start gap-10 px-6 sm:px-10 lg:grid-cols-12 lg:gap-14 xl:max-w-[1440px]">
+      <div class="space-y-5 lg:col-span-7">
+        <p class="text-xs font-black uppercase tracking-[0.3em] text-brand-secondary">Contacto</p>
+        <h1 class="text-4xl font-black leading-tight md:text-5xl">
+          Conversemos sobre actividades, alianzas y trabajo cultural en el territorio.
+        </h1>
+        <p class="max-w-3xl text-base leading-relaxed text-brand-white/70 md:text-lg">
+          Si quieres coordinar una actividad, conocer más sobre la corporación o proponer una colaboración, puedes
+          escribirnos directamente. Estaremos felices de responder.
+        </p>
+      </div>
+
+      <div class="overflow-hidden rounded-3xl border border-brand-white/10 shadow-[0_22px_80px_rgba(0,0,0,0.32)] lg:col-span-5">
+        <img
+          src={casaAbiertaArchive?.coverImage ?? '/Casa-Abierta-scaled.webp'}
+          alt="Espacio de encuentro de Arte y Vida"
+          class="h-full min-h-[280px] w-full object-cover"
+          loading="lazy"
+        />
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-brand-white/5 py-16 text-brand-white lg:py-20">
+    <div class="mx-auto grid max-w-[1280px] grid-cols-1 gap-6 px-6 sm:px-10 md:grid-cols-3 xl:max-w-[1440px]">
+      {contactCards.map((card) => (
+        <article class="space-y-4 rounded-3xl border border-brand-white/10 bg-brand-bg/70 p-6 shadow-[0_20px_70px_rgba(0,0,0,0.28)]">
+          <div class="text-xs font-black uppercase tracking-[0.24em] text-brand-accent">{card.title}</div>
+          <p class="text-lg font-bold leading-tight">{card.value}</p>
+          <a
+            href={card.href}
+            target="_blank"
+            rel="noreferrer"
+            class="inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.14em] text-brand-white/80 hover:text-brand-accent"
+          >
+            {card.action}
+            <span class="inline-block h-2.5 w-2.5 rotate-45 border-r border-t border-current"></span>
+          </a>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="bg-brand-bg pb-20 text-brand-white">
+    <div class="mx-auto grid max-w-[1280px] grid-cols-1 items-start gap-10 px-6 sm:px-10 lg:grid-cols-12 lg:gap-14 xl:max-w-[1440px]">
+      <div class="space-y-4 lg:col-span-7">
+        <p class="text-xs font-black uppercase tracking-[0.3em] text-brand-secondary">Redes</p>
+        <h2 class="text-3xl font-black leading-tight">También puedes seguir el trabajo diario de la corporación.</h2>
+        <p class="max-w-2xl text-sm leading-relaxed text-brand-white/70">
+          Convocatorias, actividades y novedades suelen compartirse primero en redes sociales y en nuestro sitio web.
+        </p>
+      </div>
+      <div class="space-y-4 rounded-3xl border border-brand-white/10 bg-brand-white/5 p-6 shadow-[0_22px_80px_rgba(0,0,0,0.32)] lg:col-span-5">
+        <a href="https://www.instagram.com/corparteyvida/" target="_blank" rel="noreferrer" class="block text-sm font-semibold uppercase tracking-[0.14em] text-brand-white/80 hover:text-brand-accent">Instagram</a>
+        <a href="https://www.youtube.com/@corparteyvida" target="_blank" rel="noreferrer" class="block text-sm font-semibold uppercase tracking-[0.14em] text-brand-white/80 hover:text-brand-accent">YouTube</a>
+        <a href="https://www.arteyvida.cl" target="_blank" rel="noreferrer" class="block text-sm font-semibold uppercase tracking-[0.14em] text-brand-white/80 hover:text-brand-accent">Sitio institucional</a>
+      </div>
+    </div>
+  </section>
+</Layout>

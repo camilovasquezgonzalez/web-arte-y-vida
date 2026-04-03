@@ -1,0 +1,59 @@
+---
+import SidebarNav from '../components/SidebarNav.astro';
+import Layout from '../layouts/Layout.astro';
+
+const transparencyLinks = [
+  {
+    title: 'Información institucional de acceso público',
+    description: 'Carpeta con antecedentes institucionales y documentos compartidos públicamente por la corporación.',
+    href: 'https://drive.google.com/drive/folders/1TfIMr7b9lcZtV-oRd4q8liZlJ5ycLvf4?usp=sharing',
+    image: '/Corpo-fondo-blanco-1920x1080-1.webp',
+  },
+  {
+    title: 'Memoria Arte y Vida',
+    description: 'Memoria de gestión con resultados, actividades y datos de impacto publicados por la corporación.',
+    href: '/memoria-anual-2024',
+    image: '/Convenio-Vegas.webp',
+  },
+];
+---
+
+<Layout title="Transparencia">
+  <SidebarNav />
+
+  <section class="bg-brand-bg pb-14 pt-20 text-brand-white lg:pb-16 lg:pt-24">
+    <div class="mx-auto grid max-w-[1280px] grid-cols-1 items-start gap-10 px-6 sm:px-10 lg:grid-cols-12 lg:gap-14 xl:max-w-[1440px]">
+      <div class="space-y-5 lg:col-span-7">
+        <p class="text-xs font-black uppercase tracking-[0.3em] text-brand-secondary">Transparencia</p>
+        <h1 class="text-4xl font-black leading-tight md:text-5xl">Acceso a documentos institucionales y memoria de gestión.</h1>
+        <p class="max-w-3xl text-base leading-relaxed text-brand-white/70 md:text-lg">
+          Esta sección reúne accesos públicos a documentos institucionales, antecedentes generales y memoria anual de
+          la corporación.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-brand-white/5 py-16 text-brand-white lg:py-20">
+    <div class="mx-auto grid max-w-[1280px] grid-cols-1 gap-6 px-6 sm:px-10 md:grid-cols-2 xl:max-w-[1440px]">
+      {transparencyLinks.map((item) => (
+        <article class="overflow-hidden rounded-3xl border border-brand-white/10 bg-brand-bg/70 shadow-[0_20px_70px_rgba(0,0,0,0.28)]">
+          <img src={item.image} alt={item.title} class="h-56 w-full object-cover" loading="lazy" />
+          <div class="space-y-3 px-6 py-6">
+            <h2 class="text-2xl font-bold leading-tight">{item.title}</h2>
+            <p class="text-sm leading-relaxed text-brand-white/75">{item.description}</p>
+            <a
+              href={item.href}
+              target={item.href.startsWith('http') ? '_blank' : undefined}
+              rel={item.href.startsWith('http') ? 'noreferrer' : undefined}
+              class="inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.14em] text-brand-accent hover:text-brand-white"
+            >
+              Acceder
+              <span class="inline-block h-2.5 w-2.5 rotate-45 border-r border-t border-current"></span>
+            </a>
+          </div>
+        </article>
+      ))}
+    </div>
+  </section>
+</Layout>

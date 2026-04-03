@@ -1,0 +1,176 @@
+---
+import type { TculturaAgendaItem } from '../lib/tcultura';
+
+interface Props {
+  items: TculturaAgendaItem[];
+  error?: string | null;
+  updatedAt?: string;
+}
+
+const {
+  items,
+  error = null,
+  updatedAt,
+} = Astro.props;
+
+const truncate = (text: string, max = 165) => {
+  if (!text) return '';
+  if (text.length <= max) return text;
+  return `${text.slice(0, max - 1).trimEnd()}...`;
+};
+
+const updatedLabel = updatedAt
+  ? new Intl.DateTimeFormat('es-CL', {
+      day: '2-digit',
+      month: 'short',
+      year: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+      timeZone: 'America/Santiago',
+    }).format(new Date(updatedAt))
+  : '';
+---
+
+<section class="bg-brand-white/5 text-brand-white reveal-section">
+  <div class="max-w-[1280px] xl:max-w-[1440px] mx-auto px-6 sm:px-10 py-20 lg:py-28 grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-start">
+    <div class="lg:col-span-4 space-y-4">
+      <p class="text-xs font-black uppercase tracking-[0.3em] text-brand-accent">Reactivemos el Teatro</p>
+      <h3 class="text-3xl font-black leading-tight">Próximas funciones y actividades.</h3>
+      <p class="text-brand-white/70 text-sm leading-relaxed max-w-sm">
+        Revisa la cartelera del proyecto Reactivemos el Teatro y encuentra funciones, encuentros y actividades abiertas para la comunidad.
+      </p>
+      <div class="flex flex-wrap items-center gap-3">
+        <a
+          href="https://tcultura.com/eventos/?ciudad=336"
+          target="_blank"
+          rel="noreferrer"
+          class="inline-flex items-center gap-2 rounded-full bg-brand-accent text-brand-bg px-5 py-2.5 text-xs font-black uppercase tracking-[0.2em] shadow-[0_12px_40px_rgba(254,209,0,0.28)] hover:-translate-y-[2px] transition-transform duration-300"
+        >
+          Ver cartelera completa
+        </a>
+        <span class="text-xs uppercase tracking-[0.18em] text-brand-white/60">
+          {items.length > 0 ? `${items.length} actividades destacadas` : 'Cartelera actualizada'}
+        </span>
+      </div>
+
+      {error ? (
+        <div class="rounded-3xl border border-brand-secondary/30 bg-brand-secondary/10 px-5 py-4 text-sm leading-relaxed text-brand-white/85">
+          En este momento la cartelera no se encuentra disponible. Puedes revisar la programación completa en TCULTURA.
+        </div>
+      ) : (
+        <p class="text-sm leading-relaxed text-brand-white/60">
+          Reserva tu entrada o revisa los detalles de cada actividad directamente desde la plataforma oficial.
+        </p>
+      )}
+    </div>
+
+    <div class="lg:col-span-8 w-full">
+      {items.length > 0 ? (
+        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+          {items.map((item, index) => (
+            <article
+              class="reveal-card rounded-3xl border border-brand-white/10 bg-brand-bg/70 backdrop-blur-xl overflow-hidden shadow-[0_20px_70px_rgba(0,0,0,0.32)] flex flex-col"
+              style={`animation-delay: ${index * 110}ms;`}
+            >
+              <div class="relative h-52 border-b border-brand-white/10 bg-brand-white/5 overflow-hidden">
+                {item.image ? (
+                  <img src={item.image} alt={item.title} class="h-full w-full object-cover" loading="lazy" />
+                ) : (
+                  <div class="h-full w-full bg-[radial-gradient(circle_at_top,#FED100_0%,rgba(254,209,0,0.18)_18%,rgba(255,255,255,0.04)_60%,rgba(255,255,255,0.02)_100%)] flex items-end">
+                    <div class="p-5">
+                      <span class="inline-flex items-center rounded-full border border-brand-white/15 bg-brand-white/5 px-3 py-1 text-[11px] font-black uppercase tracking-[0.18em] text-brand-white/70">
+                        Reactivemos el Teatro
+                      </span>
+                    </div>
+                  </div>
+                )}
+
+                <div class="absolute left-4 top-4 flex flex-wrap gap-2">
+                  <span class="inline-flex items-center rounded-full bg-brand-bg/80 backdrop-blur px-3 py-1 text-[11px] font-black uppercase tracking-[0.18em] text-brand-accent border border-brand-white/10">
+                    {item.typeLabel}
+                  </span>
+                  {item.category && (
+                    <span class="inline-flex items-center rounded-full bg-brand-bg/80 backdrop-blur px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-brand-white/80 border border-brand-white/10">
+                      {item.category}
+                    </span>
+                  )}
+                </div>
+
+                {item.status && item.status.toUpperCase() !== 'DISPONIBLE' && (
+                  <span class="absolute right-4 bottom-4 inline-flex items-center rounded-full bg-brand-secondary text-brand-bg px-3 py-1 text-[11px] font-black uppercase tracking-[0.18em]">
+                    {item.status}
+                  </span>
+                )}
+              </div>
+
+              <div class="px-6 py-6 flex-1 flex flex-col gap-4">
+                <div class="space-y-3">
+                  <h4 class="text-xl font-bold leading-tight">{item.title}</h4>
+                  {item.description && (
+                    <p class="text-sm leading-relaxed text-brand-white/72">{truncate(item.description)}</p>
+                  )}
+                </div>
+
+                <div class="space-y-2 text-sm text-brand-white/68">
+                  {item.dateFormatted && (
+                    <div class="flex items-start gap-2">
+                      <span class="mt-1 h-2 w-2 rounded-full bg-brand-accent shrink-0"></span>
+                      <span>{item.dateFormatted}</span>
+                    </div>
+                  )}
+
+                  {item.location && (
+                    <div class="flex items-start gap-2">
+                      <span class="mt-1 h-2 w-2 rounded-full bg-brand-secondary shrink-0"></span>
+                      <span>{item.location}</span>
+                    </div>
+                  )}
+                </div>
+
+                <div class="pt-2 mt-auto">
+                  {item.link ? (
+                    <a
+                      href={item.link}
+                      target="_blank"
+                      rel="noreferrer"
+                      class="inline-flex items-center gap-2 rounded-full border border-brand-accent/40 px-4 py-2 text-xs font-black uppercase tracking-[0.18em] text-brand-accent hover:bg-brand-accent hover:text-brand-bg transition-colors duration-300"
+                    >
+                      Inscribirse
+                      <span class="h-2.5 w-2.5 inline-block rotate-45 border-t border-r border-current"></span>
+                    </a>
+                  ) : (
+                    <span class="inline-flex items-center rounded-full border border-brand-white/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-brand-white/45">
+                      Enlace no disponible
+                    </span>
+                  )}
+                </div>
+              </div>
+            </article>
+          ))}
+        </div>
+      ) : (
+        <div class="rounded-3xl border border-brand-white/10 bg-brand-bg/70 backdrop-blur-xl shadow-[0_20px_70px_rgba(0,0,0,0.32)] px-8 py-10">
+          <h4 class="text-2xl font-bold leading-tight">La cartelera estará disponible muy pronto.</h4>
+          <p class="mt-3 text-sm leading-relaxed text-brand-white/70 max-w-2xl">
+            Mientras tanto, puedes revisar la programación completa del proyecto Reactivemos el Teatro en TCULTURA.
+          </p>
+          <div class="mt-6">
+            <a
+              href="https://tcultura.com/eventos/?ciudad=336"
+              target="_blank"
+              rel="noreferrer"
+              class="inline-flex items-center gap-2 rounded-full border border-brand-white/15 px-5 py-2.5 text-xs font-black uppercase tracking-[0.2em] text-brand-white/80 hover:border-brand-accent/50 hover:text-brand-accent transition-colors duration-300"
+            >
+              Ver programación completa
+              <span class="h-2.5 w-2.5 inline-block rotate-45 border-t border-r border-current"></span>
+            </a>
+          </div>
+        </div>
+      )}
+
+      <div class="mt-4 px-1 text-[11px] uppercase tracking-[0.18em] text-brand-white/45">
+        Programación en línea · Actualizado: {updatedLabel || 'pendiente'}
+      </div>
+    </div>
+  </div>
+</section>

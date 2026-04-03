@@ -1,0 +1,56 @@
+---
+import ProjectGallery from '../components/ProjectGallery.astro';
+import SidebarNav from '../components/SidebarNav.astro';
+import { getArchiveProjectByKey } from '../lib/projectArchive';
+import Layout from '../layouts/Layout.astro';
+
+const archiveProject = getArchiveProjectByKey('Arte y Voz Comunitaria - diagnóstico cultural participativo Coelemu 2024');
+const reportUrl =
+  'https://www.arteyvida.cl/wp-content/uploads/2024/12/Informe_Sistematizacion_Diagnostico_Cultural_Participativo_Septiembre-2024-1.pdf';
+---
+
+<Layout title="Arte y Voz">
+  <SidebarNav />
+
+  <section class="bg-brand-bg pb-14 pt-20 text-brand-white lg:pb-16 lg:pt-24">
+    <div class="mx-auto grid max-w-[1280px] grid-cols-1 items-start gap-10 px-6 sm:px-10 lg:grid-cols-12 lg:gap-14 xl:max-w-[1440px]">
+      <div class="space-y-5 lg:col-span-7">
+        <p class="text-xs font-black uppercase tracking-[0.3em] text-brand-secondary">Arte y Voz</p>
+        <h1 class="text-4xl font-black leading-tight md:text-5xl">
+          Registro visual y acceso al informe de diagnóstico cultural participativo.
+        </h1>
+        <p class="max-w-3xl text-base leading-relaxed text-brand-white/70 md:text-lg">
+          Esta página reúne el registro visual actualizado del proyecto y el enlace al informe de sistematización del
+          diagnóstico cultural participativo de septiembre de 2024.
+        </p>
+      </div>
+
+      <div class="space-y-4 rounded-3xl border border-brand-white/10 bg-brand-white/5 p-6 shadow-[0_22px_80px_rgba(0,0,0,0.32)] lg:col-span-5">
+        <h2 class="text-xl font-bold">Documento asociado</h2>
+        <p class="text-sm leading-relaxed text-brand-white/75">
+          El informe se mantiene como referencia externa publicada por el sitio institucional original.
+        </p>
+        <a
+          href={reportUrl}
+          target="_blank"
+          rel="noreferrer"
+          class="inline-flex items-center gap-2 rounded-full bg-brand-accent px-5 py-3 text-xs font-black uppercase tracking-[0.2em] text-brand-bg shadow-[0_12px_40px_rgba(254,209,0,0.28)] transition-transform duration-300 hover:-translate-y-[2px]"
+        >
+          Abrir informe
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-brand-white/5 py-16 text-brand-white lg:py-20">
+    <div class="mx-auto max-w-[1280px] px-6 sm:px-10 xl:max-w-[1440px]">
+      {archiveProject ? (
+        <ProjectGallery galleryId="arte-y-voz" title={archiveProject.title} images={archiveProject.images} />
+      ) : (
+        <div class="rounded-3xl border border-brand-white/10 bg-brand-bg/70 px-6 py-10 text-sm text-brand-white/70 shadow-[0_20px_70px_rgba(0,0,0,0.28)]">
+          No fue posible cargar la galería actualizada de Arte y Voz.
+        </div>
+      )}
+    </div>
+  </section>
+</Layout>

@@ -122,30 +122,30 @@ const tculturaAgenda = await getTculturaAgenda({ limit: 6 });
   />
 
   <section id="contenido" class="reveal-section bg-brand-bg text-brand-white">
-    <div class="mx-auto grid max-w-[1280px] grid-cols-1 items-start gap-12 px-6 py-20 sm:px-10 lg:grid-cols-12 lg:gap-16 lg:py-28 xl:max-w-[1440px]">
+    <div class="mx-auto grid max-w-[1280px] grid-cols-1 items-start gap-10 px-5 py-16 sm:px-10 sm:py-20 lg:grid-cols-12 lg:gap-16 lg:py-28 xl:max-w-[1440px]">
       <div class="space-y-6 lg:col-span-5">
         <p class="text-xs font-black uppercase tracking-[0.3em] text-brand-white/60">Coelemu, Ñuble</p>
-        <h2 class="text-3xl font-black leading-tight md:text-4xl">
+        <h2 class="text-2xl font-black leading-tight md:text-4xl">
           Somos una corporación cultural y social que impulsa formación, creación y encuentro comunitario.
         </h2>
-        <p class="max-w-xl text-base leading-relaxed text-brand-white/80 md:text-lg">
+        <p class="max-w-xl text-[0.98rem] leading-relaxed text-brand-white/80 md:text-lg">
           Acompañamos procesos artísticos y comunitarios en distintos territorios de Ñuble, articulando formación,
           programación cultural y memoria participativa junto a vecinas, vecinos y organizaciones locales.
         </p>
       </div>
 
-      <div class="grid grid-cols-2 gap-6 md:grid-cols-4 lg:col-span-7">
+      <div class="grid grid-cols-2 gap-4 sm:gap-6 md:grid-cols-4 lg:col-span-7">
         {stats.map((item) => (
-          <div class="stat-card rounded-3xl border border-brand-white/10 bg-brand-white/5 px-4 py-5 shadow-[0_15px_60px_rgba(0,0,0,0.25)]">
-            <div class="text-2xl font-black tracking-tight md:text-3xl">
+          <div class="stat-card rounded-3xl border border-brand-white/10 bg-brand-white/5 px-4 py-5 shadow-[0_15px_60px_rgba(0,0,0,0.25)] sm:px-5">
+            <div class="text-xl font-black tracking-tight sm:text-2xl md:text-3xl">
               <span class="stat-number" data-target={item.value} data-prefix={item.prefix ?? ''}></span>
             </div>
-            <div class="mt-2 text-xs uppercase leading-tight tracking-[0.18em] text-brand-white/70">{item.label}</div>
+            <div class="mt-2 text-[11px] uppercase leading-tight tracking-[0.16em] text-brand-white/70 sm:text-xs sm:tracking-[0.18em]">{item.label}</div>
           </div>
         ))}
       </div>
     </div>
-    <div class="mx-auto flex max-w-[1280px] flex-col gap-4 px-6 pb-6 text-sm text-brand-white/70 sm:px-10 md:flex-row md:items-center md:justify-between xl:max-w-[1440px]">
+    <div class="mx-auto flex max-w-[1280px] flex-col gap-4 px-5 pb-6 text-sm text-brand-white/70 sm:px-10 md:flex-row md:items-center md:justify-between xl:max-w-[1440px]">
       <span>Datos correspondientes a la gestión 2024.</span>
       <a
         href="/memoria-anual-2024"
@@ -158,8 +158,8 @@ const tculturaAgenda = await getTculturaAgenda({ limit: 6 });
   </section>
 
   <section class="reveal-section mission-highlight bg-brand-bg text-brand-white">
-    <div class="mx-auto max-w-[1280px] px-6 py-24 sm:px-10 lg:py-32 xl:max-w-[1440px]">
-      <div class="mission-highlight__frame rounded-[40px] border border-brand-white/10 px-6 py-8 shadow-[0_24px_80px_rgba(0,0,0,0.28)] md:px-10 md:py-12">
+    <div class="mx-auto max-w-[1280px] px-5 py-18 sm:px-10 sm:py-24 lg:py-32 xl:max-w-[1440px]">
+      <div class="mission-highlight__frame rounded-[32px] border border-brand-white/10 px-5 py-7 shadow-[0_24px_80px_rgba(0,0,0,0.28)] md:rounded-[40px] md:px-10 md:py-12">
         <p class="mb-8 text-center text-xs font-black uppercase tracking-[0.32em] text-brand-gray/80">Nuestra misión</p>
         <h2 class="mission-highlight__title">
           <span class="mission-highlight__unit mission-highlight__unit--white" data-mission-step>Generar</span>
@@ -182,7 +182,7 @@ const tculturaAgenda = await getTculturaAgenda({ limit: 6 });
   </section>
 
   <section class="reveal-section bg-brand-white/5 text-brand-white">
-    <div class="mx-auto grid max-w-[1280px] grid-cols-1 items-start gap-12 px-6 py-20 sm:px-10 lg:grid-cols-12 lg:gap-16 lg:py-28 xl:max-w-[1440px]">
+    <div class="mx-auto grid max-w-[1280px] grid-cols-1 items-start gap-10 px-5 py-16 sm:px-10 sm:py-20 lg:grid-cols-12 lg:gap-16 lg:py-28 xl:max-w-[1440px]">
       <div class="space-y-4 lg:col-span-4">
         <p class="text-xs font-black uppercase tracking-[0.3em] text-brand-accent">Áreas estratégicas</p>
         <h3 class="text-3xl font-black leading-tight">Tres líneas para activar cultura y comunidad.</h3>
@@ -195,7 +195,7 @@ const tculturaAgenda = await getTculturaAgenda({ limit: 6 });
       <div class="grid grid-cols-1 gap-6 md:grid-cols-3 lg:col-span-8">
         {areas.map((area, index) => (
           <div
-            class="reveal-card flex flex-col gap-4 rounded-3xl border border-brand-white/10 bg-brand-bg/70 px-6 py-8 shadow-[0_20px_70px_rgba(0,0,0,0.35)] backdrop-blur-xl"
+            class="reveal-card flex flex-col gap-4 rounded-3xl border border-brand-white/10 bg-brand-bg/70 px-5 py-7 shadow-[0_20px_70px_rgba(0,0,0,0.35)] backdrop-blur-xl sm:px-6 sm:py-8"
             style={`animation-delay: ${index * 140}ms;`}
           >
             <div class="flex h-10 w-10 items-center justify-center rounded-full border border-brand-white/10 bg-brand-white/10 text-sm font-black uppercase tracking-[0.18em] text-brand-white/70">
@@ -212,7 +212,7 @@ const tculturaAgenda = await getTculturaAgenda({ limit: 6 });
   </section>
 
   <section class="reveal-section bg-brand-bg text-brand-white">
-    <div class="mx-auto grid max-w-[1280px] grid-cols-1 items-start gap-12 px-6 py-20 sm:px-10 lg:grid-cols-12 lg:gap-16 lg:py-28 xl:max-w-[1440px]">
+    <div class="mx-auto grid max-w-[1280px] grid-cols-1 items-start gap-10 px-5 py-16 sm:px-10 sm:py-20 lg:grid-cols-12 lg:gap-16 lg:py-28 xl:max-w-[1440px]">
       <div class="space-y-4 lg:col-span-4">
         <p class="text-xs font-black uppercase tracking-[0.3em] text-brand-secondary">Proyectos destacados</p>
         <h3 class="text-3xl font-black leading-tight">Acciones que mantienen vivo el territorio.</h3>
@@ -228,10 +228,10 @@ const tculturaAgenda = await getTculturaAgenda({ limit: 6 });
             class="reveal-card group flex flex-col overflow-hidden rounded-3xl border border-brand-white/10 bg-brand-white/5 shadow-[0_20px_70px_rgba(0,0,0,0.3)] transition-all duration-300 hover:-translate-y-1 hover:border-brand-accent/60"
             style={`animation-delay: ${index * 160}ms;`}
           >
-            <img src={project.image} alt={project.title} class="h-40 w-full object-cover" loading="lazy" />
-            <div class="flex flex-1 flex-col gap-4 px-6 py-7">
+            <img src={project.image} alt={project.title} class="h-44 w-full object-cover sm:h-40" loading="lazy" />
+            <div class="flex flex-1 flex-col gap-4 px-5 py-6 sm:px-6 sm:py-7">
               <div class="flex items-center justify-between gap-3">
-                <h4 class="text-xl font-bold leading-tight">{project.title}</h4>
+                <h4 class="text-lg font-bold leading-tight sm:text-xl">{project.title}</h4>
                 <span class="h-2 w-2 rounded-full bg-brand-accent"></span>
               </div>
               <p class="flex-1 text-sm leading-relaxed text-brand-white/75">{project.description}</p>
@@ -239,7 +239,7 @@ const tculturaAgenda = await getTculturaAgenda({ limit: 6 });
             </div>
           </a>
         ))}
-        <div class="flex justify-end md:col-span-3">
+        <div class="flex justify-start md:col-span-3 md:justify-end">
           <a
             href="/proyectos"
             class="inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.14em] text-brand-white/80 hover:text-brand-accent"
@@ -259,7 +259,7 @@ const tculturaAgenda = await getTculturaAgenda({ limit: 6 });
   <YouTubeGallery maxVideos={3} />
 
   <section class="reveal-section bg-brand-white/5 text-brand-white">
-    <div class="mx-auto grid max-w-[1280px] grid-cols-1 items-start gap-12 px-6 py-20 sm:px-10 lg:grid-cols-12 lg:gap-16 lg:py-28 xl:max-w-[1440px]">
+    <div class="mx-auto grid max-w-[1280px] grid-cols-1 items-start gap-10 px-5 py-16 sm:px-10 sm:py-20 lg:grid-cols-12 lg:gap-16 lg:py-28 xl:max-w-[1440px]">
       <div class="space-y-4 lg:col-span-4">
         <p class="text-xs font-black uppercase tracking-[0.3em] text-brand-accent">Noticias</p>
         <h3 class="text-3xl font-black leading-tight">Historias recientes de Arte y Vida.</h3>
@@ -282,12 +282,12 @@ const tculturaAgenda = await getTculturaAgenda({ limit: 6 });
               <img
                 src={post.data.coverImage ?? '/DSC06842-scaled.webp'}
                 alt={post.data.title}
-                class="h-44 w-full object-cover"
+                class="h-48 w-full object-cover sm:h-44"
                 loading="lazy"
               />
-              <div class="flex flex-col gap-3 px-6 py-5">
-                <div class="flex items-baseline justify-between gap-4">
-                  <h4 class="text-xl font-bold leading-tight group-hover:text-brand-accent">{post.data.title}</h4>
+              <div class="flex flex-col gap-3 px-5 py-5 sm:px-6">
+                <div class="flex flex-col items-start gap-2 sm:flex-row sm:items-baseline sm:justify-between sm:gap-4">
+                  <h4 class="text-lg font-bold leading-tight group-hover:text-brand-accent sm:text-xl">{post.data.title}</h4>
                   <span class="text-xs uppercase tracking-[0.18em] text-brand-white/60">
                     {new Date(post.data.date).toLocaleDateString('es-CL', {
                       day: '2-digit',
@@ -322,10 +322,10 @@ const tculturaAgenda = await getTculturaAgenda({ limit: 6 });
   </section>
 
   <section class="reveal-section bg-brand-white/5 text-brand-white">
-    <div class="mx-auto max-w-[1280px] px-6 py-20 sm:px-10 lg:py-28 xl:max-w-[1440px]">
+    <div class="mx-auto max-w-[1280px] px-5 py-16 sm:px-10 sm:py-20 lg:py-28 xl:max-w-[1440px]">
       <div class="overflow-hidden rounded-[36px] border border-brand-white/10 bg-[linear-gradient(135deg,rgba(255,255,255,0.05),rgba(255,255,255,0.02))] shadow-[0_20px_70px_rgba(0,0,0,0.28)]">
         <div class="grid grid-cols-1 gap-0 lg:grid-cols-12">
-          <div class="relative min-h-[300px] bg-brand-bg lg:col-span-5">
+          <div class="relative min-h-[260px] bg-brand-bg lg:col-span-5 lg:min-h-[300px]">
             <img src="/arbol.webp" alt="Programa Amig@s de Arte y Vida" class="absolute inset-0 h-full w-full object-cover opacity-75" loading="lazy" />
             <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent"></div>
             <div class="absolute bottom-6 left-6 right-6 space-y-3">
@@ -334,7 +334,7 @@ const tculturaAgenda = await getTculturaAgenda({ limit: 6 });
             </div>
           </div>
 
-          <div class="space-y-6 px-6 py-8 md:px-8 lg:col-span-7 lg:px-10 lg:py-10">
+          <div class="space-y-6 px-5 py-7 sm:px-6 md:px-8 lg:col-span-7 lg:px-10 lg:py-10">
             <p class="max-w-3xl text-base leading-relaxed text-brand-white/78 md:text-lg">
               Tu aporte ayuda a fortalecer la programación artística, los talleres, la circulación territorial y las
               acciones comunitarias que impulsamos durante el año.
@@ -355,16 +355,16 @@ const tculturaAgenda = await getTculturaAgenda({ limit: 6 });
               ))}
             </div>
 
-            <div class="flex flex-wrap items-center gap-4">
+            <div class="flex flex-col items-stretch gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:gap-4">
               <a
                 href="/amigos#impacto"
-                class="inline-flex items-center justify-center rounded-full bg-brand-accent px-6 py-3 text-sm font-black uppercase tracking-[0.22em] text-brand-bg shadow-[0_15px_50px_rgba(254,209,0,0.3)] transition-transform duration-300 hover:translate-y-[-2px]"
+                class="inline-flex min-h-12 items-center justify-center rounded-full bg-brand-accent px-6 py-3 text-sm font-black uppercase tracking-[0.22em] text-brand-bg shadow-[0_15px_50px_rgba(254,209,0,0.3)] transition-transform duration-300 hover:translate-y-[-2px]"
               >
                 Conoce el programa
               </a>
               <a
                 href="/amigos#planes"
-                class="inline-flex items-center gap-2 rounded-full border border-brand-white/15 px-5 py-3 text-xs font-black uppercase tracking-[0.2em] text-brand-white transition-colors hover:border-brand-accent/70 hover:text-brand-accent"
+                class="inline-flex min-h-12 items-center justify-center gap-2 rounded-full border border-brand-white/15 px-5 py-3 text-xs font-black uppercase tracking-[0.2em] text-brand-white transition-colors hover:border-brand-accent/70 hover:text-brand-accent"
               >
                 Quiero apoyar
               </a>
@@ -376,7 +376,7 @@ const tculturaAgenda = await getTculturaAgenda({ limit: 6 });
   </section>
 
   <section class="reveal-section bg-brand-bg text-brand-white">
-    <div class="mx-auto max-w-[1280px] px-6 py-20 sm:px-10 lg:py-28 xl:max-w-[1440px]">
+    <div class="mx-auto max-w-[1280px] px-5 py-16 sm:px-10 sm:py-20 lg:py-28 xl:max-w-[1440px]">
       <div class="mb-10 max-w-2xl space-y-4">
         <p class="text-xs font-black uppercase tracking-[0.3em] text-brand-secondary">Alianzas estratégicas</p>
         <h3 class="text-3xl font-black leading-tight md:text-4xl">Organizaciones que hacen posible ampliar nuestro alcance.</h3>
@@ -386,10 +386,10 @@ const tculturaAgenda = await getTculturaAgenda({ limit: 6 });
         </p>
       </div>
 
-      <div class="grid grid-cols-2 gap-4 md:grid-cols-3 xl:grid-cols-6">
+      <div class="grid grid-cols-2 gap-3 sm:gap-4 md:grid-cols-3 xl:grid-cols-6">
         {strategicAlliances.map((alliance, index) => (
           <div
-            class="reveal-card alliance-card flex min-h-[150px] items-center justify-center rounded-[28px] border border-brand-white/10 bg-brand-white/[0.04] px-6 py-8 shadow-[0_18px_60px_rgba(0,0,0,0.24)]"
+            class="reveal-card alliance-card flex min-h-[132px] items-center justify-center rounded-[28px] border border-brand-white/10 bg-brand-white/[0.04] px-4 py-6 shadow-[0_18px_60px_rgba(0,0,0,0.24)] sm:min-h-[150px] sm:px-6 sm:py-8"
             style={`animation-delay: ${index * 90}ms;`}
           >
             <img

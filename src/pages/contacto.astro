@@ -34,7 +34,7 @@ const contactCards = [
     <div class="mx-auto grid max-w-[1280px] grid-cols-1 items-start gap-10 px-6 sm:px-10 lg:grid-cols-12 lg:gap-14 xl:max-w-[1440px]">
       <div class="space-y-5 lg:col-span-7">
         <p class="text-xs font-black uppercase tracking-[0.3em] text-brand-secondary">Contacto</p>
-        <h1 class="text-4xl font-black leading-tight md:text-5xl">
+        <h1 class="text-3xl font-black leading-tight sm:text-4xl md:text-5xl">
           Conversemos sobre actividades, alianzas y trabajo cultural en el territorio.
         </h1>
         <p class="max-w-3xl text-base leading-relaxed text-brand-white/70 md:text-lg">
@@ -59,7 +59,7 @@ const contactCards = [
       {contactCards.map((card) => (
         <article class="space-y-4 rounded-3xl border border-brand-white/10 bg-brand-bg/70 p-6 shadow-[0_20px_70px_rgba(0,0,0,0.28)]">
           <div class="text-xs font-black uppercase tracking-[0.24em] text-brand-accent">{card.title}</div>
-          <p class="text-lg font-bold leading-tight">{card.value}</p>
+          <p class="break-words text-lg font-bold leading-tight">{card.value}</p>
           <a
             href={card.href}
             target="_blank"

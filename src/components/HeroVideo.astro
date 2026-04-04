@@ -8,41 +8,48 @@ interface Props {
   scrollTarget?: string;
 }
 
-const {
-  videoSrc,
-  poster,
-  title,
-  kicker,
-  scrollLabel = 'Explorar',
-  scrollTarget
-} = Astro.props as Props;
+const { videoSrc, poster, title, kicker, scrollLabel = 'Explorar', scrollTarget } = Astro.props as Props;
+
+const fallbackStyle = poster
+  ? `background-image: linear-gradient(180deg, rgba(5, 5, 5, 0.12) 0%, rgba(5, 5, 5, 0.28) 100%), url('${poster}');`
+  : undefined;
 ---
 
-<section class="relative h-screen w-full overflow-hidden flex items-center justify-center text-white">
+<section
+  class="hero-video-shell relative flex min-h-[100svh] w-full items-end overflow-hidden text-white md:h-screen md:items-center"
+  data-hero-shell
+  data-video-state="fallback"
+>
+  <div class="hero-video-fallback absolute inset-0 z-0" style={fallbackStyle}></div>
+
   <video
     autoplay
     muted
     loop
     playsinline
-    preload="metadata"
+    webkit-playsinline="true"
+    disablepictureinpicture
+    preload="auto"
     poster={poster}
     data-hero-video
-    class="absolute inset-0 w-full h-full object-cover z-0"
+    aria-hidden="true"
+    class="hero-video absolute inset-0 z-0 h-full w-full object-cover"
   >
     <source src={videoSrc} type="video/mp4" />
     Tu navegador no soporta videos.
   </video>
 
-  <div class="absolute inset-0 bg-black/35 backdrop-blur-[1.2px] z-10 pointer-events-none"></div>
+  <div class="hero-video-overlay absolute inset-0 z-10 pointer-events-none"></div>
 
-  <div class="relative z-20 w-full h-full px-6 sm:px-10 md:px-14 lg:px-20 xl:px-24 flex items-center">
-    <div class="max-w-5xl text-left space-y-6 animate-fade-in md:ml-36 lg:ml-52 xl:ml-64">
+  <div class="relative z-20 flex h-full w-full items-end px-5 pb-12 pt-28 sm:px-10 sm:pb-14 md:items-center md:px-14 md:pb-0 md:pt-0 lg:px-20 xl:px-24">
+    <div class="hero-video-content max-w-5xl space-y-5 text-left animate-fade-in md:ml-36 md:space-y-6 lg:ml-52 xl:ml-64">
       {kicker && (
-        <span class="block text-sm md:text-base font-semibold tracking-[0.24em] uppercase text-[#D4AF37] opacity-90">
+        <span class="block max-w-[22rem] text-xs font-semibold uppercase tracking-[0.22em] text-[#D4AF37] opacity-90 sm:text-sm md:max-w-none md:text-base md:tracking-[0.24em]">
           {kicker}
         </span>
       )}
-      <h1 class="text-5xl md:text-7xl lg:text-8xl font-black uppercase leading-[0.92] tracking-tight drop-shadow-[0_10px_30px_rgba(0,0,0,0.35)]">
+
+      <h1 class="max-w-[12ch] text-[clamp(2.7rem,12vw,4.2rem)] font-black uppercase leading-[0.92] tracking-tight drop-shadow-[0_10px_30px_rgba(0,0,0,0.35)] md:max-w-none md:text-7xl lg:text-8xl">
         {title}
       </h1>
 
@@ -50,10 +57,10 @@ const {
         <button
           id="hero-scroll-btn"
           data-target={scrollTarget}
-          class="group inline-flex items-center gap-3 text-sm font-semibold tracking-[0.18em] uppercase text-brand-white/80 transition-all duration-300 hover:text-[#D4AF37]"
+          class="group inline-flex min-h-12 items-center gap-3 text-left text-xs font-semibold uppercase tracking-[0.18em] text-brand-white/82 transition-all duration-300 hover:text-[#D4AF37] sm:text-sm"
         >
           <span>{scrollLabel}</span>
-          <span class="flex h-10 w-10 items-center justify-center rounded-full border border-white/30 group-hover:border-[#D4AF37]">
+          <span class="flex h-11 w-11 items-center justify-center rounded-full border border-white/30 transition-colors group-hover:border-[#D4AF37]">
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M7 13l5 5 5-5M7 6l5 5 5-5" />
             </svg>
@@ -65,62 +72,184 @@ const {
 </section>
 
 <style>
+  .hero-video-shell {
+    background:
+      radial-gradient(circle at top right, rgba(49, 204, 231, 0.1), transparent 24%),
+      radial-gradient(circle at left center, rgba(197, 48, 149, 0.08), transparent 30%),
+      #050505;
+  }
+
+  .hero-video-fallback {
+    background-color: #050505;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    filter: saturate(0.95) contrast(1.03) brightness(0.85);
+    transform: scale(1.02);
+  }
+
+  .hero-video {
+    opacity: 0;
+    transition: opacity 500ms ease;
+  }
+
+  .hero-video-overlay {
+    background:
+      linear-gradient(180deg, rgba(5, 5, 5, 0.18) 0%, rgba(5, 5, 5, 0.42) 100%),
+      linear-gradient(90deg, rgba(5, 5, 5, 0.7) 0%, rgba(5, 5, 5, 0.28) 42%, rgba(5, 5, 5, 0.52) 100%);
+    backdrop-filter: blur(1.2px);
+  }
+
+  .hero-video-shell[data-video-state='ready'] .hero-video,
+  .hero-video-shell[data-video-state='playing'] .hero-video {
+    opacity: 1;
+  }
+
+  .hero-video-shell[data-video-state='playing'] .hero-video-fallback {
+    filter: saturate(0.85) contrast(1) brightness(0.72);
+  }
+
   .animate-fade-in {
     animation: fadeIn 1.5s ease-out forwards;
   }
 
   @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @media (max-width: 767px) {
+    .hero-video-overlay {
+      background:
+        linear-gradient(180deg, rgba(5, 5, 5, 0.32) 0%, rgba(5, 5, 5, 0.52) 54%, rgba(5, 5, 5, 0.74) 100%),
+        linear-gradient(90deg, rgba(5, 5, 5, 0.52) 0%, rgba(5, 5, 5, 0.18) 48%, rgba(5, 5, 5, 0.48) 100%);
+    }
+
+    .hero-video-content {
+      max-width: min(100%, 22rem);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero-video {
+      display: none;
+    }
   }
 </style>
 
 <script>
   const initHeroVideo = () => {
-    const scrollBtn = document.getElementById('hero-scroll-btn');
+    window.__heroVideoCleanup?.();
 
-    if (scrollBtn && scrollBtn.dataset.bound !== 'true') {
-      scrollBtn.dataset.bound = 'true';
-      scrollBtn.addEventListener('click', () => {
-        const targetId = scrollBtn.getAttribute('data-target');
+    const cleanups = [];
+
+    document.querySelectorAll('#hero-scroll-btn').forEach((scrollButton) => {
+      if (!(scrollButton instanceof HTMLButtonElement)) return;
+
+      const handleClick = () => {
+        const targetId = scrollButton.getAttribute('data-target');
         if (targetId) {
           const targetElement = document.getElementById(targetId);
           targetElement?.scrollIntoView({ behavior: 'smooth' });
         } else {
           window.scrollBy({ top: window.innerHeight, behavior: 'smooth' });
         }
-      });
-    }
+      };
 
-    document.querySelectorAll('video[data-hero-video]').forEach((heroVideo) => {
-      if (!(heroVideo instanceof HTMLVideoElement) || heroVideo.dataset.bound === 'true') return;
+      scrollButton.addEventListener('click', handleClick);
+      cleanups.push(() => scrollButton.removeEventListener('click', handleClick));
+    });
 
-      heroVideo.dataset.bound = 'true';
-      heroVideo.muted = true;
-      heroVideo.defaultMuted = true;
-      heroVideo.playsInline = true;
-      heroVideo.autoplay = true;
+    document.querySelectorAll('[data-hero-shell]').forEach((shell) => {
+      if (!(shell instanceof HTMLElement)) return;
+
+      const heroVideo = shell.querySelector('video[data-hero-video]');
+      if (!(heroVideo instanceof HTMLVideoElement)) return;
+
+      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      let playAttempted = false;
+
+      const setState = (state) => {
+        shell.setAttribute('data-video-state', state);
+      };
 
       const tryPlay = () => {
+        if (prefersReducedMotion) {
+          setState('fallback');
+          return;
+        }
+
         heroVideo.muted = true;
         heroVideo.defaultMuted = true;
+        heroVideo.playsInline = true;
+        heroVideo.autoplay = true;
+        playAttempted = true;
 
         const playPromise = heroVideo.play();
-        if (playPromise?.catch) {
-          playPromise.catch(() => {});
+        if (playPromise?.then) {
+          playPromise
+            .then(() => setState('playing'))
+            .catch(() => setState(heroVideo.currentTime > 0 ? 'ready' : 'fallback'));
         }
       };
 
-      heroVideo.addEventListener('canplay', tryPlay);
-      heroVideo.addEventListener('loadeddata', tryPlay);
-      heroVideo.addEventListener('loadedmetadata', tryPlay);
-      document.addEventListener('visibilitychange', () => {
-        if (document.visibilityState === 'visible' && heroVideo.paused) tryPlay();
-      });
+      const handleLoadedData = () => {
+        if (!playAttempted) setState('ready');
+        tryPlay();
+      };
 
-      if (heroVideo.readyState >= 2) tryPlay();
-      else heroVideo.load();
+      const handlePlaying = () => {
+        setState('playing');
+      };
+
+      const handlePause = () => {
+        if (document.visibilityState === 'visible' && !prefersReducedMotion) {
+          tryPlay();
+        }
+      };
+
+      const handleError = () => {
+        setState('fallback');
+      };
+
+      const handleVisibilityChange = () => {
+        if (document.visibilityState === 'visible' && heroVideo.paused) {
+          tryPlay();
+        }
+      };
+
+      heroVideo.addEventListener('loadeddata', handleLoadedData);
+      heroVideo.addEventListener('canplay', handleLoadedData);
+      heroVideo.addEventListener('playing', handlePlaying);
+      heroVideo.addEventListener('pause', handlePause);
+      heroVideo.addEventListener('error', handleError);
+      document.addEventListener('visibilitychange', handleVisibilityChange);
+
+      cleanups.push(() => heroVideo.removeEventListener('loadeddata', handleLoadedData));
+      cleanups.push(() => heroVideo.removeEventListener('canplay', handleLoadedData));
+      cleanups.push(() => heroVideo.removeEventListener('playing', handlePlaying));
+      cleanups.push(() => heroVideo.removeEventListener('pause', handlePause));
+      cleanups.push(() => heroVideo.removeEventListener('error', handleError));
+      cleanups.push(() => document.removeEventListener('visibilitychange', handleVisibilityChange));
+
+      if (heroVideo.readyState >= 2) {
+        setState('ready');
+        tryPlay();
+      } else {
+        heroVideo.load();
+      }
     });
+
+    window.__heroVideoCleanup = () => {
+      cleanups.forEach((cleanup) => cleanup());
+    };
   };
 
   if (document.readyState === 'loading') {

@@ -6,7 +6,7 @@ const { videos: displayVideos, loadError } = await getYouTubeVideos(Math.max(1, 
 ---
 
 <section class="bg-brand-bg text-brand-white reveal-section">
-  <div class="max-w-[1280px] xl:max-w-[1440px] mx-auto px-6 sm:px-10 py-20 lg:py-28 grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
+  <div class="mx-auto grid max-w-[1280px] grid-cols-1 items-start gap-10 px-5 py-16 sm:px-10 sm:py-20 lg:grid-cols-12 lg:gap-16 lg:py-28 xl:max-w-[1440px]">
     <div class="lg:col-span-4 space-y-4">
       <p class="text-xs font-black uppercase tracking-[0.3em] text-brand-secondary">Arte y Vida TV</p>
       <h3 class="text-3xl font-black leading-tight">Últimos videos del canal.</h3>
@@ -27,7 +27,7 @@ const { videos: displayVideos, loadError } = await getYouTubeVideos(Math.max(1, 
       </a>
     </div>
 
-    <div class="lg:col-span-8 grid grid-cols-1 md:grid-cols-3 gap-6">
+    <div class="grid grid-cols-1 gap-6 lg:col-span-8 md:grid-cols-3">
       {displayVideos.map((video, index) => (
         <a
           href={video.id.startsWith('http') ? video.id : `https://www.youtube.com/watch?v=${video.id}`}
@@ -54,7 +54,7 @@ const { videos: displayVideos, loadError } = await getYouTubeVideos(Math.max(1, 
             </div>
           </div>
 
-          <div class="px-6 py-5 flex flex-col gap-3">
+          <div class="flex flex-col gap-3 px-5 py-5 sm:px-6">
             <div class="flex items-center justify-between text-[11px] uppercase tracking-[0.2em] text-brand-white/60">
               <span>{formatYouTubeDate(video.publishedAt)}</span>
               <span class="inline-flex items-center gap-1 text-brand-accent font-semibold">

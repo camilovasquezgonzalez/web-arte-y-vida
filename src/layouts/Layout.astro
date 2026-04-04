@@ -9,14 +9,14 @@ const { title } = Astro.props;
 ---
 
 <!doctype html>
-<html lang="es" class="scroll-smooth bg-brand-bg text-brand-white">
+<html lang="es" class="scroll-smooth overflow-x-clip bg-brand-bg text-brand-white">
   <head>
     <meta charset="UTF-8" />
     <meta
       name="description"
       content="Corporación Cultural y Social Arte y Vida, proyectos artísticos y comunitarios desde Coelemu."
     />
-    <meta name="viewport" content="width=device-width" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
 
@@ -29,14 +29,14 @@ const { title } = Astro.props;
 
     <title>{title} | Arte y Vida</title>
   </head>
-  <body class="flex min-h-screen flex-col bg-brand-bg text-brand-white">
-    <main class="flex-grow">
+  <body class="flex min-h-screen flex-col overflow-x-clip bg-brand-bg text-brand-white">
+    <main class="relative min-w-0 flex-grow overflow-x-clip">
       <slot />
     </main>
 
-    <footer class="border-t border-brand-white/10 bg-brand-bg py-16">
-      <div class="mx-auto max-w-[1280px] px-6 text-brand-white sm:px-10 xl:max-w-[1440px]">
-        <div class="grid grid-cols-1 gap-12 pb-12 md:grid-cols-4">
+    <footer class="border-t border-brand-white/10 bg-brand-bg py-14 md:py-16">
+      <div class="mx-auto max-w-[1280px] px-5 text-brand-white sm:px-10 xl:max-w-[1440px]">
+        <div class="grid grid-cols-1 gap-10 pb-10 md:grid-cols-4 md:gap-12 md:pb-12">
           <div class="space-y-4">
             <img src="/blanco-scaled.webp" alt="Logo de Arte y Vida" class="h-12 w-auto" />
             <p class="max-w-sm text-sm leading-relaxed text-brand-white/70">
@@ -67,7 +67,7 @@ const { title } = Astro.props;
 
           <div class="space-y-3">
             <h3 class="text-sm font-semibold uppercase tracking-[0.2em] text-brand-accent">Contacto</h3>
-            <p class="text-sm leading-relaxed text-brand-white/70">
+            <p class="break-words text-sm leading-relaxed text-brand-white/70">
               Pedro León Gallo 547
               <br />
               Coelemu, Región de Ñuble, Chile
@@ -77,9 +77,9 @@ const { title } = Astro.props;
           </div>
         </div>
 
-        <div class="flex flex-col items-center justify-between gap-4 border-t border-brand-white/10 pt-6 text-sm text-brand-white/60 md:flex-row">
+        <div class="flex flex-col items-start justify-between gap-4 border-t border-brand-white/10 pt-6 text-sm text-brand-white/60 md:flex-row md:items-center">
           <div>&copy; {new Date().getFullYear()} Corporación Cultural y Social Arte y Vida.</div>
-          <div class="flex gap-6">
+          <div class="flex flex-wrap gap-4 md:gap-6">
             <a href="/privacidad" class="transition-colors hover:text-brand-white">Privacidad</a>
             <a href="/terminos" class="transition-colors hover:text-brand-white">Términos</a>
           </div>
@@ -90,6 +90,29 @@ const { title } = Astro.props;
 </html>
 
 <style is:global>
+  html,
+  body {
+    overflow-x: clip;
+  }
+
+  body.mobile-nav-open {
+    overflow: hidden;
+    overscroll-behavior: none;
+  }
+
+  img,
+  picture,
+  video,
+  iframe {
+    display: block;
+    max-width: 100%;
+  }
+
+  a,
+  button {
+    touch-action: manipulation;
+  }
+
   .animate-fade-in {
     animation: fadeIn 1.5s ease-out forwards;
   }

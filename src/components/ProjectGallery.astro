@@ -18,7 +18,7 @@ const previewImages = images.slice(0, 6);
         type="button"
         class={`project-gallery__preview group ${index === 0 ? 'col-span-2 row-span-2 min-h-[280px] lg:min-h-[420px]' : 'min-h-[140px] lg:min-h-[200px]'}`}
         data-gallery-open={index}
-        aria-label={`Abrir galería de ${title}, imagen ${index + 1}`}
+        aria-label={`Abrir galeria de ${title}, imagen ${index + 1}`}
       >
         <img src={image.src} alt={image.alt} class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]" loading="lazy" />
       </button>
@@ -27,26 +27,26 @@ const previewImages = images.slice(0, 6);
 
   <div class="mt-5 flex flex-wrap items-center justify-between gap-4">
     <p class="text-sm leading-relaxed text-brand-white/68">
-      {images.length} {images.length === 1 ? 'imagen disponible' : 'imágenes disponibles'} en la galería completa.
+      Registro fotografico institucional disponible en la galeria completa.
     </p>
     <button
       type="button"
       class="inline-flex items-center gap-2 rounded-full border border-brand-white/14 bg-brand-white/6 px-5 py-3 text-xs font-black uppercase tracking-[0.18em] text-brand-white transition-colors hover:border-brand-accent/60 hover:text-brand-accent"
       data-gallery-open={0}
     >
-      Ver galería completa
+      Ver galeria completa
     </button>
   </div>
 
   <div class="project-gallery__modal hidden" data-gallery-modal aria-hidden="true">
     <div class="project-gallery__backdrop" data-gallery-close></div>
     <div class="project-gallery__dialog">
-      <button type="button" class="project-gallery__close" data-gallery-close aria-label="Cerrar galería">×</button>
+      <button type="button" class="project-gallery__close" data-gallery-close aria-label="Cerrar galeria">x</button>
 
       <div class="project-gallery__main">
-        <button type="button" class="project-gallery__nav" data-gallery-prev aria-label="Imagen anterior">‹</button>
+        <button type="button" class="project-gallery__nav" data-gallery-prev aria-label="Imagen anterior"><</button>
         <img data-gallery-main-image alt={title} />
-        <button type="button" class="project-gallery__nav" data-gallery-next aria-label="Imagen siguiente">›</button>
+        <button type="button" class="project-gallery__nav" data-gallery-next aria-label="Imagen siguiente">></button>
       </div>
 
       <div class="mt-4 flex items-center justify-between gap-4 text-sm text-brand-white/70">
@@ -120,8 +120,9 @@ const previewImages = images.slice(0, 6);
     border-radius: 999px;
     background: rgba(255, 255, 255, 0.06);
     color: rgba(240, 240, 240, 0.92);
-    font-size: 1.6rem;
+    font-size: 1.1rem;
     line-height: 1;
+    text-transform: uppercase;
   }
 
   .project-gallery__main {
@@ -147,7 +148,7 @@ const previewImages = images.slice(0, 6);
     border-radius: 999px;
     background: rgba(255, 255, 255, 0.06);
     color: rgba(240, 240, 240, 0.92);
-    font-size: 1.8rem;
+    font-size: 1.4rem;
     line-height: 1;
   }
 

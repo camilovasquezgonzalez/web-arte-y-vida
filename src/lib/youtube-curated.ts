@@ -1,5 +1,22 @@
 export const curatedYouTubePlaylists = [
   {
+    id: 'featured-flores-y-sombras',
+    title: 'Flores y Sombras',
+    description: 'Cortometraje documental sobre la historia, la memoria y la atmosfera del Cementerio de Coelemu.',
+    thumbnail: 'https://i.ytimg.com/vi/40efH5D1BCM/hqdefault.jpg',
+    publishedAt: '28 dic 2024',
+    videoCount: 1,
+    playlistUrl: 'https://www.youtube.com/watch?v=40efH5D1BCM',
+    videos: [
+      {
+        id: '40efH5D1BCM',
+        title: 'Flores y Sombras: Una historia sobre el Cementerio de Coelemu',
+        thumbnail: 'https://i.ytimg.com/vi/40efH5D1BCM/hqdefault.jpg',
+        publishedAt: '28 dic 2024',
+      },
+    ],
+  },
+  {
     id: 'PLvVVl_5u6dyzuU_ytBxGqIUSCmxh_WUzE',
     title: 'Nuestra Costa Ancestral',
     description:

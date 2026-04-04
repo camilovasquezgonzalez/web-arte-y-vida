@@ -29,9 +29,11 @@ if (!archiveYear) {
       </a>
       <p class="mt-6 text-xs font-black uppercase tracking-[0.3em] text-brand-secondary">{archiveYear.title}</p>
       <h1 class="mt-3 max-w-5xl text-4xl font-black leading-tight md:text-5xl">
-        {archiveYear.projectCount} proyectos y {archiveYear.photoCount.toLocaleString('es-CL')} imagenes registradas durante {archiveYear.year}.
+        Seleccion institucional de proyectos desarrollados durante {archiveYear.year}.
       </h1>
-      <p class="mt-4 max-w-3xl text-base leading-relaxed text-brand-white/70 md:text-lg">{archiveYear.description}</p>
+      <p class="mt-4 max-w-3xl text-base leading-relaxed text-brand-white/70 md:text-lg">
+        {archiveYear.description} Este archivo reune {archiveYear.projectCount} proyectos con registro fotografico y descripcion institucional.
+      </p>
 
       <div class="mt-8 flex flex-wrap gap-3">
         {archiveYear.projects.map((project) => (
@@ -69,8 +71,8 @@ if (!archiveYear) {
             </div>
 
             <div class="rounded-3xl border border-brand-white/10 bg-brand-white/5 px-4 py-4 text-sm text-brand-white/70">
-              <strong class="block text-brand-white">{project.photoCount.toLocaleString('es-CL')} imagenes</strong>
-              Registro correspondiente a <span class="text-brand-white">{project.directoryLabel}</span>.
+              <strong class="block text-brand-white">Galeria documental del proyecto</strong>
+              Seleccion fotografica correspondiente a este proceso institucional.
             </div>
           </div>
 

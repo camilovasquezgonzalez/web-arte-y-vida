@@ -207,7 +207,7 @@ const previewImages = images.slice(0, 6);
   }
 </style>
 
-<script>
+<script define:vars={{ images }}>
   if (!window.__projectGalleryBound) {
     window.__projectGalleryBound = true;
 
@@ -229,16 +229,16 @@ const previewImages = images.slice(0, 6);
         const openButtons = Array.from(root.querySelectorAll('[data-gallery-open]'));
         const prevButton = root.querySelector('[data-gallery-prev]');
         const nextButton = root.querySelector('[data-gallery-next]');
-        const sources = {images: images};
+        const sources = images;
         let activeIndex = 0;
 
         const render = () => {
           if (!(mainImage instanceof HTMLImageElement)) return;
-          const activeImage = sources.images[activeIndex];
+          const activeImage = sources[activeIndex];
           if (!activeImage) return;
           mainImage.src = activeImage.src;
           mainImage.alt = activeImage.alt;
-          if (counter instanceof HTMLElement) counter.textContent = `${activeIndex + 1} / ${sources.images.length}`;
+          if (counter instanceof HTMLElement) counter.textContent = `${activeIndex + 1} / ${sources.length}`;
           thumbs.forEach((thumb, index) => thumb.classList.toggle('is-active', index === activeIndex));
         };
 
@@ -268,12 +268,12 @@ const previewImages = images.slice(0, 6);
         });
 
         prevButton?.addEventListener('click', () => {
-          activeIndex = (activeIndex - 1 + sources.images.length) % sources.images.length;
+          activeIndex = (activeIndex - 1 + sources.length) % sources.length;
           render();
         });
 
         nextButton?.addEventListener('click', () => {
-          activeIndex = (activeIndex + 1) % sources.images.length;
+          activeIndex = (activeIndex + 1) % sources.length;
           render();
         });
 

@@ -52,140 +52,140 @@ const PUBLIC_ARCHIVE_ROOT = path.join(process.cwd(), 'public', 'fotos-web-actual
 const IMAGE_EXTENSIONS = new Set(['.webp', '.jpg', '.jpeg', '.png']);
 
 const PROJECT_OVERRIDES: Record<string, ProjectOverride> = {
-  'Arte y Voz Comunitaria - diagnÃ³stico cultural participativo Coelemu 2024': {
+  'Arte y Voz Comunitaria - diagnóstico cultural participativo Coelemu 2024': {
     title: 'Arte y Voz Comunitaria',
     summary:
-      'Proceso de diagnostico cultural participativo desarrollado en Coelemu para levantar voces, memorias y necesidades del territorio junto a la comunidad.',
-    tags: ['InvestigAccion', 'diagnostico cultural', 'participacion'],
+      'Proceso de diagnóstico cultural participativo desarrollado en Coelemu para levantar voces, memorias y necesidades del territorio junto a la comunidad.',
+    tags: ['InvestigAcción', 'diagnóstico cultural', 'participación'],
     sortOrder: 10,
   },
   'Casa Abierta 2024': {
     title: 'Casa Abierta',
     summary:
-      'Programaci?n abierta de verano con talleres FormArte y presentaciones EduCultura para activar la casa de Arte y Vida como espacio de encuentro.',
+      'Programación abierta de verano con talleres FormArte y presentaciones EduCultura para activar la casa de Arte y Vida como espacio de encuentro.',
     tags: ['FormArte', 'EduCultura', 'comunidad'],
     sortOrder: 30,
   },
   'Cineclub Arte y Vida 2026': {
     summary:
-      'Instancia de exhibicion y conversacion en torno al cine para abrir espacios de formacion de publicos y encuentro cultural.',
-    tags: ['EduCultura', 'cineclub', 'formacion de publicos'],
+      'Instancia de exhibición y conversación en torno al cine para abrir espacios de formación de públicos y encuentro cultural.',
+    tags: ['EduCultura', 'cineclub', 'formación de públicos'],
     sortOrder: 50,
   },
   'Concierto Disney en JJJVV El Conquistador 2024': {
     summary:
-      'Concierto comunitario realizado junto a la Junta de Vecinos El Conquistador para acercar repertorios familiares y experiencia escenica al barrio.',
-    tags: ['EduCultura', 'musica', 'barrio'],
+      'Concierto comunitario realizado junto a la Junta de Vecinos El Conquistador para acercar repertorios familiares y experiencia escénica al barrio.',
+    tags: ['EduCultura', 'música', 'barrio'],
     sortOrder: 20,
   },
   'Concierto Disney en Villa El Conquistador 2024': {
     title: 'Concierto Disney en Villa El Conquistador',
     summary:
-      'Concierto comunitario realizado junto a Villa El Conquistador para acercar repertorios familiares y experiencia escenica al barrio.',
-    tags: ['EduCultura', 'musica', 'barrio'],
+      'Concierto comunitario realizado junto a Villa El Conquistador para acercar repertorios familiares y experiencia escénica al barrio.',
+    tags: ['EduCultura', 'música', 'barrio'],
     sortOrder: 20,
   },
   'Cultura vive en tu barrio 2024': {
     title: 'Cultura Vive en tu Barrio',
     summary:
-      'Proyecto territorial con talleres, diagnosticos, mediacion y programacion cultural desplegado en barrios de Nuble.',
-    tags: ['FormArte', 'EduCultura', 'InvestigAccion'],
+      'Proyecto territorial con talleres, diagnósticos, mediación y programación cultural desplegado en barrios de Ñuble.',
+    tags: ['FormArte', 'EduCultura', 'InvestigAcción'],
     sortOrder: 40,
   },
   "'Desde mi celular' - Festival de cortos escolares 2025": {
     title: 'Desde mi Celular',
     summary:
-      'Festival de cortos escolares que impulsa la creacion audiovisual desde la experiencia de ninas, ninos y jovenes.',
+      'Festival de cortos escolares que impulsa la creación audiovisual desde la experiencia de niñas, niños y jóvenes.',
     tags: ['FormArte', 'audiovisual', 'escuelas'],
     sortOrder: 15,
   },
-  'DÃ­a de Educultura 2025': {
-    title: 'Dia de EduCultura',
+  'Día de Educultura 2025': {
+    title: 'Día de EduCultura',
     summary:
-      'Jornada artistica de circulacion y encuentro que reunio musica y cine chileno en una programacion abierta a la comunidad.',
-    tags: ['EduCultura', 'musica', 'cine'],
+      'Jornada artística de circulación y encuentro que reunió música y cine chileno en una programación abierta a la comunidad.',
+    tags: ['EduCultura', 'música', 'cine'],
     sortOrder: 60,
   },
-  'DÃ­a de los patrimonios 2025': {
-    title: 'Dia de los Patrimonios',
+  'Día de los patrimonios 2025': {
+    title: 'Día de los Patrimonios',
     summary:
-      'Activacion comunitaria en torno al patrimonio, la memoria local y el encuentro intergeneracional.',
+      'Activación comunitaria en torno al patrimonio, la memoria local y el encuentro intergeneracional.',
     tags: ['patrimonio', 'memoria', 'comunidad'],
     sortOrder: 70,
   },
   'Encuentro de dos mundos 2023': {
     title: 'Encuentro de Dos Mundos',
     summary:
-      'Serie documental desarrollada en tres comunas de Nuble que pone en encuentro a payadores y freestylers, dialogando desde sus artes de improvisacion.',
-    tags: ['documental', 'improvisacion', 'territorio'],
+      'Serie documental desarrollada en tres comunas de Ñuble que pone en encuentro a payadores y freestylers, dialogando desde sus artes de improvisación.',
+    tags: ['documental', 'improvisación', 'territorio'],
     sortOrder: 20,
   },
-  'Expo Arte y Vida - muestra de talleres a fin de aÃ±o 2025': {
+  'Expo Arte y Vida - muestra de talleres a fin de año 2025': {
     title: 'Expo Arte y Vida',
     summary:
-      'Muestra de cierre de ano que reune procesos y resultados de los talleres FormArte en un formato expositivo abierto a la comunidad.',
+      'Muestra de cierre de año que reúne procesos y resultados de los talleres FormArte en un formato expositivo abierto a la comunidad.',
     tags: ['FormArte', 'muestra', 'talleres'],
     sortOrder: 30,
   },
   'FICC 2023': {
     summary:
-      'Programaci?n cultural con talleres, mural participativo, concierto y actividades de mediacion orientadas al trabajo comunitario.',
+      'Programación cultural con talleres, mural participativo, concierto y actividades de mediación orientadas al trabajo comunitario.',
     tags: ['festival', 'talleres', 'comunidad'],
     sortOrder: 10,
   },
   'Fotos para Proyectos medioambientales/2023': {
     title: 'Proyectos medioambientales',
     summary:
-      'Registros de acciones medioambientales y mediacion en torno a la flora nativa desarrolladas durante 2023.',
-    tags: ['medioambiente', 'territorio', 'educacion ambiental'],
+      'Registros de acciones medioambientales y mediación en torno a la flora nativa desarrolladas durante 2023.',
+    tags: ['medioambiente', 'territorio', 'educación ambiental'],
     sortOrder: 40,
   },
   'Fotos para Proyectos medioambientales/2024': {
     title: 'Proyectos medioambientales',
     summary:
-      'Programa territorial de educacion ambiental y activacion comunitaria que reune plantacion de flora nativa, mediacion escolar y acciones de cuidado del entorno en distintos sectores de Nuble.',
-    tags: ['medioambiente', 'territorio', 'educacion ambiental'],
+      'Programa territorial de educación ambiental y activación comunitaria que reúne plantación de flora nativa, mediación escolar y acciones de cuidado del entorno en distintos sectores de Ñuble.',
+    tags: ['medioambiente', 'territorio', 'educación ambiental'],
     sortOrder: 45,
   },
   'Fotos para Proyectos medioambientales/2025': {
     title: 'Proyectos medioambientales',
     summary:
-      'Continuidad del trabajo medioambiental con foco en flora nativa, participacion y cuidado del territorio durante 2025.',
+      'Continuidad del trabajo medioambiental con foco en flora nativa, participación y cuidado del territorio durante 2025.',
     tags: ['medioambiente', 'territorio', 'continuidad'],
     sortOrder: 80,
   },
   'Jornadas de Talleres Express en Verano 2026': {
     title: 'Talleres Express en Verano',
     summary:
-      'Ciclo intensivo de talleres creativos y experiencias de verano para activar la participacion artistica en vacaciones.',
+      'Ciclo intensivo de talleres creativos y experiencias de verano para activar la participación artística en vacaciones.',
     tags: ['FormArte', 'verano', 'talleres'],
     sortOrder: 20,
   },
   'Orquesta Arte y Vida 2025': {
     summary:
-      'Proceso musical colectivo que fortalece el trabajo colaborativo, la formacion instrumental y la circulacion artistica.',
-    tags: ['musica', 'formacion', 'orquesta'],
+      'Proceso musical colectivo que fortalece el trabajo colaborativo, la formación instrumental y la circulación artística.',
+    tags: ['música', 'formación', 'orquesta'],
     sortOrder: 40,
   },
-  'PresentaciÃ³n Elenco teatral Arte y Vida 2025': {
+  'Presentación Elenco teatral Arte y Vida 2025': {
     title: 'Elenco Teatral Arte y Vida',
     summary:
-      'Presentacion escenica del elenco teatral de la corporacion como parte de los procesos de formacion y circulacion artistica.',
-    tags: ['teatro', 'FormArte', 'circulacion'],
+      'Presentación escénica del elenco teatral de la corporación como parte de los procesos de formación y circulación artística.',
+    tags: ['teatro', 'FormArte', 'circulación'],
     sortOrder: 50,
   },
   'Reactivemos el teatro 2026': {
     title: 'Reactivemos el Teatro',
     summary:
-      'Programaci?n artistica gratuita y sostenida en el Teatro Municipal de Coelemu, con teatro, cine, danza, charlas, conciertos y otras experiencias de encuentro cultural.',
-    tags: ['EduCultura', 'teatro', 'programacion'],
+      'Programación artística gratuita y sostenida en el Teatro Municipal de Coelemu, con teatro, cine, danza, charlas, conciertos y otras experiencias de encuentro cultural.',
+    tags: ['EduCultura', 'teatro', 'programación'],
     sortOrder: 10,
   },
-  'Tumbe Canela en Liceo Domingo OrtÃ­z de Rozas 2025': {
+  'Tumbe Canela en Liceo Domingo Ortíz de Rozas 2025': {
     title: 'Tumbe Canela en Liceo DOR',
     summary:
-      'Presentacion musical en contexto escolar que acerca nuevas sonoridades y experiencias de escena a estudiantes y comunidad educativa.',
-    tags: ['EduCultura', 'musica', 'escuela'],
+      'Presentación musical en contexto escolar que acerca nuevas sonoridades y experiencias de escena a estudiantes y comunidad educativa.',
+    tags: ['EduCultura', 'música', 'escuela'],
     sortOrder: 90,
   },
 };
@@ -197,11 +197,11 @@ const YEAR_OVERRIDES: Record<number, YearOverride> = {
   },
   2024: {
     title: 'Archivo 2024',
-    description: 'Proyectos, diagnosticos, encuentros y acciones territoriales desarrolladas durante 2024.',
+    description: 'Proyectos, diagnósticos, encuentros y acciones territoriales desarrolladas durante 2024.',
   },
   2025: {
     title: 'Archivo 2025',
-    description: 'Programaci?n, circulaci?n art?stica y procesos formativos impulsados por Arte y Vida durante 2025.',
+    description: 'Programación, circulación artística y procesos formativos impulsados por Arte y Vida durante 2025.',
   },
   2026: {
     title: 'Archivo 2026',
@@ -224,7 +224,7 @@ function slugify(value: string) {
   return value
     .normalize('NFD')
     .replace(/[\u0300-\u036f]/g, '')
-    .replace(/['"`Â´]/g, '')
+    .replace(/['"`´]/g, '')
     .replace(/[^a-zA-Z0-9]+/g, '-')
     .replace(/^-+|-+$/g, '')
     .toLowerCase();
@@ -290,7 +290,14 @@ function inferTags(key: string, title: string) {
   if (haystack.includes('taller')) tags.add('talleres');
   if (haystack.includes('teatro')) tags.add('teatro');
   if (haystack.includes('cine')) tags.add('cine');
-  if (haystack.includes('orquesta') || haystack.includes('concierto') || haystack.includes('bigband') || haystack.includes('tumbe')) tags.add('musica');
+  if (
+    haystack.includes('orquesta') ||
+    haystack.includes('concierto') ||
+    haystack.includes('bigband') ||
+    haystack.includes('tumbe')
+  ) {
+    tags.add('musica');
+  }
   if (haystack.includes('diagnost')) tags.add('diagnostico');
   if (haystack.includes('patrimonio')) tags.add('patrimonio');
   if (haystack.includes('medioambient')) tags.add('medioambiente');

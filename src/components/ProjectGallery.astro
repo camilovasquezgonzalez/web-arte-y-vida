@@ -18,7 +18,7 @@ const previewImages = images.slice(0, 6);
         type="button"
         class={`project-gallery__preview group ${index === 0 ? 'col-span-2 row-span-2 min-h-[280px] lg:min-h-[420px]' : 'min-h-[140px] lg:min-h-[200px]'}`}
         data-gallery-open={index}
-        aria-label={`Abrir galeria de ${title}, imagen ${index + 1}`}
+        aria-label={`Abrir galería de ${title}, imagen ${index + 1}`}
       >
         <img src={image.src} alt={image.alt} class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]" loading="lazy" />
       </button>
@@ -27,21 +27,21 @@ const previewImages = images.slice(0, 6);
 
   <div class="mt-5 flex flex-wrap items-center justify-between gap-4">
     <p class="text-sm leading-relaxed text-brand-white/68">
-      Registro fotografico institucional disponible en la galeria completa.
+      Registro fotográfico institucional disponible en la galería completa.
     </p>
     <button
       type="button"
       class="inline-flex items-center gap-2 rounded-full border border-brand-white/14 bg-brand-white/6 px-5 py-3 text-xs font-black uppercase tracking-[0.18em] text-brand-white transition-colors hover:border-brand-accent/60 hover:text-brand-accent"
       data-gallery-open={0}
     >
-      Ver galeria completa
+      Ver galería completa
     </button>
   </div>
 
   <div class="project-gallery__modal hidden" data-gallery-modal aria-hidden="true">
     <div class="project-gallery__backdrop" data-gallery-close></div>
     <div class="project-gallery__dialog">
-      <button type="button" class="project-gallery__close" data-gallery-close aria-label="Cerrar galeria">x</button>
+      <button type="button" class="project-gallery__close" data-gallery-close aria-label="Cerrar galería">x</button>
 
       <div class="project-gallery__main">
         <button type="button" class="project-gallery__nav" data-gallery-prev aria-label="Imagen anterior"><</button>
@@ -221,78 +221,64 @@ const previewImages = images.slice(0, 6);
         root.dataset.galleryBound = 'true';
 
         const modal = root.querySelector('[data-gallery-modal]');
+        const backdrop = root.querySelector('[data-gallery-close]');
+        const closeButton = root.querySelector('.project-gallery__close');
         const mainImage = root.querySelector('[data-gallery-main-image]');
         const counter = root.querySelector('[data-gallery-counter]');
         const thumbs = Array.from(root.querySelectorAll('[data-gallery-thumb]'));
         const openButtons = Array.from(root.querySelectorAll('[data-gallery-open]'));
-        const closeButtons = Array.from(root.querySelectorAll('[data-gallery-close]'));
         const prevButton = root.querySelector('[data-gallery-prev]');
         const nextButton = root.querySelector('[data-gallery-next]');
+        const sources = {images: images};
+        let activeIndex = 0;
 
-        if (!(modal instanceof HTMLElement) || !(mainImage instanceof HTMLImageElement) || !(counter instanceof HTMLElement)) return;
-
-        let currentIndex = 0;
-
-        const getImages = () =>
-          thumbs
-            .map((thumb) => thumb.querySelector('img'))
-            .filter((image) => image instanceof HTMLImageElement);
-
-        const sync = (index) => {
-          const images = getImages();
-          if (!images.length) return;
-
-          currentIndex = (index + images.length) % images.length;
-          const current = images[currentIndex];
-          mainImage.src = current.src;
-          mainImage.alt = current.alt;
-          counter.textContent = `${currentIndex + 1} / ${images.length}`;
-
-          thumbs.forEach((thumb, thumbIndex) => {
-            thumb.classList.toggle('is-active', thumbIndex === currentIndex);
-          });
+        const render = () => {
+          if (!(mainImage instanceof HTMLImageElement)) return;
+          const activeImage = sources.images[activeIndex];
+          if (!activeImage) return;
+          mainImage.src = activeImage.src;
+          mainImage.alt = activeImage.alt;
+          if (counter instanceof HTMLElement) counter.textContent = `${activeIndex + 1} / ${sources.images.length}`;
+          thumbs.forEach((thumb, index) => thumb.classList.toggle('is-active', index === activeIndex));
         };
 
-        const open = (index) => {
-          sync(index);
-          modal.classList.remove('hidden');
-          modal.setAttribute('aria-hidden', 'false');
-          document.body.style.overflow = 'hidden';
+        const openModal = (index) => {
+          activeIndex = index;
+          render();
+          modal?.classList.remove('hidden');
+          modal?.setAttribute('aria-hidden', 'false');
+          document.body.classList.add('mobile-nav-open');
         };
 
-        const close = () => {
-          modal.classList.add('hidden');
-          modal.setAttribute('aria-hidden', 'true');
-          document.body.style.overflow = '';
+        const closeModal = () => {
+          modal?.classList.add('hidden');
+          modal?.setAttribute('aria-hidden', 'true');
+          document.body.classList.remove('mobile-nav-open');
         };
 
         openButtons.forEach((button) => {
-          button.addEventListener('click', () => {
-            const index = Number(button.getAttribute('data-gallery-open') ?? 0);
-            open(index);
+          button.addEventListener('click', () => openModal(Number(button.getAttribute('data-gallery-open') ?? 0)));
+        });
+
+        thumbs.forEach((thumb) => {
+          thumb.addEventListener('click', () => {
+            activeIndex = Number(thumb.getAttribute('data-gallery-thumb') ?? 0);
+            render();
           });
         });
 
-        thumbs.forEach((thumb, index) => {
-          thumb.addEventListener('click', () => sync(index));
+        prevButton?.addEventListener('click', () => {
+          activeIndex = (activeIndex - 1 + sources.images.length) % sources.images.length;
+          render();
         });
 
-        closeButtons.forEach((button) => button.addEventListener('click', close));
-        prevButton?.addEventListener('click', () => sync(currentIndex - 1));
-        nextButton?.addEventListener('click', () => sync(currentIndex + 1));
-
-        modal.addEventListener('click', (event) => {
-          if (event.target === modal) close();
+        nextButton?.addEventListener('click', () => {
+          activeIndex = (activeIndex + 1) % sources.images.length;
+          render();
         });
 
-        document.addEventListener('keydown', (event) => {
-          if (modal.classList.contains('hidden')) return;
-          if (event.key === 'Escape') close();
-          if (event.key === 'ArrowLeft') sync(currentIndex - 1);
-          if (event.key === 'ArrowRight') sync(currentIndex + 1);
-        });
-
-        sync(0);
+        backdrop?.addEventListener('click', closeModal);
+        closeButton?.addEventListener('click', closeModal);
       });
     };
 

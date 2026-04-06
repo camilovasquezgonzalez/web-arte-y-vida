@@ -62,7 +62,7 @@ const PROJECT_OVERRIDES: Record<string, ProjectOverride> = {
   'Casa Abierta 2024': {
     title: 'Casa Abierta',
     summary:
-      'Programacion abierta de verano con talleres FormArte y presentaciones EduCultura para activar la casa de Arte y Vida como espacio de encuentro.',
+      'Programaci?n abierta de verano con talleres FormArte y presentaciones EduCultura para activar la casa de Arte y Vida como espacio de encuentro.',
     tags: ['FormArte', 'EduCultura', 'comunidad'],
     sortOrder: 30,
   },
@@ -129,7 +129,7 @@ const PROJECT_OVERRIDES: Record<string, ProjectOverride> = {
   },
   'FICC 2023': {
     summary:
-      'Programacion cultural con talleres, mural participativo, concierto y actividades de mediacion orientadas al trabajo comunitario.',
+      'Programaci?n cultural con talleres, mural participativo, concierto y actividades de mediacion orientadas al trabajo comunitario.',
     tags: ['festival', 'talleres', 'comunidad'],
     sortOrder: 10,
   },
@@ -177,7 +177,7 @@ const PROJECT_OVERRIDES: Record<string, ProjectOverride> = {
   'Reactivemos el teatro 2026': {
     title: 'Reactivemos el Teatro',
     summary:
-      'Programacion artistica gratuita y sostenida en el Teatro Municipal de Coelemu, con teatro, cine, danza, charlas, conciertos y otras experiencias de encuentro cultural.',
+      'Programaci?n artistica gratuita y sostenida en el Teatro Municipal de Coelemu, con teatro, cine, danza, charlas, conciertos y otras experiencias de encuentro cultural.',
     tags: ['EduCultura', 'teatro', 'programacion'],
     sortOrder: 10,
   },
@@ -201,7 +201,7 @@ const YEAR_OVERRIDES: Record<number, YearOverride> = {
   },
   2025: {
     title: 'Archivo 2025',
-    description: 'Programacion, circulacion artistica y procesos formativos impulsados por Arte y Vida durante 2025.',
+    description: 'Programaci?n, circulaci?n art?stica y procesos formativos impulsados por Arte y Vida durante 2025.',
   },
   2026: {
     title: 'Archivo 2026',

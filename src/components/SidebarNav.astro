@@ -115,7 +115,7 @@ const socialLinks = [
         <div class="flex items-start justify-between gap-4 border-b border-brand-white/10 px-5 pb-4 pt-5">
           <div>
             <p id="sidebar-panel-title" class="text-[11px] font-semibold uppercase tracking-[0.28em] text-brand-white/70">
-              Navegaci&oacute;n
+              Navegaci?n
             </p>
             <p class="mt-1 text-sm font-semibold text-brand-white">Arte y Vida</p>
           </div>
@@ -124,7 +124,7 @@ const socialLinks = [
             id="sidebar-close"
             type="button"
             class="inline-flex h-10 w-10 items-center justify-center rounded-full border border-brand-white/10 bg-brand-white/5 text-brand-white/85 transition-colors hover:border-brand-accent/60 hover:text-brand-accent"
-            aria-label="Cerrar men&uacute; principal"
+            aria-label="Cerrar men? principal"
           >
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" class="h-4 w-4" stroke="currentColor" stroke-width="2">
               <path d="M6 6l12 12M18 6 6 18" stroke-linecap="round" />
@@ -132,7 +132,7 @@ const socialLinks = [
           </button>
         </div>
 
-        <nav class="min-h-0 flex-1 space-y-3 overflow-y-auto px-5 py-5" aria-label="Men&uacute; principal">
+        <nav class="min-h-0 flex-1 space-y-3 overflow-y-auto px-5 py-5" aria-label="Men? principal">
           {navSections.map((entry) =>
             entry.type === 'link' ? (
               <a
@@ -164,7 +164,7 @@ const socialLinks = [
         </nav>
 
         <div class="border-t border-brand-white/10 px-5 py-5">
-          <div class="mb-3 text-[11px] font-semibold uppercase tracking-[0.22em] text-brand-white/70">S&iacute;guenos</div>
+          <div class="mb-3 text-[11px] font-semibold uppercase tracking-[0.22em] text-brand-white/70">S?guenos</div>
           <div class="flex flex-wrap items-center gap-3 text-brand-white/80">
             {socialLinks.map((item) => (
               <a
@@ -346,7 +346,7 @@ const socialLinks = [
 
       toggle.setAttribute('data-open', String(isOpen));
       toggle.setAttribute('aria-expanded', String(isOpen));
-      toggle.setAttribute('aria-label', isOpen ? 'Cerrar menu principal' : 'Abrir menu principal');
+      toggle.setAttribute('aria-label', isOpen ? 'Cerrar men? principal' : 'Abrir men? principal');
       panel.setAttribute('aria-hidden', String(!isOpen));
       overlay.setAttribute('aria-hidden', String(!isOpen));
 

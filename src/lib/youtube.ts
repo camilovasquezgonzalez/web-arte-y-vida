@@ -470,16 +470,16 @@ const buildChannelSelections = (videos: YouTubeVideoItem[], playlistLimit: numbe
 
   const labels = [
     {
-      title: 'Ultimos estrenos',
-      description: 'Los videos mas recientes publicados por Arte y Vida TV.',
+      title: '?ltimos estrenos',
+      description: 'Los videos m?s recientes publicados por Arte y Vida TV.',
     },
     {
-      title: 'Capsulas y coberturas',
-      description: 'Una seleccion reciente de registros, coberturas y piezas del canal.',
+      title: 'C?psulas y coberturas',
+      description: 'Una selecci?n reciente de registros, coberturas y piezas del canal.',
     },
     {
       title: 'Archivo reciente',
-      description: 'Mas contenidos del canal para seguir explorando desde la misma pagina.',
+      description: 'M?s contenidos del canal para seguir explorando desde la misma p?gina.',
     },
   ];
 
@@ -511,19 +511,19 @@ const buildChannelSelections = (videos: YouTubeVideoItem[], playlistLimit: numbe
 const fallbackVideos: YouTubeVideoItem[] = [
   {
     id: channelUrl,
-    title: 'Suscribete a Arte y Vida TV para ver los ultimos estrenos',
+    title: 'Suscr?bete a Arte y Vida TV para ver los ?ltimos estrenos',
     thumbnail: '/DSC06842-scaled.webp',
     publishedAt: '',
   },
   {
     id: channelUrl,
-    title: 'Documentales y registros territoriales desde Nuble',
+    title: 'Documentales y registros territoriales desde ?uble',
     thumbnail: '/DSC04138-Enhanced-NR-scaled.webp',
     publishedAt: '',
   },
   {
     id: channelUrl,
-    title: 'Programacion cultural y social para compartir en comunidad',
+    title: 'Programaci?n cultural y social para compartir en comunidad',
     thumbnail: '/CVG08164-1-scaled.webp',
     publishedAt: '',
   },

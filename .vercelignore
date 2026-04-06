@@ -1,0 +1,10 @@
+.git
+.astro
+.vercel/output
+dist
+node_modules
+Socios CAV
+tcultura-connect.2.0.0
+Referencias web.pdf
+TCULTURA_API_KEY.txt
+*.log

@@ -37,9 +37,9 @@ const socialLinks = [
 
 <aside
   id="sidebar-shell"
-  class="pointer-events-none fixed inset-x-4 top-4 z-50 isolate flex flex-col gap-6 md:inset-x-auto md:left-4 md:top-1/2 md:-translate-y-1/2"
+  class="pointer-events-none fixed inset-x-4 top-4 z-50 isolate flex flex-col gap-6 xl:inset-x-auto xl:left-4 xl:top-1/2 xl:-translate-y-1/2"
 >
-  <div class="pointer-events-auto hidden flex-col gap-6 pl-1 md:flex">
+  <div class="pointer-events-auto hidden w-full flex-col gap-6 pl-1 xl:flex">
     <div class="flex items-center gap-3 text-brand-white">
       <img src="/blanco-scaled.webp" alt="Corporación Arte y Vida" class="h-14 w-auto drop-shadow-[0_10px_30px_rgba(0,0,0,0.35)]" />
       <div class="flex flex-col leading-tight">
@@ -79,7 +79,7 @@ const socialLinks = [
   <button
     id="sidebar-toggle"
     type="button"
-    class="pointer-events-auto relative z-[80] flex h-12 w-12 items-center justify-center self-start rounded-full border border-brand-white/15 bg-brand-bg/82 text-brand-white shadow-[0_18px_50px_rgba(0,0,0,0.45)] backdrop-blur-xl transition-all duration-300 hover:border-brand-accent/70 hover:shadow-[0_12px_38px_rgba(254,209,0,0.2)] md:hidden"
+    class="pointer-events-auto relative z-[80] flex h-12 w-12 items-center justify-center self-start rounded-full border border-brand-white/15 bg-brand-bg/82 text-brand-white shadow-[0_18px_50px_rgba(0,0,0,0.45)] backdrop-blur-xl transition-all duration-300 hover:border-brand-accent/70 hover:shadow-[0_12px_38px_rgba(254,209,0,0.2)] xl:hidden"
     aria-label="Abrir menú principal"
     aria-controls="sidebar-panel"
     aria-expanded="false"
@@ -95,7 +95,7 @@ const socialLinks = [
     id="sidebar-overlay"
     hidden
     aria-hidden="true"
-    class="pointer-events-auto fixed inset-0 z-[60] bg-black/72 md:hidden"
+    class="pointer-events-auto fixed inset-0 z-[60] bg-black/72 xl:hidden"
   ></div>
 
   <div
@@ -106,7 +106,7 @@ const socialLinks = [
     aria-modal="true"
     aria-hidden="true"
     aria-labelledby="sidebar-panel-title"
-    class="pointer-events-auto fixed inset-x-4 bottom-4 top-20 z-[70] md:hidden"
+    class="pointer-events-auto fixed inset-x-4 bottom-4 top-20 z-[70] xl:hidden"
   >
     <div class="mobile-menu-card overflow-hidden rounded-[1.75rem] border border-brand-white/10 bg-[linear-gradient(180deg,rgba(8,8,8,0.98),rgba(8,8,8,0.95))] shadow-[0_25px_90px_rgba(0,0,0,0.55)]">
       <div class="absolute inset-0 opacity-45 bg-[radial-gradient(circle_at_85%_14%,rgba(49,204,231,0.85)_0%,transparent_30%),radial-gradient(circle_at_10%_78%,rgba(197,48,149,0.7)_0%,transparent_28%)]"></div>
@@ -185,6 +185,10 @@ const socialLinks = [
 </aside>
 
 <style>
+  #sidebar-shell {
+    width: min(var(--sidebar-desktop-width), calc(100vw - 2rem));
+  }
+
   #sidebar-toggle .line {
     position: absolute;
     width: 20px;
@@ -296,14 +300,38 @@ const socialLinks = [
     transform: translateY(0);
   }
 
-  @media (max-width: 767px) {
+  @media (max-width: 1279px) {
     #sidebar-shell {
       top: max(1rem, env(safe-area-inset-top));
+      width: auto;
     }
 
     #sidebar-panel {
       top: calc(max(1rem, env(safe-area-inset-top)) + 3.75rem);
       bottom: calc(max(1rem, env(safe-area-inset-bottom)) + 0.5rem);
+    }
+  }
+</style>
+
+<style is:global>
+  :root {
+    --sidebar-desktop-width: 15rem;
+    --sidebar-desktop-offset: 1rem;
+    --sidebar-desktop-gap: clamp(1.25rem, 1.8vw, 2rem);
+    --sidebar-desktop-safe-space: calc(
+      var(--sidebar-desktop-width) + var(--sidebar-desktop-offset) + var(--sidebar-desktop-gap)
+    );
+  }
+
+  @media (min-width: 1280px) {
+    body:has(#sidebar-shell) main > :is(section, article) > .mx-auto,
+    body:has(#sidebar-shell) main > .mx-auto,
+    body:has(#sidebar-shell) footer > .mx-auto {
+      padding-left: max(var(--sidebar-desktop-safe-space), 1.5rem) !important;
+    }
+
+    body:has(#sidebar-shell) .hero-video-shell .hero-video-content {
+      margin-left: var(--sidebar-desktop-safe-space);
     }
   }
 </style>
@@ -421,7 +449,7 @@ const socialLinks = [
     };
 
     const handleResize = () => {
-      if (window.innerWidth >= 768) {
+      if (window.innerWidth >= 1280) {
         setOpen(false, { returnFocus: false });
       }
     };

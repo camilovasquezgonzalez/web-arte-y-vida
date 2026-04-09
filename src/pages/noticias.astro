@@ -1,6 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import SidebarNav from '../components/SidebarNav.astro';
+import { formatCategoryLabel } from '../lib/contentLabels';
 import Layout from '../layouts/Layout.astro';
 
 const toSlug = (entry) => entry.slug ?? entry.id?.split('/').pop()?.replace(/\.(md|mdx)$/i, '') ?? '';
@@ -72,6 +73,7 @@ const remainingPosts = posts.slice(1);
               <div class="flex flex-wrap gap-2 text-[11px] uppercase tracking-[0.18em] text-brand-white/60">
                 {(Array.isArray(featuredPost.data.categories) ? featuredPost.data.categories : [])
                   .filter((cat) => cat && cat.toLowerCase() !== 'sin-categoria')
+                  .map((cat) => formatCategoryLabel(cat))
                   .map((cat) => (
                     <span class="rounded-full border border-brand-white/10 bg-brand-white/5 px-3 py-1.5">{cat}</span>
                   ))}
@@ -95,8 +97,10 @@ const remainingPosts = posts.slice(1);
     <div class="mx-auto grid max-w-[1280px] grid-cols-1 gap-6 px-6 sm:px-10 md:grid-cols-2 lg:grid-cols-3 xl:max-w-[1440px]">
       {remainingPosts.map((post, index) => {
         const rawCats = Array.isArray(post.data.categories) ? post.data.categories : [];
-        const cleanCats = rawCats.filter((cat) => cat && cat.toLowerCase() !== 'sin-categoria');
-        const categoriesToShow = cleanCats.length ? cleanCats : ['agenda-cultural'];
+        const cleanCats = rawCats
+          .filter((cat) => cat && cat.toLowerCase() !== 'sin-categoria')
+          .map((cat) => formatCategoryLabel(cat));
+        const categoriesToShow = cleanCats.length ? cleanCats : [formatCategoryLabel('agenda-cultural')];
         return (
           <a
             href={`/posts/${post._slug}`}

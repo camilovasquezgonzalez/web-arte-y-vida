@@ -296,9 +296,9 @@ function inferTags(key: string, title: string) {
     haystack.includes('bigband') ||
     haystack.includes('tumbe')
   ) {
-    tags.add('musica');
+    tags.add('música');
   }
-  if (haystack.includes('diagnost')) tags.add('diagnostico');
+  if (haystack.includes('diagnost')) tags.add('diagnóstico');
   if (haystack.includes('patrimonio')) tags.add('patrimonio');
   if (haystack.includes('medioambient')) tags.add('medioambiente');
   if (haystack.includes('festival')) tags.add('festival');

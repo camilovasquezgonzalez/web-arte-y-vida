@@ -9,6 +9,7 @@ interface Props {
 
 const { galleryId, title, images } = Astro.props;
 const previewImages = images.slice(0, 6);
+const galleryImages = JSON.stringify(images);
 ---
 
 <div class="project-gallery" data-project-gallery data-gallery-id={galleryId}>
@@ -38,10 +39,12 @@ const previewImages = images.slice(0, 6);
     </button>
   </div>
 
+  <script type="application/json" data-gallery-images set:html={galleryImages}></script>
+
   <div class="project-gallery__modal hidden" data-gallery-modal aria-hidden="true">
     <div class="project-gallery__backdrop" data-gallery-close></div>
     <div class="project-gallery__dialog">
-      <button type="button" class="project-gallery__close" data-gallery-close aria-label="Cerrar galería">x</button>
+      <button type="button" class="project-gallery__close" data-gallery-close aria-label="Cerrar galería">×</button>
 
       <div class="project-gallery__main">
         <button type="button" class="project-gallery__nav" data-gallery-prev aria-label="Imagen anterior"><</button>
@@ -207,7 +210,7 @@ const previewImages = images.slice(0, 6);
   }
 </style>
 
-<script define:vars={{ images }}>
+<script>
   if (!window.__projectGalleryBound) {
     window.__projectGalleryBound = true;
 
@@ -221,7 +224,7 @@ const previewImages = images.slice(0, 6);
         root.dataset.galleryBound = 'true';
 
         const modal = root.querySelector('[data-gallery-modal]');
-        const backdrop = root.querySelector('[data-gallery-close]');
+        const backdrop = root.querySelector('.project-gallery__backdrop');
         const closeButton = root.querySelector('.project-gallery__close');
         const mainImage = root.querySelector('[data-gallery-main-image]');
         const counter = root.querySelector('[data-gallery-counter]');
@@ -229,8 +232,14 @@ const previewImages = images.slice(0, 6);
         const openButtons = Array.from(root.querySelectorAll('[data-gallery-open]'));
         const prevButton = root.querySelector('[data-gallery-prev]');
         const nextButton = root.querySelector('[data-gallery-next]');
-        const sources = images;
+        const imageDataScript = root.querySelector('[data-gallery-images]');
+        const sources =
+          imageDataScript instanceof HTMLScriptElement && imageDataScript.textContent
+            ? JSON.parse(imageDataScript.textContent)
+            : [];
         let activeIndex = 0;
+
+        if (!Array.isArray(sources) || sources.length === 0) return;
 
         const render = () => {
           if (!(mainImage instanceof HTMLImageElement)) return;
@@ -243,7 +252,7 @@ const previewImages = images.slice(0, 6);
         };
 
         const openModal = (index) => {
-          activeIndex = index;
+          activeIndex = Math.max(0, Math.min(index, sources.length - 1));
           render();
           modal?.classList.remove('hidden');
           modal?.setAttribute('aria-hidden', 'false');

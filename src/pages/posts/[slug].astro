@@ -2,6 +2,7 @@
 import Layout from '../../layouts/Layout.astro';
 import SidebarNav from '../../components/SidebarNav.astro';
 import { getCollection } from 'astro:content';
+import { formatCategoryLabel } from '../../lib/contentLabels';
 
 export async function getStaticPaths() {
   const entries = await getCollection('posts');
@@ -26,8 +27,10 @@ if (!entry) {
 let Content;
 
 const rawCategories = Array.isArray(entry.data.categories) ? entry.data.categories : [];
-const displayCategories = rawCategories.filter((cat) => cat && cat.toLowerCase() !== 'sin-categoria');
-const categoriesToShow = displayCategories.length ? displayCategories : ['agenda-cultural'];
+const displayCategories = rawCategories
+  .filter((cat) => cat && cat.toLowerCase() !== 'sin-categoria')
+  .map((cat) => formatCategoryLabel(cat));
+const categoriesToShow = displayCategories.length ? displayCategories : [formatCategoryLabel('agenda-cultural')];
 
 if (typeof entry.render === 'function') {
   const rendered = await entry.render();

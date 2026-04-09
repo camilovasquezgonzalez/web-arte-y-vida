@@ -12,7 +12,7 @@ const floresYSombras = {
   thumbnail: 'https://i.ytimg.com/vi/40efH5D1BCM/hqdefault.jpg',
   publishedAt: '2024-12-28T23:00:04Z',
   description:
-    'Cortometraje documental que recorre la memoria, los relatos y los simbolos del Cementerio de Coelemu desde una mirada sensible y territorial.',
+    'Cortometraje documental que recorre la memoria, los relatos y los símbolos del Cementerio de Coelemu desde una mirada sensible y territorial.',
 };
 
 const featuredVideo = floresYSombras;
@@ -61,7 +61,7 @@ const libraryRest = playlists.slice(1);
             href="#biblioteca-proyectos"
             class="inline-flex min-h-12 items-center justify-center gap-2 rounded-full border border-brand-white/15 px-5 py-3 text-xs font-black uppercase tracking-[0.2em] text-brand-white transition-colors hover:border-brand-accent/70 hover:text-brand-accent"
           >
-            Explorar catalogo
+            Explorar catálogo
           </a>
         </div>
       </div>
@@ -69,7 +69,7 @@ const libraryRest = playlists.slice(1);
       <div class="lg:col-span-8">
         <div class="overflow-hidden rounded-[32px] border border-brand-white/10 bg-brand-white/5 shadow-[0_25px_100px_rgba(0,0,0,0.45)] backdrop-blur-xl">
           <div class="flex items-center justify-between border-b border-brand-white/10 px-5 py-3 text-[11px] uppercase tracking-[0.24em] text-brand-white/55">
-            <span>Senal destacada</span>
+            <span>Señal destacada</span>
             <span>Arte y Vida TV</span>
           </div>
 
@@ -115,10 +115,10 @@ const libraryRest = playlists.slice(1);
       <div class="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
         <div>
           <p class="text-xs font-black uppercase tracking-[0.3em] text-brand-accent">En vitrina</p>
-          <h2 class="text-3xl font-black leading-tight">Capsulas, registros y estrenos recientes.</h2>
+          <h2 class="text-3xl font-black leading-tight">Cápsulas, registros y estrenos recientes.</h2>
         </div>
         <p class="max-w-xl text-sm text-brand-white/65">
-          Explora una seleccion pensada como parrilla audiovisual: piezas para ver, compartir y volver a visitar.
+          Explora una selección curada para ver, compartir y volver a visitar.
         </p>
       </div>
 
@@ -135,7 +135,7 @@ const libraryRest = playlists.slice(1);
               <img src={video.thumbnail} alt={video.title} class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]" loading="lazy" />
               <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/15 to-transparent"></div>
               <div class="absolute left-4 top-4 inline-flex items-center gap-2 rounded-full border border-white/15 bg-black/30 px-3 py-1 text-[11px] font-black uppercase tracking-[0.18em] text-brand-white backdrop-blur">
-                Senal {index + 1}
+                Señal {index + 1}
               </div>
             </div>
             <div class="space-y-3 px-5 py-5">
@@ -156,7 +156,7 @@ const libraryRest = playlists.slice(1);
           <h2 class="text-3xl font-black leading-tight">Series, proyectos y especiales para seguir viendo.</h2>
         </div>
         <p class="max-w-2xl text-sm text-brand-white/65">
-          Elige una coleccion y sumergite en documentales, registros, coberturas y momentos clave de nuestro trabajo cultural.
+          Elige una colección y sumérgete en documentales, registros, coberturas y momentos clave de nuestro trabajo cultural.
         </p>
       </div>
 
@@ -172,7 +172,7 @@ const libraryRest = playlists.slice(1);
               <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/35 to-transparent"></div>
               <div class="absolute bottom-6 left-6 right-6">
                 <div class="mb-3 inline-flex items-center gap-2 rounded-full border border-white/15 bg-black/30 px-3 py-1 text-[11px] font-black uppercase tracking-[0.18em] text-brand-white backdrop-blur">
-                  Coleccion destacada
+                  Colección destacada
                 </div>
                 <h3 class="text-3xl font-black leading-tight">{libraryLead.title}</h3>
               </div>
@@ -184,11 +184,11 @@ const libraryRest = playlists.slice(1);
                   <span>{libraryLead.videoCount || libraryLead.videos.length} videos</span>
                   <span class="inline-flex items-center gap-2 text-brand-accent">
                     <span class="h-1.5 w-1.5 rounded-full bg-brand-accent"></span>
-                    Seleccion destacada
+                    Selección destacada
                   </span>
                 </div>
                 <p class="max-w-2xl text-sm leading-relaxed text-brand-white/72">
-                  {libraryLead.description || 'Una seleccion audiovisual para recorrer la memoria, los hitos y los momentos principales de esta serie.'}
+                  {libraryLead.description || 'Una selección audiovisual para recorrer la memoria, los hitos y los momentos principales de esta serie.'}
                 </p>
                 <a
                   href={libraryLead.playlistUrl}
@@ -243,7 +243,7 @@ const libraryRest = playlists.slice(1);
 
               <div class="space-y-4 px-5 py-5">
                 <p class="text-sm leading-relaxed text-brand-white/72">
-                  {playlist.description || 'Una coleccion disponible para seguir viendo esta serie en Arte y Vida TV.'}
+                  {playlist.description || 'Una colección disponible para seguir viendo esta serie en Arte y Vida TV.'}
                 </p>
 
                 <div class="space-y-3">

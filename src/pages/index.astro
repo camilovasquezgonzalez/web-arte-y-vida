@@ -5,6 +5,7 @@ import InstagramFeed from '../components/InstagramFeed.astro';
 import SidebarNav from '../components/SidebarNav.astro';
 import TculturaAgenda from '../components/TculturaAgenda.astro';
 import YouTubeGallery from '../components/YouTubeGallery.astro';
+import { formatCategoryLabel } from '../lib/contentLabels';
 import { getArchiveProjectByKey } from '../lib/projectArchive';
 import { getTculturaAgenda } from '../lib/tcultura';
 import Layout from '../layouts/Layout.astro';
@@ -271,8 +272,10 @@ const tculturaAgenda = await getTculturaAgenda({ limit: 6 });
       <div class="space-y-4 lg:col-span-8">
         {posts.map((post, index) => {
           const rawCats = Array.isArray(post.data.categories) ? post.data.categories : [];
-          const cleanCats = rawCats.filter((cat) => cat && cat.toLowerCase() !== 'sin-categoria');
-          const categoriesToShow = cleanCats.length ? cleanCats : ['agenda-cultural'];
+          const cleanCats = rawCats
+            .filter((cat) => cat && cat.toLowerCase() !== 'sin-categoria')
+            .map((cat) => formatCategoryLabel(cat));
+          const categoriesToShow = cleanCats.length ? cleanCats : [formatCategoryLabel('agenda-cultural')];
           return (
             <a
               href={`/posts/${post._slug}`}

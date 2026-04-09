@@ -1,16 +1,18 @@
 @import "tailwindcss";
 
 @theme {
-  --font-sans: 'Poppins', 'Inter', ui-sans-serif, system-ui, sans-serif;
-  --font-display: 'Poppins', 'Inter', ui-sans-serif, system-ui, sans-serif;
+  --font-sans: 'Poppins', ui-sans-serif, system-ui, sans-serif;
+  --font-display: 'Fraunces', Georgia, serif;
 
   /* Paleta corporativa Arte y Vida */
   --color-brand-bg: #050505;
   --color-brand-primary: #C53095; /* Magenta acento */
   --color-brand-secondary: #31CCE7; /* Cian acento */
   --color-brand-accent: #FED100; /* Amarillo principal */
-  --color-brand-white: #F0F0F0; /* Blanco tipográfico */
-  --color-brand-gray: #5F5C5B; /* Gris de apoyo */
+  --color-brand-white: #F3F1EB;
+  --color-brand-gray: #5F5C5B;
+  --color-brand-muted: #CFC8BE;
+  --color-brand-soft: #A79F93;
 }
 
 @layer base {
@@ -21,6 +23,7 @@
   body {
     @apply font-sans antialiased bg-brand-bg text-brand-white selection:bg-brand-accent selection:text-brand-bg;
     min-width: 320px;
+    line-height: 1.55;
   }
 
   h1,
@@ -29,7 +32,8 @@
   h4,
   h5,
   h6 {
-    @apply font-display font-bold tracking-tight text-brand-white;
+    @apply font-display font-semibold tracking-tight text-brand-white;
+    text-wrap: balance;
   }
 
   main {
@@ -37,7 +41,22 @@
   }
 
   p {
+    color: var(--color-brand-muted);
     text-wrap: pretty;
+  }
+
+  a,
+  button {
+    outline: none;
+  }
+
+  a:focus-visible,
+  button:focus-visible,
+  [tabindex]:focus-visible {
+    box-shadow:
+      0 0 0 2px rgba(5, 5, 5, 0.96),
+      0 0 0 4px rgba(254, 209, 0, 0.88);
+    border-radius: 999px;
   }
 }
 
@@ -63,6 +82,7 @@
   .link-underline {
     position: relative;
   }
+
   .link-underline::after {
     content: '';
     position: absolute;
@@ -76,6 +96,7 @@
     transition: transform 0.3s ease;
     opacity: 0.5;
   }
+
   .link-underline:hover::after {
     transform: scaleX(1);
     opacity: 1;
@@ -84,21 +105,29 @@
   /* Marquee */
   .marquee {
     overflow: hidden;
-    white-space: nowrap;
     position: relative;
+    white-space: nowrap;
   }
+
   .marquee-track {
     display: inline-flex;
     align-items: center;
     gap: 2.5rem;
     animation: marquee 18s linear infinite;
   }
+
   .marquee-track.reverse {
     animation-direction: reverse;
   }
+
   @keyframes marquee {
-    0% { transform: translateX(0); }
-    100% { transform: translateX(-50%); }
+    0% {
+      transform: translateX(0);
+    }
+
+    100% {
+      transform: translateX(-50%);
+    }
   }
 
   .mission-highlight {
@@ -121,12 +150,12 @@
     margin: 0 auto;
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
     gap: 0.08em 0.22em;
     font-size: clamp(2.8rem, 7.8vw, 5.8rem);
     line-height: 1.02;
-    letter-spacing: -0.055em;
+    letter-spacing: -0.045em;
     text-align: center;
   }
 
@@ -134,8 +163,8 @@
     display: inline-flex;
     align-items: center;
     white-space: nowrap;
-    color: rgba(240, 240, 240, 0.2);
-    opacity: 0.55;
+    color: rgba(243, 241, 235, 0.42);
+    opacity: 0.72;
     transform: translateY(0) scale(1);
     transition:
       color 240ms ease,
@@ -145,7 +174,7 @@
   }
 
   .mission-highlight__unit--white {
-    --mission-active-color: rgba(240, 240, 240, 0.98);
+    --mission-active-color: rgba(243, 241, 235, 0.98);
   }
 
   .mission-highlight__unit--cyan {
@@ -157,7 +186,7 @@
   }
 
   .mission-highlight__unit.is-active {
-    color: var(--mission-active-color, rgba(240, 240, 240, 0.88));
+    color: var(--mission-active-color, rgba(243, 241, 235, 0.9));
     opacity: 1;
     text-shadow: 0 0 28px rgba(255, 255, 255, 0.06);
   }
@@ -173,9 +202,9 @@
     border: 1px solid rgba(240, 240, 240, 0.1);
     border-radius: 999px;
     box-shadow: 0 18px 40px rgba(0, 0, 0, 0.28);
-    opacity: 0.34;
-    transform: scale(0.9);
-    filter: saturate(0.8) brightness(0.85);
+    opacity: 0.42;
+    transform: scale(0.92);
+    filter: saturate(0.86) brightness(0.9);
     transition:
       opacity 260ms ease,
       transform 260ms ease,
@@ -215,7 +244,7 @@
   }
 
   .mission-highlight__frame > p {
-    color: rgba(240, 240, 240, 0.5);
+    color: rgba(243, 241, 235, 0.68);
   }
 
   @media (max-width: 768px) {

@@ -44,12 +44,12 @@ const fallbackStyle = poster
   <div class="relative z-20 flex h-full w-full items-end px-5 pb-12 pt-28 sm:px-10 sm:pb-14 md:items-center md:px-14 md:pb-0 md:pt-0 lg:px-20 xl:px-24">
     <div class="hero-video-content max-w-5xl space-y-5 text-left animate-fade-in md:space-y-6">
       {kicker && (
-        <span class="block max-w-[22rem] text-xs font-semibold uppercase tracking-[0.22em] text-[#D4AF37] opacity-90 sm:text-sm md:max-w-none md:text-base md:tracking-[0.24em]">
+        <span class="block max-w-[22rem] text-xs font-semibold uppercase tracking-[0.18em] text-[#F3D56B] [text-shadow:0_6px_24px_rgba(0,0,0,0.55)] sm:text-sm md:max-w-none md:text-base md:tracking-[0.22em]">
           {kicker}
         </span>
       )}
 
-      <h1 class="max-w-[12ch] text-[clamp(2.7rem,12vw,4.2rem)] font-black uppercase leading-[0.92] tracking-tight drop-shadow-[0_10px_30px_rgba(0,0,0,0.35)] md:max-w-none md:text-7xl lg:text-8xl">
+      <h1 class="max-w-[12ch] text-[clamp(2.7rem,12vw,4.2rem)] leading-[0.92] tracking-tight drop-shadow-[0_12px_34px_rgba(0,0,0,0.42)] md:max-w-none md:text-7xl lg:text-8xl">
         {title}
       </h1>
 
@@ -57,10 +57,10 @@ const fallbackStyle = poster
         <button
           id="hero-scroll-btn"
           data-target={scrollTarget}
-          class="group inline-flex min-h-12 items-center gap-3 text-left text-xs font-semibold uppercase tracking-[0.18em] text-brand-white/82 transition-all duration-300 hover:text-[#D4AF37] sm:text-sm"
+          class="group inline-flex min-h-12 items-center gap-3 rounded-full bg-black/20 px-1.5 py-1.5 text-left text-xs font-semibold uppercase tracking-[0.16em] text-brand-white transition-all duration-300 hover:bg-black/30 hover:text-[#F3D56B] sm:text-sm"
         >
           <span>{scrollLabel}</span>
-          <span class="flex h-11 w-11 items-center justify-center rounded-full border border-white/30 transition-colors group-hover:border-[#D4AF37]">
+          <span class="flex h-11 w-11 items-center justify-center rounded-full border border-white/35 bg-white/5 transition-colors group-hover:border-[#F3D56B]">
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M7 13l5 5 5-5M7 6l5 5 5-5" />
             </svg>
@@ -95,8 +95,8 @@ const fallbackStyle = poster
 
   .hero-video-overlay {
     background:
-      linear-gradient(180deg, rgba(5, 5, 5, 0.18) 0%, rgba(5, 5, 5, 0.42) 100%),
-      linear-gradient(90deg, rgba(5, 5, 5, 0.7) 0%, rgba(5, 5, 5, 0.28) 42%, rgba(5, 5, 5, 0.52) 100%);
+      linear-gradient(180deg, rgba(5, 5, 5, 0.24) 0%, rgba(5, 5, 5, 0.48) 100%),
+      linear-gradient(90deg, rgba(5, 5, 5, 0.78) 0%, rgba(5, 5, 5, 0.34) 42%, rgba(5, 5, 5, 0.58) 100%);
     backdrop-filter: blur(1.2px);
   }
 
@@ -128,8 +128,8 @@ const fallbackStyle = poster
   @media (max-width: 767px) {
     .hero-video-overlay {
       background:
-        linear-gradient(180deg, rgba(5, 5, 5, 0.32) 0%, rgba(5, 5, 5, 0.52) 54%, rgba(5, 5, 5, 0.74) 100%),
-        linear-gradient(90deg, rgba(5, 5, 5, 0.52) 0%, rgba(5, 5, 5, 0.18) 48%, rgba(5, 5, 5, 0.48) 100%);
+        linear-gradient(180deg, rgba(5, 5, 5, 0.4) 0%, rgba(5, 5, 5, 0.58) 54%, rgba(5, 5, 5, 0.8) 100%),
+        linear-gradient(90deg, rgba(5, 5, 5, 0.62) 0%, rgba(5, 5, 5, 0.24) 48%, rgba(5, 5, 5, 0.56) 100%);
     }
 
     .hero-video-content {

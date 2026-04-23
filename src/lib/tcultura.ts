@@ -6,6 +6,7 @@ const TCULTURA_PUBLIC_URL = 'https://tcultura.com/eventos/?ciudad=336&vista=acti
 const TCULTURA_API_HEADER = 'X-Project-Api-Key';
 const TCULTURA_MAX_PAGES = 20;
 const TCULTURA_TIME_ZONE = 'America/Santiago';
+const PROJECT_KEYWORDS = ['reactivemos', 'reactivemos teatro', 'teatro coelemu', 'teatro municipal de coelemu'];
 
 type RawTculturaItem = Record<string, unknown>;
 
@@ -135,6 +136,11 @@ const normalizeSearchText = (value: string): string =>
     .normalize('NFD')
     .replace(/[\u0300-\u036f]/g, '')
     .toLowerCase();
+
+const matchesProject = (value: string): boolean => {
+  const normalized = normalizeSearchText(value);
+  return PROJECT_KEYWORDS.some((keyword) => normalized.includes(keyword));
+};
 
 const absoluteTculturaUrl = (value: string): string => {
   if (!value) return '';
@@ -329,6 +335,9 @@ const isProjectPublicCard = (item: PublicTculturaCard): boolean => {
   return haystack.includes('reactivemos');
 };
 
+const isProjectAgendaItem = (item: TculturaAgendaItem): boolean =>
+  matchesProject([item.title, item.description, item.category, item.location, item.link].join(' '));
+
 const fetchPublicAgenda = async (limit: number): Promise<TculturaAgendaItem[]> => {
   try {
     const response = await fetch(TCULTURA_PUBLIC_URL, {
@@ -360,10 +369,13 @@ const fetchPublicAgenda = async (limit: number): Promise<TculturaAgendaItem[]> =
 };
 
 const getFallbackAgenda = (limit: number): TculturaAgendaItem[] =>
-  fallbackAgendaItems.slice(0, limit).map((item) => ({
-    ...item,
-    dateFormatted: formatDate(item.dateIso) || item.dateFormatted,
-  }));
+  fallbackAgendaItems
+    .map((item) => ({
+      ...item,
+      dateFormatted: formatDate(item.dateIso) || item.dateFormatted,
+    }))
+    .filter(isUpcoming)
+    .slice(0, limit);
 
 export const getTculturaAgenda = async (
   options: { limit?: number } = {},
@@ -405,6 +417,7 @@ export const getTculturaAgenda = async (
     });
 
     const upcomingItems = items
+      .filter(isProjectAgendaItem)
       .filter(isUpcoming)
       .sort((a, b) => {
         if (!a.dateIso && !b.dateIso) return 0;
@@ -436,7 +449,7 @@ export const getTculturaAgenda = async (
     const fallbackItems = getFallbackAgenda(limit);
     return {
       items: fallbackItems,
-      error: fallbackItems.length ? null : 'No hay eventos proximos publicados para este proyecto.',
+      error: fallbackItems.length ? null : 'No hay actividades vigentes publicadas para Reactivemos el Teatro.',
       generatedAt,
       source: fallbackItems.length ? 'public' : source,
     };
@@ -454,7 +467,7 @@ export const getTculturaAgenda = async (
     const fallbackItems = getFallbackAgenda(limit);
     return {
       items: fallbackItems,
-      error: fallbackItems.length ? null : 'No pudimos actualizar la cartelera en este momento.',
+      error: fallbackItems.length ? null : 'No pudimos actualizar la cartelera actual en este momento.',
       generatedAt,
       source: fallbackItems.length ? 'public' : source,
     };

@@ -1,134 +1,13 @@
 ---
-type PostItem = {
-  id: string;
-  permalink: string;
-  timestamp: string;
-  caption: string;
-  mediaType: string;
-  cover: string;
-};
+import type { InstagramFeedData, InstagramPostItem } from '../lib/instagram';
 
-const feed = {
-  username: 'corparteyvida',
-  biography:
-    `Creemos que la gestión cultural es la base sobre la que se sostiene el desarrollo de las comunidades.
-Entradas para eventos e inscripción a talleres aquí.`,
-  profilePictureUrl:
-    'https://cdn2.behold.pictures/6CJI9ZwlwXWfIMGd2pPh7MvdAxk2/17841407353889211/profile.webp',
-  website: 'http://www.facebook.com/corparteyvida',
-  followersCount: 3411,
-  followsCount: 323,
-  posts: [
-    {
-      id: '18389074348152754',
-      timestamp: '2026-03-31T15:02:53+0000',
-      permalink: 'https://www.instagram.com/p/DWjZpZIiCDt/',
-      mediaType: 'CAROUSEL_ALBUM',
-      caption:
-        `Taller de Yoga | FormArte 2026
+interface Props {
+  feed: InstagramFeedData;
+  error?: string | null;
+  updatedAt?: string;
+}
 
-Te invitamos a participar en este espacio de bienestar y conexión guiado por Veruchka Concha.
-
-Lugar: Centro Cultural COS, José Matus 762
-Horario: martes, 19:00 hrs.
-Público: mayores de 18 años
-
-Inscríbete a través del enlace de nuestra bio o revisa el formulario en las historias destacadas.`,
-      cover:
-        'https://behold.pictures/6CJI9ZwlwXWfIMGd2pPh7MvdAxk2/4gCtfgh1AA9Oqq4SFGb5/18389074348152754/medium.jpg',
-    },
-    {
-      id: '18092758589143595',
-      timestamp: '2026-03-31T15:02:42+0000',
-      permalink: 'https://www.instagram.com/p/DWjZoBIiOq_/',
-      mediaType: 'CAROUSEL_ALBUM',
-      caption:
-        `Taller de Danzas Latinas | FormArte 2026
-
-Te invitamos a moverte, aprender y disfrutar este espacio junto a Felipe González.
-
-Lugar: Casa Taller Arte y Vida, Pedro León Gallo 547
-Horario: jueves, 19:00 hrs.
-Público: mayores de 18 años
-
-Inscríbete a través del enlace de nuestra bio o revisa el formulario en las historias destacadas.`,
-      cover:
-        'https://behold.pictures/6CJI9ZwlwXWfIMGd2pPh7MvdAxk2/4gCtfgh1AA9Oqq4SFGb5/18092758589143595/medium.jpg',
-    },
-    {
-      id: '18104860603730361',
-      timestamp: '2026-03-31T15:02:33+0000',
-      permalink: 'https://www.instagram.com/p/DWjZm2viW1B/',
-      mediaType: 'CAROUSEL_ALBUM',
-      caption:
-        `Taller de Telar de Bastidor | FormArte 2026
-
-Te invitamos a ser parte de este espacio formativo junto a Constanza von Shwedler.
-
-Lugar: Casa Taller Arte y Vida, Pedro León Gallo 547
-Horario: lunes, 18:30 hrs.
-Público: mayores de 18 años
-
-Inscríbete a través del enlace de nuestra bio o revisa el formulario en las historias destacadas.`,
-      cover:
-        'https://behold.pictures/6CJI9ZwlwXWfIMGd2pPh7MvdAxk2/4gCtfgh1AA9Oqq4SFGb5/18104860603730361/medium.jpg',
-    },
-    {
-      id: '18309931123285996',
-      timestamp: '2026-03-31T15:01:26+0000',
-      permalink: 'https://www.instagram.com/p/DWjZexkEf0J/',
-      mediaType: 'CAROUSEL_ALBUM',
-      caption:
-        `Taller de Música Infantil | FormArte 2026
-
-Invitamos a niños y niñas a ser parte de este espacio musical guiado por Carolina Figueroa.
-
-Lugar: Casa Taller Arte y Vida, Pedro León Gallo 547
-Horario: viernes, 15:00 hrs.
-Público: niños y niñas de 5 a 8 años
-
-Inscríbete a través del enlace de nuestra bio o revisa el formulario en las historias destacadas.`,
-      cover:
-        'https://behold.pictures/6CJI9ZwlwXWfIMGd2pPh7MvdAxk2/4gCtfgh1AA9Oqq4SFGb5/18309931123285996/medium.jpg',
-    },
-    {
-      id: '18098963651067063',
-      timestamp: '2026-03-31T15:01:23+0000',
-      permalink: 'https://www.instagram.com/p/DWjZeZ0Db2c/',
-      mediaType: 'CAROUSEL_ALBUM',
-      caption:
-        `Taller de Cine | FormArte 2026
-
-Te invitamos a sumarte a este espacio de apreciación y creación audiovisual junto a Camilo Vásquez.
-
-Lugar: Casa Taller Arte y Vida, Pedro León Gallo 547
-Horario: sábados, 18:00 hrs.
-Público: mayores de 15 años
-
-Inscríbete a través del enlace de nuestra bio o revisa el formulario en las historias destacadas.`,
-      cover:
-        'https://behold.pictures/6CJI9ZwlwXWfIMGd2pPh7MvdAxk2/4gCtfgh1AA9Oqq4SFGb5/18098963651067063/medium.jpg',
-    },
-    {
-      id: '18261836056293477',
-      timestamp: '2026-03-31T15:01:22+0000',
-      permalink: 'https://www.instagram.com/p/DWjZePHiHfP/',
-      mediaType: 'CAROUSEL_ALBUM',
-      caption:
-        `Taller de Teatro para Personas Adultas | FormArte 2026
-
-Abrimos este espacio de expresión, encuentro y creación junto a Natalia Valenzuela.
-
-Lugar: Casa Taller Arte y Vida, Pedro León Gallo 547
-Horario: miércoles, 19:00 hrs.
-Público: mayores de 18 años
-
-Inscríbete a través del enlace de nuestra bio o revisa el formulario en las historias destacadas.`,
-      cover:
-        'https://behold.pictures/6CJI9ZwlwXWfIMGd2pPh7MvdAxk2/4gCtfgh1AA9Oqq4SFGb5/18261836056293477/medium.jpg',
-    },
-  ],
-};
+const { feed, error = null, updatedAt } = Astro.props;
 const facebookFollowersCount: number | null = 3900;
 
 const formatDate = (isoString: string) => {
@@ -137,7 +16,18 @@ const formatDate = (isoString: string) => {
   return date.toLocaleDateString('es-CL', { day: '2-digit', month: 'short', year: 'numeric' });
 };
 
-const displayPosts: PostItem[] = feed.posts.slice(0, 6);
+const updatedLabel = updatedAt
+  ? new Intl.DateTimeFormat('es-CL', {
+      day: '2-digit',
+      month: 'short',
+      year: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+      timeZone: 'America/Santiago',
+    }).format(new Date(updatedAt))
+  : '';
+
+const displayPosts: InstagramPostItem[] = feed.posts.slice(0, 6);
 ---
 
 <section class="bg-brand-white/5 text-brand-white reveal-section" id="instagram">
@@ -157,15 +47,15 @@ const displayPosts: PostItem[] = feed.posts.slice(0, 6);
 
       <div class="grid grid-cols-1 gap-3 sm:grid-cols-3">
         <div class="rounded-2xl border border-brand-white/10 bg-brand-bg/70 px-4 py-3">
-          <div class="text-xl font-black">{feed.followersCount.toLocaleString('es-CL')}</div>
+          <div class="text-xl font-black">{feed.followersCount !== null ? feed.followersCount.toLocaleString('es-CL') : '---'}</div>
           <div class="text-[11px] uppercase tracking-[0.2em] text-brand-white/60">Seguidores</div>
         </div>
         <div class="rounded-2xl border border-brand-white/10 bg-brand-bg/70 px-4 py-3">
-          <div class="text-xl font-black">{feed.followsCount.toLocaleString('es-CL')}</div>
+          <div class="text-xl font-black">{feed.followsCount !== null ? feed.followsCount.toLocaleString('es-CL') : '---'}</div>
           <div class="text-[11px] uppercase tracking-[0.2em] text-brand-white/60">Siguiendo</div>
         </div>
         <div class="rounded-2xl border border-brand-white/10 bg-brand-bg/70 px-4 py-3">
-          <div class="text-xl font-black">{facebookFollowersCount !== null ? facebookFollowersCount.toLocaleString('es-CL') : '—'}</div>
+          <div class="text-xl font-black">{facebookFollowersCount !== null ? facebookFollowersCount.toLocaleString('es-CL') : '---'}</div>
           <div class="text-[11px] uppercase tracking-[0.2em] text-brand-white/60">Seguidores en Facebook</div>
         </div>
       </div>
@@ -191,6 +81,12 @@ const displayPosts: PostItem[] = feed.posts.slice(0, 6);
           <span class="h-2.5 w-2.5 inline-block rotate-45 border-t border-r border-current"></span>
         </a>
       </div>
+
+      {error && (
+        <div class="rounded-2xl border border-brand-secondary/30 bg-brand-secondary/10 px-4 py-3 text-sm leading-relaxed text-brand-white/80">
+          Mostrando la ultima seleccion disponible mientras Instagram actualiza el feed.
+        </div>
+      )}
     </div>
 
     <div class="grid grid-cols-1 gap-6 lg:col-span-8 md:grid-cols-3">
@@ -203,11 +99,11 @@ const displayPosts: PostItem[] = feed.posts.slice(0, 6);
           style={`animation-delay: ${index * 120}ms;`}
         >
           <div class="relative h-52 w-full">
-            <img src={post.cover} alt={`Publicación de ${feed.username}`} loading="lazy" class="h-full w-full object-cover" />
+            <img src={post.cover} alt={`Publicacion de ${feed.username}`} loading="lazy" class="h-full w-full object-cover" />
             <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/25 to-transparent"></div>
             <div class="absolute top-3 left-3 inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.2em] text-brand-white backdrop-blur-sm border border-white/20">
               <span class="h-2 w-2 rounded-full bg-brand-accent"></span>
-              {post.mediaType === 'CAROUSEL_ALBUM' ? 'Carrusel' : 'Post'}
+              {post.mediaType === 'GraphSidecar' || post.mediaType === 'CAROUSEL_ALBUM' ? 'Carrusel' : 'Post'}
             </div>
           </div>
 
@@ -216,10 +112,13 @@ const displayPosts: PostItem[] = feed.posts.slice(0, 6);
               <span>{formatDate(post.timestamp)}</span>
               <span class="inline-flex items-center gap-1 text-brand-accent font-semibold">Instagram</span>
             </div>
-            <p class="text-sm leading-relaxed text-brand-white/80 line-clamp-3">{post.caption}</p>
+            <p class="text-sm leading-relaxed text-brand-white/80 line-clamp-3">{post.caption || 'Ver publicacion reciente'}</p>
           </div>
         </a>
       ))}
     </div>
+  </div>
+  <div class="mx-auto max-w-[1280px] px-5 pb-8 text-[11px] uppercase tracking-[0.18em] text-brand-white/45 sm:px-10 xl:max-w-[1440px]">
+    Feed social · Actualizado: {updatedLabel || 'pendiente'}
   </div>
 </section>

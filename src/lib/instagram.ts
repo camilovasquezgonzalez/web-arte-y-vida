@@ -2,6 +2,8 @@ const INSTAGRAM_USERNAME = 'corparteyvida';
 const INSTAGRAM_PROFILE_URL = `https://www.instagram.com/${INSTAGRAM_USERNAME}/`;
 const INSTAGRAM_WEB_PROFILE_URL = `https://www.instagram.com/api/v1/users/web_profile_info/?username=${INSTAGRAM_USERNAME}`;
 const INSTAGRAM_APP_ID = '936619743392459';
+const BEHOLD_FEED_ID = '4gCtfgh1AA9Oqq4SFGb5';
+const BEHOLD_FEED_URL = `https://feeds.behold.so/${BEHOLD_FEED_ID}`;
 
 export interface InstagramPostItem {
   id: string;
@@ -26,7 +28,7 @@ export interface InstagramFeedResult {
   feed: InstagramFeedData;
   error: string | null;
   generatedAt: string;
-  source: 'live' | 'fallback';
+  source: 'behold' | 'live' | 'fallback';
 }
 
 type RawInstagramNode = Record<string, unknown>;
@@ -117,6 +119,62 @@ const readNumber = (value: unknown): number | null => {
 const asRecord = (value: unknown): Record<string, unknown> | null =>
   value && typeof value === 'object' && !Array.isArray(value) ? (value as Record<string, unknown>) : null;
 
+const readBeholdCover = (post: Record<string, unknown>): string => {
+  const sizes = asRecord(post.sizes);
+  const medium = asRecord(sizes?.medium);
+  const large = asRecord(sizes?.large);
+  const full = asRecord(sizes?.full);
+  const small = asRecord(sizes?.small);
+
+  return (
+    readText(medium?.mediaUrl) ||
+    readText(large?.mediaUrl) ||
+    readText(full?.mediaUrl) ||
+    readText(small?.mediaUrl) ||
+    readText(post.thumbnailUrl) ||
+    readText(post.mediaUrl)
+  );
+};
+
+const normalizeBeholdPost = (post: Record<string, unknown>): InstagramPostItem | null => {
+  const id = readText(post.id);
+  const permalink = readText(post.permalink);
+  const cover = readBeholdCover(post);
+
+  if (!id || !permalink || !cover) return null;
+
+  return {
+    id,
+    permalink,
+    timestamp: readText(post.timestamp),
+    caption: readText(post.prunedCaption) || readText(post.caption),
+    mediaType: readText(post.mediaType) || 'Post',
+    cover,
+  };
+};
+
+const normalizeBeholdFeed = (payload: Record<string, unknown>): InstagramFeedData | null => {
+  const posts = Array.isArray(payload.posts)
+    ? payload.posts
+        .map((post) => asRecord(post))
+        .map((post) => (post ? normalizeBeholdPost(post) : null))
+        .filter((post): post is InstagramPostItem => Boolean(post))
+        .slice(0, 6)
+    : [];
+
+  if (!posts.length) return null;
+
+  return {
+    username: readText(payload.username) || fallbackFeed.username,
+    biography: readText(payload.biography) || fallbackFeed.biography,
+    profilePictureUrl: readText(payload.profilePictureUrl) || fallbackFeed.profilePictureUrl,
+    website: readText(payload.website) || fallbackFeed.website,
+    followersCount: readNumber(payload.followersCount) ?? fallbackFeed.followersCount,
+    followsCount: readNumber(payload.followsCount) ?? fallbackFeed.followsCount,
+    posts,
+  };
+};
+
 const getCaption = (node: RawInstagramNode): string => {
   const edgeMedia = asRecord(node.edge_media_to_caption);
   const edges = Array.isArray(edgeMedia?.edges) ? edgeMedia.edges : [];
@@ -168,6 +226,22 @@ const normalizeFeed = (user: Record<string, unknown>): InstagramFeedData | null 
   };
 };
 
+const fetchBeholdFeed = async (): Promise<InstagramFeedData | null> => {
+  const response = await fetch(BEHOLD_FEED_URL, {
+    headers: {
+      Accept: 'application/json',
+    },
+    cache: 'no-store',
+  });
+
+  if (!response.ok) {
+    throw new Error(`Behold respondio con HTTP ${response.status}`);
+  }
+
+  const payload = (await response.json()) as Record<string, unknown>;
+  return normalizeBeholdFeed(payload);
+};
+
 const fetchLiveFeed = async (): Promise<InstagramFeedData | null> => {
   const response = await fetch(INSTAGRAM_WEB_PROFILE_URL, {
     headers: {
@@ -178,6 +252,7 @@ const fetchLiveFeed = async (): Promise<InstagramFeedData | null> => {
       'X-IG-App-ID': INSTAGRAM_APP_ID,
       'X-Requested-With': 'XMLHttpRequest',
     },
+    cache: 'no-store',
   });
 
   if (!response.ok) {
@@ -193,6 +268,20 @@ const fetchLiveFeed = async (): Promise<InstagramFeedData | null> => {
 
 export const getInstagramFeed = async (): Promise<InstagramFeedResult> => {
   const generatedAt = new Date().toISOString();
+
+  try {
+    const beholdFeed = await fetchBeholdFeed();
+    if (beholdFeed) {
+      return {
+        feed: beholdFeed,
+        error: null,
+        generatedAt,
+        source: 'behold',
+      };
+    }
+  } catch {
+    // Fall back to Instagram when the Behold feed is unavailable.
+  }
 
   try {
     const liveFeed = await fetchLiveFeed();

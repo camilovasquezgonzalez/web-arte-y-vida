@@ -1,6 +1,5 @@
 ---
 import ProjectGallery from '../../components/ProjectGallery.astro';
-import SidebarNav from '../../components/SidebarNav.astro';
 import { getArchiveYear, getArchiveYears } from '../../lib/projectArchive';
 import Layout from '../../layouts/Layout.astro';
 
@@ -19,10 +18,10 @@ if (!archiveYear) {
 ---
 
 <Layout title={`Proyectos ${archiveYear.year}`}>
-  <SidebarNav />
+
 
   <section class="bg-brand-bg pb-14 pt-20 text-brand-white lg:pb-16 lg:pt-24">
-    <div class="mx-auto max-w-[1280px] px-6 sm:px-10 xl:max-w-[1440px]">
+    <div class="mx-auto max-w-[1280px] px-6 sm:px-10">
       <a href="/proyectos" class="inline-flex items-center gap-2 text-xs font-black uppercase tracking-[0.22em] text-brand-white/60 hover:text-brand-accent">
         <span class="inline-block h-2.5 w-2.5 rotate-[225deg] border-r border-t border-current"></span>
         Volver a proyectos
@@ -49,7 +48,7 @@ if (!archiveYear) {
   </section>
 
   <section class="bg-brand-white/5 py-16 text-brand-white lg:py-20">
-    <div class="mx-auto flex max-w-[1280px] flex-col gap-8 px-6 sm:px-10 xl:max-w-[1440px]">
+    <div class="mx-auto flex max-w-[1280px] flex-col gap-8 px-6 sm:px-10">
       {archiveYear.projects.map((project, index) => (
         <article
           id={project.slug}

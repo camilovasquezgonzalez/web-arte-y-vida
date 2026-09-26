@@ -1,21 +1,27 @@
 ---
 import '../styles/global.css';
+import SiteHeader from '../components/SiteHeader.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+import SkipLink from '../components/SkipLink.astro';
 
 interface Props {
   title: string;
+  description?: string;
+  canonical?: string;
 }
 
-const { title } = Astro.props;
+const { title, description = 'Corporación Cultural y Social Arte y Vida, proyectos artísticos y comunitarios desde Coelemu.', canonical } = Astro.props;
 ---
 
 <!doctype html>
-<html lang="es" class="scroll-smooth overflow-x-clip bg-brand-bg text-brand-white">
+<html lang="es" class="scroll-smooth bg-brand-bg text-brand-white">
   <head>
     <meta charset="UTF-8" />
     <meta
       name="description"
-      content="Corporaci&oacute;n Cultural y Social Arte y Vida, proyectos art&iacute;sticos y comunitarios desde Coelemu."
+      content={description}
     />
+    {canonical && <link rel="canonical" href={canonical} />}
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <link rel="icon" type="image/png" href="/blanco-scaled.png" />
     <link rel="apple-touch-icon" href="/blanco-scaled.png" />
@@ -30,73 +36,20 @@ const { title } = Astro.props;
 
     <title>{title} | Arte y Vida</title>
   </head>
-  <body class="flex min-h-screen flex-col overflow-x-clip bg-brand-bg text-brand-white">
-    <main class="relative min-w-0 flex-grow overflow-x-clip">
+  <body class="flex min-h-screen flex-col bg-brand-bg text-brand-white">
+    <SkipLink />
+    <SiteHeader />
+    <main id="main-content" tabindex="-1" class="relative min-w-0 flex-grow">
       <slot />
     </main>
 
-    <footer class="border-t border-brand-white/10 bg-brand-bg py-14 md:py-16">
-      <div class="mx-auto max-w-[1280px] px-5 text-brand-white sm:px-10 xl:max-w-[1440px]">
-        <div class="grid grid-cols-1 gap-10 pb-10 md:grid-cols-4 md:gap-12 md:pb-12">
-          <div class="space-y-4">
-            <img src="/blanco-scaled.webp" alt="Logo de Arte y Vida" class="h-12 w-auto" />
-            <p class="max-w-sm text-sm leading-relaxed text-brand-white/70">
-              Impulsamos experiencias art&iacute;sticas, culturales y comunitarias que fortalecen el encuentro y la vida
-              en el territorio.
-            </p>
-          </div>
-
-          <div class="space-y-3">
-            <h3 class="text-sm font-semibold uppercase tracking-[0.2em] text-brand-accent">Explora</h3>
-            <ul class="space-y-2 text-sm text-brand-white/70">
-              <li><a href="/" class="transition-colors hover:text-brand-white">Inicio</a></li>
-              <li><a href="/proyectos" class="transition-colors hover:text-brand-white">Proyectos</a></li>
-              <li><a href="/noticias" class="transition-colors hover:text-brand-white">Noticias</a></li>
-              <li><a href="/arte-y-vida-tv" class="transition-colors hover:text-brand-white">Arte y Vida TV</a></li>
-              <li><a href="/contacto" class="transition-colors hover:text-brand-white">Contacto</a></li>
-            </ul>
-          </div>
-
-          <div class="space-y-3">
-            <h3 class="text-sm font-semibold uppercase tracking-[0.2em] text-brand-accent">Nosotros</h3>
-            <ul class="space-y-2 text-sm text-brand-white/70">
-              <li><a href="/nuestra-historia" class="transition-colors hover:text-brand-white">Nuestra historia</a></li>
-              <li><a href="/socios" class="transition-colors hover:text-brand-white">Redes y socios</a></li>
-              <li><a href="/transparencia" class="transition-colors hover:text-brand-white">Transparencia</a></li>
-            </ul>
-          </div>
-
-          <div class="space-y-3">
-            <h3 class="text-sm font-semibold uppercase tracking-[0.2em] text-brand-accent">Contacto</h3>
-            <p class="break-words text-sm leading-relaxed text-brand-white/70">
-              Pedro Le&oacute;n Gallo 547
-              <br />
-              Coelemu, Regi&oacute;n de &Ntilde;uble, Chile
-              <br />
-              arteyvidacorporacion@gmail.com
-            </p>
-          </div>
-        </div>
-
-        <div class="flex flex-col items-start justify-between gap-4 border-t border-brand-white/10 pt-6 text-sm text-brand-white/60 md:flex-row md:items-center">
-          <div>&copy; {new Date().getFullYear()} Corporaci&oacute;n Cultural y Social Arte y Vida.</div>
-          <div class="flex flex-wrap gap-4 md:gap-6">
-            <a href="/privacidad" class="transition-colors hover:text-brand-white">Privacidad</a>
-            <a href="/terminos" class="transition-colors hover:text-brand-white">T&eacute;rminos</a>
-          </div>
-        </div>
-      </div>
-    </footer>
+    <SiteFooter />
   </body>
 </html>
 
 <style is:global>
-  html,
-  body {
-    overflow-x: clip;
-  }
-
-  body.mobile-nav-open {
+  body.mobile-nav-open,
+  body.site-menu-open {
     overflow: hidden;
     overscroll-behavior: none;
   }

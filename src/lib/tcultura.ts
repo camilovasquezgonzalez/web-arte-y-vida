@@ -28,6 +28,12 @@ export interface TculturaAgendaItem {
   status: string;
   type: 'evento' | 'actividad';
   typeLabel: string;
+  slug?: string;
+  endDateIso?: string;
+  locality?: string;
+  free?: boolean;
+  price?: { amount: number; currency: string };
+  accessibilityInfo?: string;
 }
 
 export interface TculturaAgendaResult {
@@ -35,6 +41,7 @@ export interface TculturaAgendaResult {
   error: string | null;
   generatedAt: string;
   source: 'env' | 'file' | 'missing' | 'public';
+  status: 'ready' | 'empty' | 'unavailable' | 'partial';
 }
 
 interface PublicTculturaCard extends TculturaAgendaItem {
@@ -226,6 +233,13 @@ const normalizeItem = (item: RawTculturaItem, type: 'evento' | 'actividad'): Tcu
 
   return {
     id: firstText(item.id, item.uuid, `${type}-${title}-${dateIso}`),
+    slug: firstText(item.slug) || undefined,
+    endDateIso: firstText(item.end_date, item.fecha_fin) || undefined,
+    locality: firstText(item.locality, item.comuna, item.ciudad, item.city) || undefined,
+    free: typeof item.free === 'boolean' ? item.free : typeof item.es_gratuito === 'boolean' ? item.es_gratuito : undefined,
+    price: typeof item.price === 'number' && Number.isFinite(item.price) && item.price >= 0 && /^[A-Z]{3}$/.test(readText(item.currency))
+      ? { amount: item.price, currency: readText(item.currency) } : undefined,
+    accessibilityInfo: firstText(item.accessibilityInfo, item.accessibility_info) || undefined,
     title,
     description: firstText(item.description, item.descripcion, item.summary, item.resumen),
     dateIso,
@@ -234,7 +248,7 @@ const normalizeItem = (item: RawTculturaItem, type: 'evento' | 'actividad'): Tcu
     location: describeLocation(item),
     image: describeImage(item),
     link: describeLink(item),
-    status: firstText(item.status, item.estado, 'DISPONIBLE'),
+    status: firstText(item.status, item.estado),
     type,
     typeLabel: normalizeTypeLabel(item, type),
   };
@@ -263,7 +277,7 @@ const resolveApiKey = async () => {
   return apiKeyPromise;
 };
 
-const fetchPaginated = async (endpoint: string, apiKey: string): Promise<RawTculturaItem[]> => {
+const fetchPaginated = async (endpoint: string, apiKey: string, signal: AbortSignal): Promise<RawTculturaItem[]> => {
   let nextUrl = new URL(endpoint, TCULTURA_API_BASE).toString();
   let page = 1;
   const items: RawTculturaItem[] = [];
@@ -274,6 +288,8 @@ const fetchPaginated = async (endpoint: string, apiKey: string): Promise<RawTcul
         [TCULTURA_API_HEADER]: apiKey,
         Accept: 'application/json',
       },
+      cache: 'no-store',
+      signal,
     });
 
     if (!response.ok) {
@@ -281,7 +297,8 @@ const fetchPaginated = async (endpoint: string, apiKey: string): Promise<RawTcul
     }
 
     const data = (await response.json()) as PaginatedResponse;
-    if (Array.isArray(data.results)) items.push(...data.results);
+    if (!Array.isArray(data.results)) throw new Error('Respuesta de TCULTURA no válida');
+    items.push(...data.results);
 
     nextUrl = typeof data.next === 'string' && data.next ? data.next : '';
     page += 1;
@@ -291,10 +308,10 @@ const fetchPaginated = async (endpoint: string, apiKey: string): Promise<RawTcul
 };
 
 const isUpcoming = (item: TculturaAgendaItem): boolean => {
-  if (!item.dateIso) return true;
+  if (!item.dateIso) return false;
   const timestamp = new Date(item.dateIso).valueOf();
-  if (Number.isNaN(timestamp)) return true;
-  return timestamp >= Date.now() - 60 * 60 * 1000;
+  if (Number.isNaN(timestamp)) return false;
+  return timestamp >= Date.now();
 };
 
 const normalizePublicCard = (block: string): PublicTculturaCard | null => {
@@ -316,13 +333,13 @@ const normalizePublicCard = (block: string): PublicTculturaCard | null => {
     id: detailPath.split('/').filter(Boolean).pop() ?? `public-${normalizeSearchText(title)}`,
     title,
     description: extractText(block, /<p[^>]*class="event-card-description[^"]*"[^>]*>([\s\S]*?)<\/p>/i),
-    dateIso: '',
+    dateIso: extractAttribute(block, /<time[^>]+datetime="([^"]+)"/i),
     dateFormatted,
     category: extractText(block, /<div class="text-sm font-semibold"[^>]*>([\s\S]*?)<\/div>/i),
     location: extractText(block, /<span class="truncate">([\s\S]*?)<\/span>/i),
     image: absoluteTculturaUrl(extractAttribute(block, /<img[^>]+src="([^"]+)"/i)),
     link: absoluteTculturaUrl(detailPath),
-    status: 'DISPONIBLE',
+    status: '',
     type: 'actividad',
     typeLabel: 'Actividad',
     badge,
@@ -338,34 +355,35 @@ const isProjectPublicCard = (item: PublicTculturaCard): boolean => {
 const isProjectAgendaItem = (item: TculturaAgendaItem): boolean =>
   matchesProject([item.title, item.description, item.category, item.location, item.link].join(' '));
 
-const fetchPublicAgenda = async (limit: number): Promise<TculturaAgendaItem[]> => {
-  try {
-    const response = await fetch(TCULTURA_PUBLIC_URL, {
-      headers: {
-        Accept: 'text/html,application/xhtml+xml',
-      },
-    });
+const fetchPublicAgenda = async (limit: number, signal: AbortSignal): Promise<TculturaAgendaItem[]> => {
+  const response = await fetch(TCULTURA_PUBLIC_URL, {
+    headers: {
+      Accept: 'text/html,application/xhtml+xml',
+    },
+    cache: 'no-store',
+    signal,
+  });
 
-    if (!response.ok) return [];
+  if (!response.ok) throw new Error('Cartelera pública no disponible');
 
-    const html = await response.text();
-    const matches = Array.from(html.matchAll(/<article class="card-tcultura-event[\s\S]*?<\/article>/g));
-    const items = matches
-      .map((match) => normalizePublicCard(match[0]))
-      .filter((item): item is PublicTculturaCard => Boolean(item))
-      .filter(isProjectPublicCard);
+  const html = await response.text();
+  const matches = Array.from(html.matchAll(/<article class="card-tcultura-event[\s\S]*?<\/article>/g));
+  const items = matches
+    .map((match) => normalizePublicCard(match[0]))
+    .filter((item): item is PublicTculturaCard => Boolean(item))
+    .filter(isProjectPublicCard)
+    .filter(isUpcoming);
 
-    const deduped = new Map<string, TculturaAgendaItem>();
-    for (const item of items) {
-      if (!deduped.has(item.id)) {
-        deduped.set(item.id, item);
-      }
+  const deduped = new Map<string, TculturaAgendaItem>();
+  for (const item of items) {
+    if (!deduped.has(item.id)) {
+      deduped.set(item.id, item);
     }
-
-    return Array.from(deduped.values()).slice(0, limit);
-  } catch {
-    return [];
   }
+
+  // Without machine-readable dates, the public cards cannot certify upcoming events.
+  if (!deduped.size) throw new Error('Sin fechas futuras verificables en la cartelera pública');
+  return Array.from(deduped.values()).sort((a, b) => Date.parse(a.dateIso) - Date.parse(b.dateIso)).slice(0, limit);
 };
 
 const getFallbackAgenda = (limit: number): TculturaAgendaItem[] =>
@@ -382,94 +400,44 @@ export const getTculturaAgenda = async (
 ): Promise<TculturaAgendaResult> => {
   const generatedAt = new Date().toISOString();
   const { key, source } = await resolveApiKey();
-  const limit = typeof options.limit === 'number' ? options.limit : 6;
-
-  if (!key) {
-    const publicItems = await fetchPublicAgenda(limit);
-    if (publicItems.length) {
-      return {
-        items: publicItems,
-        error: null,
-        generatedAt,
-        source: 'public',
-      };
-    }
-
-    const fallbackItems = getFallbackAgenda(limit);
-    return {
-      items: fallbackItems,
-      error: fallbackItems.length ? null : 'La cartelera no esta disponible en este momento.',
-      generatedAt,
-      source,
+  const limit = Number.isFinite(options.limit) ? Math.max(1, Math.floor(options.limit!)) : 6;
+  let apiComplete = false;
+  let partialFailure = false;
+  if (key) {
+    // One shared deadline for ALL API pages, rather than a timeout per page.
+    const signal = AbortSignal.timeout(5000);
+    const settled = await Promise.allSettled([
+      fetchPaginated('eventos/', key, signal), fetchPaginated('actividades/', key, signal),
+    ]);
+    apiComplete = settled.every((result) => result.status === 'fulfilled');
+    partialFailure = !apiComplete;
+    const items = settled.flatMap((result, index) => result.status === 'fulfilled'
+      ? result.value.map((item) => normalizeItem(item, index === 0 ? 'evento' : 'actividad'))
+          .filter((item): item is TculturaAgendaItem => Boolean(item))
+      : []);
+    const upcoming = items.filter(isProjectAgendaItem).filter(isUpcoming)
+      .sort((a, b) => Date.parse(a.dateIso) - Date.parse(b.dateIso));
+    const selected = Array.from(new Map(upcoming.map((item) => [`${item.type}-${item.id}`, item])).values()).slice(0, limit);
+    if (selected.length) return {
+      items: selected, generatedAt, source,
+      status: partialFailure ? 'partial' : 'ready',
+      error: partialFailure ? 'Parte de la programación no pudo actualizarse.' : null,
     };
   }
-
   try {
-    const settled = await Promise.allSettled([fetchPaginated('eventos/', key), fetchPaginated('actividades/', key)]);
-
-    const items = settled.flatMap((result, index) => {
-      if (result.status !== 'fulfilled') return [];
-      const type = index === 0 ? 'evento' : 'actividad';
-
-      return result.value
-        .map((item) => normalizeItem(item, type))
-        .filter((item): item is TculturaAgendaItem => Boolean(item));
-    });
-
-    const upcomingItems = items
-      .filter(isProjectAgendaItem)
-      .filter(isUpcoming)
-      .sort((a, b) => {
-        if (!a.dateIso && !b.dateIso) return 0;
-        if (!a.dateIso) return 1;
-        if (!b.dateIso) return -1;
-        return new Date(a.dateIso).valueOf() - new Date(b.dateIso).valueOf();
-      })
-      .slice(0, limit);
-
-    if (upcomingItems.length) {
-      return {
-        items: upcomingItems,
-        error: null,
-        generatedAt,
-        source,
-      };
-    }
-
-    const publicItems = await fetchPublicAgenda(limit);
-    if (publicItems.length) {
-      return {
-        items: publicItems,
-        error: null,
-        generatedAt,
-        source: 'public',
-      };
-    }
-
-    const fallbackItems = getFallbackAgenda(limit);
-    return {
-      items: fallbackItems,
-      error: fallbackItems.length ? null : 'No hay actividades vigentes publicadas para Reactivemos el Teatro.',
-      generatedAt,
-      source: fallbackItems.length ? 'public' : source,
-    };
+    const items = await fetchPublicAgenda(limit, AbortSignal.timeout(3000));
+    if (items.length) return { items, generatedAt, source: 'public', status: 'ready', error: null };
   } catch {
-    const publicItems = await fetchPublicAgenda(limit);
-    if (publicItems.length) {
-      return {
-        items: publicItems,
-        error: null,
-        generatedAt,
-        source: 'public',
-      };
-    }
-
-    const fallbackItems = getFallbackAgenda(limit);
-    return {
-      items: fallbackItems,
-      error: fallbackItems.length ? null : 'No pudimos actualizar la cartelera actual en este momento.',
-      generatedAt,
-      source: fallbackItems.length ? 'public' : source,
-    };
+    // Preserve the dated editorial fallback; never substitute an unverifiable public date.
   }
+  const items = getFallbackAgenda(limit);
+  if (items.length) return {
+    items, generatedAt, source, status: 'partial',
+    error: 'Mostramos la selección disponible; no pudimos confirmar la actualización completa.',
+  };
+  return {
+    items: [], generatedAt, source,
+    status: apiComplete ? 'empty' : 'unavailable',
+    error: apiComplete ? null : 'No pudimos actualizar la programación en este momento.',
+  };
 };

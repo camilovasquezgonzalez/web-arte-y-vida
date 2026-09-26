@@ -1,15 +1,18 @@
 ---
+export const prerender = false;
+
 import { getCollection } from 'astro:content';
 import HeroVideo from '../components/HeroVideo.astro';
 import InstagramFeed from '../components/InstagramFeed.astro';
-import SidebarNav from '../components/SidebarNav.astro';
 import TculturaAgenda from '../components/TculturaAgenda.astro';
 import YouTubeGallery from '../components/YouTubeGallery.astro';
 import { formatCategoryLabel } from '../lib/contentLabels';
 import { getInstagramFeed } from '../lib/instagram';
 import { getArchiveProjectByKey } from '../lib/projectArchive';
-import { getTculturaAgenda } from '../lib/tcultura';
+import { getAgenda } from '../lib/agenda.server';
 import Layout from '../layouts/Layout.astro';
+import ProgramsSection from '../components/ProgramsSection.astro';
+import SectionHeading from '../components/SectionHeading.astro';
 
 const reactivemosArchive = getArchiveProjectByKey('Reactivemos el teatro 2026');
 const culturaViveArchive = getArchiveProjectByKey('Cultura vive en tu barrio 2024');
@@ -20,21 +23,6 @@ const stats = [
   { value: 18, prefix: '', label: 'barrios acompañados' },
   { value: 13, prefix: '', label: 'comunas alcanzadas' },
   { value: 250, prefix: '+', label: 'árboles nativos plantados' },
-];
-
-const areas = [
-  {
-    title: 'FormArte',
-    description: 'Talleres y experiencias de formación artística abiertas a niñas, niños, jóvenes y personas adultas.',
-  },
-  {
-    title: 'EduCultura',
-    description: 'Programación cultural gratuita para acercar funciones, encuentros y actividades a la comunidad.',
-  },
-  {
-    title: 'InvestigAcción',
-    description: 'Procesos de memoria, diagnóstico y participación para crear proyectos con sentido territorial.',
-  },
 ];
 
 const projects = [
@@ -108,60 +96,67 @@ const posts = (await getCollection('posts'))
   .sort((a, b) => new Date(b.data.date).valueOf() - new Date(a.data.date).valueOf())
   .slice(0, 3);
 
-const tculturaAgenda = await getTculturaAgenda({ limit: 6 });
-const instagramFeed = await getInstagramFeed();
+Astro.response.headers.set('Cache-Control', 'public, s-maxage=900, stale-while-revalidate=86400');
+
+const [tculturaAgenda, instagramFeed] = await Promise.all([
+  getAgenda(3),
+  getInstagramFeed(),
+]);
 ---
 
 <Layout title="Inicio">
-  <SidebarNav />
+
 
   <HeroVideo
     videoSrc="/video/video-web-optimized.mp4"
     poster="/DSC06842-scaled.webp"
     title="Arte y Cultura que transforma comunidades"
     kicker="Corporación Cultural y Social Arte y Vida"
-    scrollLabel="Explorar"
-    scrollTarget="contenido"
+    description="Somos una organización cultural de Coelemu que desarrolla procesos de creación, formación, mediación e investigación desde el Valle del Itata."
+    scrollLabel="Ver próximas actividades"
+    scrollTarget="proximas-actividades"
   />
 
-  <section id="contenido" class="reveal-section bg-brand-bg text-brand-white">
-    <div class="mx-auto grid max-w-[1280px] grid-cols-1 items-start gap-10 px-5 py-16 sm:px-10 sm:py-20 lg:grid-cols-12 lg:gap-16 lg:py-28 xl:max-w-[1440px]">
+  <TculturaAgenda items={tculturaAgenda.items} error={['partial', 'unavailable'].includes(tculturaAgenda.status) ? 'La programación puede ampliarse; consulta las novedades en Tcultura.' : null} updatedAt={tculturaAgenda.generatedAt} />
+
+  <ProgramsSection />
+
+  <section id="contenido" aria-labelledby="impacto-heading" class="reveal-section bg-brand-bg text-brand-white">
+    <div class="mx-auto grid max-w-[1280px] grid-cols-1 items-start gap-10 px-5 py-16 sm:px-10 sm:py-20 lg:grid-cols-12 lg:gap-16 lg:py-28">
       <div class="space-y-6 lg:col-span-5">
-        <p class="text-xs font-black uppercase tracking-[0.24em] text-brand-white/78">Coelemu, Ñuble</p>
-        <h2 class="text-2xl leading-tight md:text-4xl">
-          Somos una corporación cultural y social que impulsa formación, creación y encuentro comunitario.
-        </h2>
-        <p class="max-w-xl text-[1rem] leading-relaxed text-brand-white/88 md:text-lg">
-          Acompañamos procesos artísticos y comunitarios en distintos territorios de Ñuble, articulando formación,
-          programación cultural y memoria participativa junto a vecinas, vecinos y organizaciones locales.
-        </p>
+        <SectionHeading id="impacto-heading" kicker="Datos de gestión 2024" heading="Nuestro impacto en comunidad" description="Somos una corporación cultural y social que impulsa formación, creación y encuentro comunitario." />
+        <p class="text-base leading-relaxed text-brand-muted">Acompañamos procesos artísticos y comunitarios en distintos territorios de Ñuble, articulando formación, programación cultural y memoria participativa junto a vecinas, vecinos y organizaciones locales.</p>
       </div>
 
-      <div class="grid grid-cols-2 gap-4 sm:gap-6 md:grid-cols-4 lg:col-span-7">
+      <div class="grid grid-cols-2 gap-4 sm:gap-6 lg:col-span-7">
         {stats.map((item) => (
           <div class="stat-card rounded-3xl border border-brand-white/10 bg-brand-white/5 px-4 py-5 shadow-[0_15px_60px_rgba(0,0,0,0.25)] sm:px-5">
             <div class="text-xl font-black tracking-tight sm:text-2xl md:text-3xl">
-              <span class="stat-number" data-target={item.value} data-prefix={item.prefix ?? ''}></span>
+              <span class="stat-number">{`${item.prefix}${item.value.toLocaleString('es-CL')}`}</span>
             </div>
             <div class="mt-2 text-[11px] uppercase leading-tight tracking-[0.14em] text-brand-white/82 sm:text-xs sm:tracking-[0.16em]">{item.label}</div>
           </div>
         ))}
       </div>
     </div>
-    <div class="mx-auto flex max-w-[1280px] flex-col gap-4 px-5 pb-6 text-sm text-brand-white/82 sm:px-10 md:flex-row md:items-center md:justify-between xl:max-w-[1440px]">
-      <span>Datos correspondientes a la gestión 2024.</span>
+    <div class="mx-auto flex max-w-[1280px] flex-col gap-4 px-5 pb-6 text-sm text-brand-white/82 sm:px-10 md:flex-row md:items-center md:justify-between">
+      <span>Datos de gestión 2024.</span>
       <a
-        href="/memoria-anual-2024"
+        href="/documentos/memoria-anual-2024-web.pdf"
         class="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.16em] text-brand-accent hover:text-brand-white"
       >
-        Ver memoria 2024
+        Consultar memoria 2024 (PDF)
         <span class="inline-block h-2.5 w-2.5 rotate-45 border-r border-t border-current"></span>
       </a>
     </div>
   </section>
 
+  <div class="mx-auto max-w-[1280px] px-5 pb-12 sm:px-10">
+    <a href="/memoria-anual-2025" class="inline-flex min-h-12 items-center py-3 text-sm text-brand-muted underline underline-offset-4">También puedes consultar la Memoria Anual 2025</a>
+  </div>
+
   <section class="reveal-section mission-highlight bg-brand-bg text-brand-white">
-    <div class="mx-auto max-w-[1280px] px-5 py-18 sm:px-10 sm:py-24 lg:py-32 xl:max-w-[1440px]">
+    <div class="mx-auto max-w-[1280px] px-5 py-18 sm:px-10 sm:py-24 lg:py-32">
       <div class="mission-highlight__frame rounded-[32px] border border-brand-white/10 px-5 py-7 shadow-[0_24px_80px_rgba(0,0,0,0.28)] md:rounded-[40px] md:px-10 md:py-12">
         <p class="mb-8 text-center text-xs font-black uppercase tracking-[0.24em] text-brand-white/70">Nuestra misión</p>
         <h2 class="mission-highlight__title">
@@ -170,13 +165,13 @@ const instagramFeed = await getInstagramFeed();
           <span class="mission-highlight__unit" data-mission-step>de</span>
           <span class="mission-highlight__unit" data-mission-step>encuentro</span>
           <span class="mission-highlight__chip mission-highlight__chip--gold" data-mission-step>
-            <img src="/DSC06842-scaled.webp" alt="Encuentro artístico en comunidad" loading="lazy" />
+            <img src="/DSC06842-scaled.webp" alt="" loading="lazy" />
           </span>
           <span class="mission-highlight__unit" data-mission-step>con</span>
           <span class="mission-highlight__unit mission-highlight__unit--cyan" data-mission-step>el arte</span>
           <span class="mission-highlight__unit" data-mission-step>y la</span>
           <span class="mission-highlight__chip mission-highlight__chip--magenta" data-mission-step>
-            <img src="/DSC04138-Enhanced-NR-scaled.webp" alt="Acción cultural de Arte y Vida" loading="lazy" />
+            <img src="/DSC04138-Enhanced-NR-scaled.webp" alt="" loading="lazy" />
           </span>
           <span class="mission-highlight__unit mission-highlight__unit--magenta" data-mission-step>cultura</span>
         </h2>
@@ -184,41 +179,13 @@ const instagramFeed = await getInstagramFeed();
     </div>
   </section>
 
-  <section class="reveal-section bg-brand-white/5 text-brand-white">
-    <div class="mx-auto grid max-w-[1280px] grid-cols-1 items-start gap-10 px-5 py-16 sm:px-10 sm:py-20 lg:grid-cols-12 lg:gap-16 lg:py-28 xl:max-w-[1440px]">
-      <div class="space-y-4 lg:col-span-4">
-        <p class="text-xs font-black uppercase tracking-[0.24em] text-brand-accent">Áreas estratégicas</p>
-        <h3 class="text-3xl leading-tight">Tres líneas para activar cultura y comunidad.</h3>
-        <p class="max-w-sm text-sm leading-relaxed text-brand-white/84">
-          Formamos, programamos y documentamos junto a las comunidades para que el arte sea una herramienta de
-          encuentro, identidad y futuro.
-        </p>
-      </div>
 
-      <div class="grid grid-cols-1 gap-6 md:grid-cols-3 lg:col-span-8">
-        {areas.map((area, index) => (
-          <div
-            class="reveal-card flex flex-col gap-4 rounded-3xl border border-brand-white/10 bg-brand-bg/70 px-5 py-7 shadow-[0_20px_70px_rgba(0,0,0,0.35)] backdrop-blur-xl sm:px-6 sm:py-8"
-            style={`animation-delay: ${index * 140}ms;`}
-          >
-            <div class="flex h-10 w-10 items-center justify-center rounded-full border border-brand-white/10 bg-brand-white/10 text-sm font-black uppercase tracking-[0.18em] text-brand-white/70">
-              {area.title.charAt(0)}
-            </div>
-            <div>
-              <h4 class="mb-2 text-xl font-bold">{area.title}</h4>
-              <p class="text-sm leading-relaxed text-brand-white/84">{area.description}</p>
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
-  </section>
 
   <section class="reveal-section bg-brand-bg text-brand-white">
-    <div class="mx-auto grid max-w-[1280px] grid-cols-1 items-start gap-10 px-5 py-16 sm:px-10 sm:py-20 lg:grid-cols-12 lg:gap-16 lg:py-28 xl:max-w-[1440px]">
+    <div class="mx-auto grid max-w-[1280px] grid-cols-1 items-start gap-10 px-5 py-16 sm:px-10 sm:py-20 lg:grid-cols-12 lg:gap-16 lg:py-28">
       <div class="space-y-4 lg:col-span-4">
         <p class="text-xs font-black uppercase tracking-[0.24em] text-brand-secondary">Proyectos destacados</p>
-        <h3 class="text-3xl leading-tight">Acciones que mantienen vivo el territorio.</h3>
+        <h2 class="text-3xl leading-tight">Acciones que mantienen vivo el territorio.</h2>
         <p class="max-w-sm text-sm leading-relaxed text-brand-white/84">
           Programación cultural, mediación comunitaria y cuidado medioambiental en distintos puntos de Ñuble.
         </p>
@@ -234,7 +201,7 @@ const instagramFeed = await getInstagramFeed();
             <img src={project.image} alt={project.title} class="h-44 w-full object-cover sm:h-40" loading="lazy" />
             <div class="flex flex-1 flex-col gap-4 px-5 py-6 sm:px-6 sm:py-7">
               <div class="flex items-center justify-between gap-3">
-                <h4 class="text-lg font-bold leading-tight sm:text-xl">{project.title}</h4>
+                <h3 class="text-lg font-bold leading-tight sm:text-xl">{project.title}</h3>
                 <span class="h-2 w-2 rounded-full bg-brand-accent"></span>
               </div>
               <p class="flex-1 text-sm leading-relaxed text-brand-white/84">{project.description}</p>
@@ -255,17 +222,16 @@ const instagramFeed = await getInstagramFeed();
     </div>
   </section>
 
-  <TculturaAgenda items={tculturaAgenda.items} error={tculturaAgenda.error} updatedAt={tculturaAgenda.generatedAt} />
 
   <InstagramFeed feed={instagramFeed.feed} error={instagramFeed.error} updatedAt={instagramFeed.generatedAt} />
 
   <YouTubeGallery maxVideos={3} />
 
   <section class="reveal-section bg-brand-white/5 text-brand-white">
-    <div class="mx-auto grid max-w-[1280px] grid-cols-1 items-start gap-10 px-5 py-16 sm:px-10 sm:py-20 lg:grid-cols-12 lg:gap-16 lg:py-28 xl:max-w-[1440px]">
+    <div class="mx-auto grid max-w-[1280px] grid-cols-1 items-start gap-10 px-5 py-16 sm:px-10 sm:py-20 lg:grid-cols-12 lg:gap-16 lg:py-28">
       <div class="space-y-4 lg:col-span-4">
         <p class="text-xs font-black uppercase tracking-[0.24em] text-brand-accent">Noticias</p>
-        <h3 class="text-3xl leading-tight">Historias recientes de Arte y Vida.</h3>
+        <h2 class="text-3xl leading-tight">Historias recientes de Arte y Vida.</h2>
         <p class="max-w-sm text-sm leading-relaxed text-brand-white/84">
           Actividades, hitos y procesos que conectan cultura, comunidad y territorio.
         </p>
@@ -292,7 +258,7 @@ const instagramFeed = await getInstagramFeed();
               />
               <div class="flex flex-col gap-3 px-5 py-5 sm:px-6">
                 <div class="flex flex-col items-start gap-2 sm:flex-row sm:items-baseline sm:justify-between sm:gap-4">
-                  <h4 class="text-lg font-bold leading-tight group-hover:text-brand-accent sm:text-xl">{post.data.title}</h4>
+                  <h3 class="text-lg font-bold leading-tight group-hover:text-brand-accent sm:text-xl">{post.data.title}</h3>
                   <span class="text-xs uppercase tracking-[0.14em] text-brand-white/76">
                     {new Date(post.data.date).toLocaleDateString('es-CL', {
                       day: '2-digit',
@@ -327,7 +293,7 @@ const instagramFeed = await getInstagramFeed();
   </section>
 
   <section class="reveal-section bg-brand-white/5 text-brand-white">
-    <div class="mx-auto max-w-[1280px] px-5 py-16 sm:px-10 sm:py-20 lg:py-28 xl:max-w-[1440px]">
+    <div class="mx-auto max-w-[1280px] px-5 py-16 sm:px-10 sm:py-20 lg:py-28">
       <div class="overflow-hidden rounded-[36px] border border-brand-white/10 bg-[linear-gradient(135deg,rgba(255,255,255,0.05),rgba(255,255,255,0.02))] shadow-[0_20px_70px_rgba(0,0,0,0.28)]">
         <div class="grid grid-cols-1 gap-0 lg:grid-cols-12">
           <div class="relative min-h-[260px] bg-brand-bg lg:col-span-5 lg:min-h-[300px]">
@@ -335,7 +301,7 @@ const instagramFeed = await getInstagramFeed();
             <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent"></div>
             <div class="absolute bottom-6 left-6 right-6 space-y-3">
               <p class="text-xs font-black uppercase tracking-[0.24em] text-brand-accent">Amig@s de Arte y Vida</p>
-              <h3 class="text-3xl leading-tight md:text-4xl">Una comunidad que sostiene la cultura en movimiento.</h3>
+              <h2 class="text-3xl leading-tight md:text-4xl">Una comunidad que sostiene la cultura en movimiento.</h2>
             </div>
           </div>
 
@@ -381,10 +347,10 @@ const instagramFeed = await getInstagramFeed();
   </section>
 
   <section class="reveal-section bg-brand-bg text-brand-white">
-    <div class="mx-auto max-w-[1280px] px-5 py-16 sm:px-10 sm:py-20 lg:py-28 xl:max-w-[1440px]">
+    <div class="mx-auto max-w-[1280px] px-5 py-16 sm:px-10 sm:py-20 lg:py-28">
       <div class="mb-10 max-w-2xl space-y-4">
         <p class="text-xs font-black uppercase tracking-[0.24em] text-brand-secondary">Alianzas estratégicas</p>
-        <h3 class="text-3xl leading-tight md:text-4xl">Organizaciones que hacen posible ampliar nuestro alcance.</h3>
+        <h2 class="text-3xl leading-tight md:text-4xl">Organizaciones que hacen posible ampliar nuestro alcance.</h2>
         <p class="text-sm leading-relaxed text-brand-white/84 md:text-base">
           Estas colaboraciones fortalecen la circulación cultural, la formación artística y el trabajo territorial que
           sostenemos junto a las comunidades.
@@ -412,229 +378,22 @@ const instagramFeed = await getInstagramFeed();
 </Layout>
 
 <style is:global>
-  .stat-card {
-    opacity: 0;
-    transform: translateY(16px) scale(0.98);
-  }
-
-  .stat-card.is-visible {
-    animation: rise 0.9s ease forwards;
-  }
-
-  @keyframes rise {
-    from {
-      opacity: 0;
-      transform: translateY(16px) scale(0.98);
-    }
-
-    to {
-      opacity: 1;
-      transform: translateY(0) scale(1);
-    }
-  }
-
-  .reveal-card {
-    opacity: 0;
-    transform: translateY(18px);
-  }
-
-  .reveal-card.is-visible {
-    animation: fadeUp 0.85s ease forwards;
-  }
-
-  @keyframes fadeUp {
-    from {
-      opacity: 0;
-      transform: translateY(18px);
-    }
-
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
-  .reveal-section {
-    opacity: 0;
-    transform: translateY(24px);
-  }
-
-  .reveal-section.is-visible {
-    animation: sectionFade 0.9s ease forwards;
-  }
-
-  .alliance-card {
-    backdrop-filter: blur(16px);
-  }
-
   .alliance-logo {
     max-height: 88px;
     width: 100%;
     object-fit: contain;
-    opacity: 0.9;
     transform: scale(var(--alliance-scale, 1));
-    transform-origin: center;
-    transition:
-      transform 220ms ease,
-      opacity 220ms ease,
-      filter 220ms ease;
   }
-
-  .alliance-card:hover .alliance-logo {
-    transform: translateY(-2px) scale(calc(var(--alliance-scale, 1) * 1.02));
-    opacity: 1;
-  }
-
-  .alliance-logo--white {
-    filter: grayscale(1) brightness(0) invert(1);
-  }
-
-  .alliance-logo--grayscale {
-    filter: grayscale(1) brightness(1.15) contrast(1.05);
-  }
-
-  @keyframes sectionFade {
-    from {
-      opacity: 0;
-      transform: translateY(24px);
-    }
-
-    to {
-      opacity: 1;
-      transform: translateY(0);
+  .alliance-logo--white { filter: grayscale(1) brightness(0) invert(1); }
+  .alliance-logo--grayscale { filter: grayscale(1) brightness(1.15) contrast(1.05); }
+  .mission-highlight__unit { color: var(--mission-active-color, #F3F1EB); opacity: 1; }
+  .mission-highlight__chip { opacity: 1; transform: none; filter: none; }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto !important; }
+    main *, main *::before, main *::after {
+      animation: none !important;
+      transition: none !important;
+      scroll-behavior: auto !important;
     }
   }
 </style>
-
-<script>
-  const observerOptions = { threshold: 0.2 };
-
-  const addVisibleOnIntersect = (elements, datasetKey) => {
-    if (!elements.length) return;
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('is-visible');
-          observer.unobserve(entry.target);
-        }
-      });
-    }, observerOptions);
-    elements.forEach((el) => {
-      if (!(el instanceof HTMLElement) || el.dataset[datasetKey] === 'true') return;
-      el.dataset[datasetKey] = 'true';
-      observer.observe(el);
-    });
-  };
-
-  const animateStats = () => {
-    const statCards = Array.from(document.querySelectorAll('.stat-card')).filter(
-      (card) => card instanceof HTMLElement && card.dataset.statsBound !== 'true',
-    );
-    if (!statCards.length) return;
-
-    const animateNumber = (el) => {
-      const target = Number(el.getAttribute('data-target') ?? 0);
-      const prefix = el.getAttribute('data-prefix') ?? '';
-      const duration = 900;
-      const start = performance.now();
-
-      const format = (value) => {
-        const formatted = value.toLocaleString('es-CL');
-        return `${prefix}${formatted}`;
-      };
-
-      const step = (now) => {
-        const progress = Math.min((now - start) / duration, 1);
-        const current = Math.floor(progress * target);
-        el.textContent = format(current);
-        if (progress < 1) requestAnimationFrame(step);
-        else el.textContent = format(target);
-      };
-
-      requestAnimationFrame(step);
-    };
-
-    const statObserver = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('is-visible');
-          const numberEl = entry.target.querySelector('.stat-number');
-          if (numberEl) animateNumber(numberEl);
-          statObserver.unobserve(entry.target);
-        }
-      });
-    }, observerOptions);
-
-    statCards.forEach((card) => {
-      if (!(card instanceof HTMLElement)) return;
-      card.dataset.statsBound = 'true';
-      statObserver.observe(card);
-    });
-  };
-
-  const initMissionHighlight = () => {
-    const sections = Array.from(document.querySelectorAll('.mission-highlight')).filter(
-      (section) => section instanceof HTMLElement,
-    );
-    if (!sections.length) return;
-
-    window.__missionHighlightCleanup?.();
-
-    let frame = 0;
-
-    const updateMission = () => {
-      const viewportHeight = window.innerHeight || 1;
-
-      sections.forEach((section) => {
-        const steps = Array.from(section.querySelectorAll('[data-mission-step]')).filter(
-          (item) => item instanceof HTMLElement,
-        );
-        if (!steps.length) return;
-
-        const rect = section.getBoundingClientRect();
-        const progress = Math.min(1, Math.max(0, (viewportHeight - rect.top) / (viewportHeight + rect.height * 0.35)));
-        const activeSteps = Math.min(steps.length, Math.max(1, Math.ceil(progress * steps.length)));
-
-        steps.forEach((step, index) => {
-          step.classList.toggle('is-active', index < activeSteps);
-        });
-      });
-    };
-
-    const requestUpdate = () => {
-      if (frame) return;
-      frame = requestAnimationFrame(() => {
-        frame = 0;
-        updateMission();
-      });
-    };
-
-    const onScroll = () => requestUpdate();
-    const onResize = () => requestUpdate();
-
-    window.addEventListener('scroll', onScroll, { passive: true });
-    window.addEventListener('resize', onResize);
-    updateMission();
-
-    window.__missionHighlightCleanup = () => {
-      window.removeEventListener('scroll', onScroll);
-      window.removeEventListener('resize', onResize);
-      if (frame) cancelAnimationFrame(frame);
-    };
-  };
-
-  const initHomeAnimations = () => {
-    addVisibleOnIntersect(Array.from(document.querySelectorAll('.reveal-card')), 'revealBound');
-    addVisibleOnIntersect(Array.from(document.querySelectorAll('.reveal-section')), 'sectionBound');
-    animateStats();
-    initMissionHighlight();
-  };
-
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initHomeAnimations, { once: true });
-  } else {
-    initHomeAnimations();
-  }
-
-  document.addEventListener('astro:page-load', initHomeAnimations);
-</script>

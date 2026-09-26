@@ -27,3 +27,9 @@ TCULTURA_API_KEY.txt
 .idea/
 Socios CAV/
 public/documentos/memoria-anual-2024.pdf
+
+# Local verification artifacts and Python cache
+output/
+__pycache__/
+*.pyc
+.env.*

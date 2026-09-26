@@ -6,10 +6,10 @@ const { videos: displayVideos, loadError } = await getYouTubeVideos(Math.max(1, 
 ---
 
 <section class="bg-brand-bg text-brand-white reveal-section">
-  <div class="mx-auto grid max-w-[1280px] grid-cols-1 items-start gap-10 px-5 py-16 sm:px-10 sm:py-20 lg:grid-cols-12 lg:gap-16 lg:py-28 xl:max-w-[1440px]">
+  <div class="mx-auto grid max-w-[1280px] grid-cols-1 items-start gap-10 px-5 py-16 sm:px-10 sm:py-20 lg:grid-cols-12 lg:gap-16 lg:py-28">
     <div class="lg:col-span-4 space-y-4">
       <p class="text-xs font-black uppercase tracking-[0.3em] text-brand-secondary">Arte y Vida TV</p>
-      <h3 class="text-3xl font-black leading-tight">Últimos videos del canal.</h3>
+      <h2 class="text-3xl font-black leading-tight">Últimos videos del canal.</h2>
       <p class="text-brand-white/70 text-sm leading-relaxed max-w-sm">
         Conecta con nuestros estrenos, cápsulas y coberturas audiovisuales directamente desde YouTube.
       </p>
@@ -62,7 +62,7 @@ const { videos: displayVideos, loadError } = await getYouTubeVideos(Math.max(1, 
                 YouTube
               </span>
             </div>
-            <h4 class="text-lg font-bold leading-tight group-hover:text-brand-accent line-clamp-2">{video.title}</h4>
+            <h3 class="text-lg font-bold leading-tight group-hover:text-brand-accent line-clamp-2">{video.title}</h3>
           </div>
         </a>
       ))}

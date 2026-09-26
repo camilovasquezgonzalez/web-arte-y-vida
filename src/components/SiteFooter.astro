@@ -1,0 +1,41 @@
+---
+const groups = [
+  { title: 'Explora', links: [['Agenda', '/agenda'], ['Proyectos', '/proyectos'], ['Arte y Vida TV', '/arte-y-vida-tv'], ['Noticias', '/noticias']] },
+  { title: 'Institución', links: [['Nosotros', '/nosotros'], ['Nuestra historia', '/nuestra-historia'], ['Socios y socias', '/socios'], ['Transparencia', '/transparencia'], ['Contacto', '/contacto']] },
+  { title: 'Participa', links: [['Amig@s de Arte y Vida', '/amigos']] },
+  { title: 'Redes', links: [['Instagram', 'https://www.instagram.com/corparteyvida'], ['Facebook', 'https://www.facebook.com/@corparteyvida'], ['YouTube', 'https://www.youtube.com/@corparteyvida']] },
+];
+---
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div class="footer-about">
+        <img src="/blanco-scaled.webp" alt="Arte y Vida" width="130" height="52" loading="lazy" />
+        <h2>Corporación Arte y Vida</h2>
+        <p>Impulsamos experiencias artísticas, culturales y comunitarias que fortalecen el encuentro y la vida en el territorio.</p>
+        <address>Pedro León Gallo 547<br />Coelemu, Región de Ñuble, Chile<br /><a href="mailto:corpo@arteyvida.cl">corpo@arteyvida.cl</a></address>
+      </div>
+      {groups.map(group => <nav aria-label={group.title}><h2>{group.title}</h2><ul>{group.links.map(([label, href]) => <li><a href={href}>{label}</a></li>)}</ul></nav>)}
+    </div>
+    <div class="footer-bottom">
+      <p>© {new Date().getFullYear()} Corporación Cultural y Social Arte y Vida.</p>
+      <div><a href="/privacidad">Privacidad</a><a href="/terminos">Términos</a></div>
+    </div>
+  </div>
+</footer>
+<style>
+  .site-footer { border-top: 1px solid #f3f1eb26; background: #050505; padding-block: 56px 24px; font-size: 14px; }
+  .footer-inner { max-width: 1280px; margin-inline: auto; padding-inline: 20px; }
+  .footer-grid { display: grid; gap: 32px 24px; }
+  h2 { font-family: var(--font-sans); color: #fed100; font-size: 12px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 12px; }
+  .footer-about img { width: 130px; height: 52px; object-fit: contain; margin-bottom: 24px; }
+  .footer-about p, address { max-width: 34ch; color: #cfc8be; line-height: 1.8; }
+  address { font-style: normal; margin-top: 16px; }
+  ul { list-style: none; margin: 0; padding: 0; }
+  a { display: inline-flex; align-items: center; min-height: 44px; color: #cfc8be; overflow-wrap: anywhere; }
+  a:hover { color: #fed100; text-decoration: underline; text-underline-offset: 4px; }
+  .footer-bottom { margin-top: 40px; padding-top: 20px; border-top: 1px solid #f3f1eb26; display: flex; flex-direction: column; gap: 12px; font-size: 12px; }
+  .footer-bottom > div { display: flex; gap: 24px; }
+  @media (min-width: 640px) { .footer-inner { padding-inline: 40px; } .footer-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } .footer-about { grid-column: 1 / -1; } }
+  @media (min-width: 1024px) { .footer-grid { grid-template-columns: 1.8fr 1fr 1.15fr 1.2fr .8fr; } .footer-about { grid-column: auto; } .footer-bottom { flex-direction: row; justify-content: space-between; align-items: center; } }
+</style>

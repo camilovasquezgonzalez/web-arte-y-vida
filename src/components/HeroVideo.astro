@@ -4,11 +4,12 @@ interface Props {
   poster?: string;
   title: string;
   kicker?: string;
+  description?: string;
   scrollLabel?: string;
   scrollTarget?: string;
 }
 
-const { videoSrc, poster, title, kicker, scrollLabel = 'Explorar', scrollTarget } = Astro.props as Props;
+const { videoSrc, poster, title, kicker, description, scrollLabel = 'Explorar', scrollTarget } = Astro.props as Props;
 
 const fallbackStyle = poster
   ? `background-image: linear-gradient(180deg, rgba(5, 5, 5, 0.12) 0%, rgba(5, 5, 5, 0.28) 100%), url('${poster}');`
@@ -16,20 +17,19 @@ const fallbackStyle = poster
 ---
 
 <section
-  class="hero-video-shell relative flex min-h-[100svh] w-full items-end overflow-hidden text-white md:h-screen md:items-center"
+  class="hero-video-shell relative flex min-h-[calc(100svh-var(--site-header-height))] w-full items-end overflow-hidden text-white md:min-h-[calc(100svh-var(--site-header-height))] md:items-center"
   data-hero-shell
   data-video-state="fallback"
 >
   <div class="hero-video-fallback absolute inset-0 z-0" style={fallbackStyle}></div>
 
   <video
-    autoplay
     muted
     loop
     playsinline
     webkit-playsinline="true"
     disablepictureinpicture
-    preload="auto"
+    preload="none"
     poster={poster}
     data-hero-video
     aria-hidden="true"
@@ -41,32 +41,25 @@ const fallbackStyle = poster
 
   <div class="hero-video-overlay absolute inset-0 z-10 pointer-events-none"></div>
 
-  <div class="relative z-20 flex h-full w-full items-end px-5 pb-12 pt-28 sm:px-10 sm:pb-14 md:items-center md:px-14 md:pb-0 md:pt-0 lg:px-20 xl:px-24">
-    <div class="hero-video-content max-w-5xl space-y-5 text-left animate-fade-in md:space-y-6">
+  <div class="relative z-20 mx-auto flex h-full w-full max-w-[1280px] items-end px-5 pb-12 pt-28 sm:px-10 sm:pb-14 md:items-center md:py-24">
+    <div class="hero-video-content max-w-5xl space-y-5 text-left md:space-y-6">
       {kicker && (
         <span class="block max-w-[22rem] text-xs font-semibold uppercase tracking-[0.18em] text-[#F3D56B] [text-shadow:0_6px_24px_rgba(0,0,0,0.55)] sm:text-sm md:max-w-none md:text-base md:tracking-[0.22em]">
           {kicker}
         </span>
       )}
 
-      <h1 class="max-w-[12ch] text-[clamp(2.7rem,12vw,4.2rem)] leading-[0.92] tracking-tight drop-shadow-[0_12px_34px_rgba(0,0,0,0.42)] md:max-w-none md:text-7xl lg:text-8xl">
+      <h1 class="max-w-[12ch] text-[clamp(2.7rem,12vw,4.2rem)] leading-[0.92] tracking-tight drop-shadow-[0_12px_34px_rgba(0,0,0,0.42)] md:max-w-[17ch] md:text-6xl lg:text-7xl">
         {title}
       </h1>
 
-      {scrollLabel && (
-        <button
-          id="hero-scroll-btn"
-          data-target={scrollTarget}
-          class="group inline-flex min-h-12 items-center gap-3 rounded-full bg-black/20 px-1.5 py-1.5 text-left text-xs font-semibold uppercase tracking-[0.16em] text-brand-white transition-all duration-300 hover:bg-black/30 hover:text-[#F3D56B] sm:text-sm"
-        >
-          <span>{scrollLabel}</span>
-          <span class="flex h-11 w-11 items-center justify-center rounded-full border border-white/35 bg-white/5 transition-colors group-hover:border-[#F3D56B]">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M7 13l5 5 5-5M7 6l5 5 5-5" />
-            </svg>
-          </span>
-        </button>
-      )}
+      {description && <p class="max-w-2xl text-base leading-relaxed text-brand-white sm:text-lg">{description}</p>}
+      <div class="flex flex-col gap-3 pt-2 sm:flex-row sm:flex-wrap">
+        {scrollLabel && scrollTarget && <a href={`#${scrollTarget}`} class="inline-flex min-h-12 items-center justify-center rounded-full bg-brand-accent px-5 py-3 text-center text-sm font-semibold text-brand-bg hover:bg-brand-white">{scrollLabel}</a>}
+        <a href="/nuestra-historia" class="inline-flex min-h-12 items-center justify-center rounded-full border border-brand-white/60 bg-brand-bg/50 px-5 py-3 text-center text-sm font-semibold text-brand-white hover:bg-brand-bg">Conoce Arte y Vida</a>
+      </div>
+      <button type="button" data-video-toggle hidden class="min-h-12 rounded-full border border-brand-white/40 bg-brand-bg/70 px-4 py-3 text-sm text-brand-white">Reproducir video de fondo</button>
+
     </div>
   </div>
 </section>
@@ -100,29 +93,13 @@ const fallbackStyle = poster
     backdrop-filter: blur(1.2px);
   }
 
-  .hero-video-shell[data-video-state='ready'] .hero-video,
+  .hero-video-shell[data-video-state='paused'] .hero-video,
   .hero-video-shell[data-video-state='playing'] .hero-video {
     opacity: 1;
   }
 
   .hero-video-shell[data-video-state='playing'] .hero-video-fallback {
     filter: saturate(0.85) contrast(1) brightness(0.72);
-  }
-
-  .animate-fade-in {
-    animation: fadeIn 1.5s ease-out forwards;
-  }
-
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-      transform: translateY(20px);
-    }
-
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
   }
 
   @media (max-width: 767px) {
@@ -137,126 +114,33 @@ const fallbackStyle = poster
     }
   }
 
-  @media (prefers-reduced-motion: reduce) {
-    .hero-video {
-      display: none;
-    }
-  }
 </style>
 
 <script>
-  const initHeroVideo = () => {
-    window.__heroVideoCleanup?.();
-
-    const cleanups = [];
-
-    document.querySelectorAll('#hero-scroll-btn').forEach((scrollButton) => {
-      if (!(scrollButton instanceof HTMLButtonElement)) return;
-
-      const handleClick = () => {
-        const targetId = scrollButton.getAttribute('data-target');
-        if (targetId) {
-          const targetElement = document.getElementById(targetId);
-          targetElement?.scrollIntoView({ behavior: 'smooth' });
-        } else {
-          window.scrollBy({ top: window.innerHeight, behavior: 'smooth' });
-        }
-      };
-
-      scrollButton.addEventListener('click', handleClick);
-      cleanups.push(() => scrollButton.removeEventListener('click', handleClick));
-    });
-
-    document.querySelectorAll('[data-hero-shell]').forEach((shell) => {
-      if (!(shell instanceof HTMLElement)) return;
-
-      const heroVideo = shell.querySelector('video[data-hero-video]');
-      if (!(heroVideo instanceof HTMLVideoElement)) return;
-
-      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      let playAttempted = false;
-
-      const setState = (state) => {
-        shell.setAttribute('data-video-state', state);
-      };
-
-      const tryPlay = () => {
-        if (prefersReducedMotion) {
-          setState('fallback');
-          return;
-        }
-
-        heroVideo.muted = true;
-        heroVideo.defaultMuted = true;
-        heroVideo.playsInline = true;
-        heroVideo.autoplay = true;
-        playAttempted = true;
-
-        const playPromise = heroVideo.play();
-        if (playPromise?.then) {
-          playPromise
-            .then(() => setState('playing'))
-            .catch(() => setState(heroVideo.currentTime > 0 ? 'ready' : 'fallback'));
-        }
-      };
-
-      const handleLoadedData = () => {
-        if (!playAttempted) setState('ready');
-        tryPlay();
-      };
-
-      const handlePlaying = () => {
-        setState('playing');
-      };
-
-      const handlePause = () => {
-        if (document.visibilityState === 'visible' && !prefersReducedMotion) {
-          tryPlay();
-        }
-      };
-
-      const handleError = () => {
-        setState('fallback');
-      };
-
-      const handleVisibilityChange = () => {
-        if (document.visibilityState === 'visible' && heroVideo.paused) {
-          tryPlay();
-        }
-      };
-
-      heroVideo.addEventListener('loadeddata', handleLoadedData);
-      heroVideo.addEventListener('canplay', handleLoadedData);
-      heroVideo.addEventListener('playing', handlePlaying);
-      heroVideo.addEventListener('pause', handlePause);
-      heroVideo.addEventListener('error', handleError);
-      document.addEventListener('visibilitychange', handleVisibilityChange);
-
-      cleanups.push(() => heroVideo.removeEventListener('loadeddata', handleLoadedData));
-      cleanups.push(() => heroVideo.removeEventListener('canplay', handleLoadedData));
-      cleanups.push(() => heroVideo.removeEventListener('playing', handlePlaying));
-      cleanups.push(() => heroVideo.removeEventListener('pause', handlePause));
-      cleanups.push(() => heroVideo.removeEventListener('error', handleError));
-      cleanups.push(() => document.removeEventListener('visibilitychange', handleVisibilityChange));
-
-      if (heroVideo.readyState >= 2) {
-        setState('ready');
-        tryPlay();
-      } else {
-        heroVideo.load();
-      }
-    });
-
-    window.__heroVideoCleanup = () => {
-      cleanups.forEach((cleanup) => cleanup());
+  document.querySelectorAll<HTMLElement>('[data-hero-shell]').forEach((shell) => {
+    const video = shell.querySelector<HTMLVideoElement>('[data-hero-video]');
+    const toggle = shell.querySelector<HTMLButtonElement>('[data-video-toggle]');
+    if (!video || !toggle) return;
+    const motion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const sync = () => {
+      toggle.textContent = video.paused ? 'Reproducir video de fondo' : 'Pausar video de fondo';
+      shell.dataset.videoState = video.paused ? (video.currentTime > 0 ? 'paused' : 'fallback') : 'playing';
     };
-  };
-
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initHeroVideo, { once: true });
-  } else {
-    initHeroVideo();
-  }
-
-  document.addEventListener('astro:page-load', initHeroVideo);
+    const play = async () => {
+      try { await video.play(); } catch { shell.dataset.videoState = 'fallback'; }
+      sync();
+    };
+    toggle.hidden = false;
+    toggle.addEventListener('click', () => { if (video.paused) void play(); else video.pause(); });
+    video.addEventListener('playing', sync);
+    video.addEventListener('pause', sync);
+    video.addEventListener('error', () => {
+      video.pause();
+      shell.dataset.videoState = 'fallback';
+      toggle.hidden = true;
+    });
+    motion.addEventListener('change', () => { if (motion.matches) video.pause(); });
+    document.addEventListener('visibilitychange', () => { if (document.hidden) video.pause(); });
+    if (!motion.matches) void play();
+  });
 </script>

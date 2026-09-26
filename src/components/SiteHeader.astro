@@ -1,0 +1,112 @@
+---
+const links = [
+  { label: 'Inicio', href: '/' },
+  { label: 'Agenda', href: '/agenda' },
+  { label: 'Proyectos', href: '/proyectos' },
+  { label: 'Arte y Vida TV', href: '/arte-y-vida-tv' },
+  { label: 'Nosotros', href: '/nosotros' },
+  { label: 'Apoya Arte y Vida', href: '/amigos', support: true },
+];
+const path = Astro.url.pathname.replace(/\/$/, '') || '/';
+---
+
+<header class="site-header" data-site-header>
+  <div class="header-inner">
+    <a class="site-logo" href="/" aria-label="Arte y Vida — Inicio">
+      <img src="/blanco-scaled.webp" alt="Arte y Vida" width="150" height="60" />
+    </a>
+    <button class="menu-trigger" type="button" aria-expanded="false" aria-controls="site-mobile-menu" hidden>
+      Menú <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18" /></svg>
+    </button>
+    <nav class="primary-nav" aria-label="Principal">
+      <ul>{links.map(link => <li><a class:list={['nav-link', { 'support-link': link.support }]} href={link.href} aria-current={path === link.href ? 'page' : undefined}>{link.label}</a></li>)}</ul>
+    </nav>
+  </div>
+  <dialog id="site-mobile-menu" aria-labelledby="mobile-menu-title">
+    <div class="menu-heading">
+      <h2 id="mobile-menu-title">Arte y Vida</h2>
+      <button class="menu-close" type="button" autofocus>Cerrar <span aria-hidden="true">×</span></button>
+    </div>
+    <nav aria-label="Principal móvil">
+      <ul>{links.map(link => <li><a class:list={['nav-link', { 'support-link': link.support }]} href={link.href} aria-current={path === link.href ? 'page' : undefined}>{link.label}</a></li>)}</ul>
+    </nav>
+    <p class="menu-territory">Cultura y comunidad desde Coelemu.</p>
+  </dialog>
+</header>
+
+<script>
+  const header = document.querySelector<HTMLElement>('[data-site-header]');
+  const trigger = header?.querySelector<HTMLButtonElement>('.menu-trigger');
+  const dialog = header?.querySelector<HTMLDialogElement>('dialog');
+  if (header && trigger && dialog && typeof dialog.showModal === 'function') {
+    header.dataset.enhanced = 'true';
+    trigger.hidden = false;
+    trigger.addEventListener('click', () => {
+      dialog.showModal();
+      trigger.setAttribute('aria-expanded', 'true');
+      document.body.classList.add('site-menu-open');
+    });
+    dialog.querySelector('.menu-close')?.addEventListener('click', () => dialog.close());
+    dialog.querySelectorAll('a').forEach(link => link.addEventListener('click', () => dialog.close()));
+    dialog.addEventListener('keydown', event => {
+      if (event.key !== 'Tab') return;
+      const controls = Array.from(dialog.querySelectorAll<HTMLElement>('button, a[href]'));
+      const first = controls[0];
+      const last = controls[controls.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    });
+    dialog.addEventListener('close', () => {
+      trigger.setAttribute('aria-expanded', 'false');
+      document.body.classList.remove('site-menu-open');
+      if (trigger.getClientRects().length) trigger.focus();
+    });
+    window.matchMedia('(min-width: 1024px)').addEventListener('change', event => {
+      if (event.matches && dialog.open) dialog.close();
+    });
+  }
+</script>
+
+<style>
+  .site-header { z-index: 50; background: #050505; border-bottom: 1px solid #f3f1eb26; }
+  .site-header[data-enhanced] { position: sticky; top: 0; }
+  .header-inner { max-width: 1280px; margin-inline: auto; padding: 10px 20px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 20px; }
+  .site-logo { display: flex; align-items: center; min-height: 52px; }
+  .site-logo img { width: 130px; height: 52px; object-fit: contain; }
+  .menu-trigger, .menu-close { min-height: 44px; padding: 10px 14px; border: 1px solid #f3f1eb66; border-radius: 999px; align-items: center; gap: 10px; font-size: 14px; font-weight: 600; cursor: pointer; }
+  .menu-trigger:not([hidden]), .menu-close { display: flex; }
+  .primary-nav { width: 100%; }
+  ul { margin: 0; padding: 0; list-style: none; }
+  .primary-nav ul { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 4px; padding-block: 12px; }
+  .nav-link { display: flex; align-items: center; min-height: 44px; padding: 10px 12px; border-radius: 8px; font-size: 14px; font-weight: 500; }
+  .nav-link:hover { background: #f3f1eb12; }
+  .nav-link[aria-current="page"] { color: #fed100; text-decoration: underline; text-underline-offset: 7px; text-decoration-thickness: 2px; }
+  .support-link { border: 1px solid #fed100; border-radius: 999px; color: #fed100; justify-content: center; text-align: center; }
+  .support-link:hover { background: #fed100; color: #050505; }
+  [data-enhanced] .primary-nav { display: none; }
+  dialog { position: fixed; inset: 0 0 0 auto; margin: 0; width: min(100%, 440px); max-width: 100%; height: 100dvh; max-height: 100dvh; padding: 24px 20px; border: 0; border-left: 1px solid #f3f1eb33; background: #050505; color: #f3f1eb; overflow-y: auto; }
+  dialog::backdrop { background: #050505bf; }
+  .menu-heading { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 32px; }
+  .menu-heading h2 { font-size: 28px; }
+  .menu-close span { font-size: 24px; line-height: 1; }
+  dialog ul { display: grid; gap: 8px; }
+  dialog .nav-link { min-height: 56px; font-size: 20px; }
+  dialog .support-link { margin-top: 20px; font-size: 16px; }
+  .menu-territory { margin-top: 40px; font-size: 13px; color: #cfc8be; }
+  @media (min-width: 640px) { .header-inner { padding-inline: 40px; } }
+  @media (min-width: 1024px) {
+    .site-header { position: sticky; top: 0; }
+    .header-inner { flex-wrap: nowrap; gap: 16px; }
+    .primary-nav, [data-enhanced] .primary-nav { display: block; width: auto; }
+    .primary-nav ul { display: flex; align-items: center; gap: 4px; padding: 0; }
+    .nav-link { white-space: nowrap; padding-inline: 10px; font-size: 13px; }
+    .support-link { margin-left: 12px; padding-inline: 16px; }
+    .menu-trigger:not([hidden]) { display: none; }
+  }
+  @media (min-width: 1280px) { .nav-link { font-size: 14px; } .primary-nav ul { gap: 10px; } }
+</style>

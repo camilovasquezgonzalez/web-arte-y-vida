@@ -1,0 +1,40 @@
+---
+export const prerender = false;
+import Layout from '../layouts/Layout.astro';
+import AgendaListing from '../components/AgendaListing.astro';
+import { getAgenda } from '../lib/agenda.server';
+Astro.response.headers.set('Cache-Control', 'public, s-maxage=900, stale-while-revalidate=86400');
+const agenda = await getAgenda();
+---
+<Layout title="Agenda cultural" description="Encuentra las próximas actividades, encuentros y experiencias culturales de Arte y Vida. Consulta fechas, lugares e inscripciones." canonical="https://arteyvida.cl/agenda">
+
+  <section class="bg-brand-bg text-brand-white">
+    <div class="mx-auto max-w-[1280px] px-5 pb-10 pt-24 sm:px-10 lg:pt-28">
+      <p class="text-xs font-semibold uppercase tracking-[0.2em] text-brand-accent">Cultura para encontrarnos</p>
+      <h1 class="mt-4 text-5xl sm:text-6xl">Agenda</h1>
+      <p class="mt-5 max-w-2xl text-lg leading-relaxed text-brand-muted">Encuentra las próximas actividades, encuentros y experiencias culturales de Arte y Vida.</p>
+      <p class="mt-4 max-w-2xl text-sm text-brand-muted">La programación disponible se actualiza a medida que se publican nuevas actividades.</p>
+      <p class="mt-5 max-w-2xl border-l-2 border-brand-secondary pl-4 text-sm leading-relaxed text-brand-muted">En esta selección encontrarás programación de Reactivemos el Teatro publicada en Tcultura. Otras iniciativas se incorporarán a medida que estén disponibles.</p>
+    </div>
+  </section>
+  <section class="bg-brand-white/5 text-brand-white" aria-label="Descubrir próximas actividades">
+    <div class="mx-auto max-w-[1280px] px-5 py-12 sm:px-10 sm:py-16">
+      <AgendaListing agenda={agenda} />
+    </div>
+  </section>
+  <section class="bg-brand-bg text-brand-white">
+    <div class="mx-auto max-w-[1280px] px-5 py-16 sm:px-10">
+      <h2 class="max-w-2xl text-3xl">Más formas de ser parte</h2>
+      <p class="mt-4 max-w-2xl text-brand-muted">Desde Coelemu y el Valle del Itata, Arte y Vida desarrolla procesos de creación, formación, mediación e investigación.</p>
+      <div class="mt-6 flex flex-wrap gap-3">
+        <a href="/talleres" class="inline-flex min-h-12 items-center rounded-full border border-brand-white/30 px-5 py-3 text-sm">Conocer los talleres</a>
+        <a href="/proyectos" class="inline-flex min-h-12 items-center rounded-full border border-brand-white/30 px-5 py-3 text-sm">Explorar proyectos</a>
+      </div>
+    </div>
+  </section>
+</Layout>
+<style is:global>
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto !important; }
+  }
+</style>

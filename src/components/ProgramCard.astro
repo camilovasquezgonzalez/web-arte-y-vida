@@ -1,0 +1,13 @@
+---
+import type { Program } from '../data/programs';
+interface Props { program: Program; index: number; }
+const { program, index } = Astro.props;
+---
+<article class="min-w-0 rounded-3xl border border-brand-white/15 bg-brand-white/5 p-6 sm:p-8">
+  <div class="mb-6 flex items-center gap-3" aria-hidden="true">
+    <span class="h-2 w-8 rounded-full" style={`background: ${program.color}`}></span>
+    <span class="text-xs tracking-widest text-brand-muted">0{index + 1}</span>
+  </div>
+  <h3 class="mb-3 text-2xl leading-tight">{program.name}</h3>
+  <p class="text-sm leading-relaxed text-brand-muted">{program.description}</p>
+</article>

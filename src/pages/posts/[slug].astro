@@ -1,6 +1,5 @@
 ---
 import Layout from '../../layouts/Layout.astro';
-import SidebarNav from '../../components/SidebarNav.astro';
 import { getCollection } from 'astro:content';
 import { formatCategoryLabel } from '../../lib/contentLabels';
 
@@ -47,7 +46,7 @@ if (typeof entry.render === 'function') {
 ---
 
 <Layout title={entry.data.title}>
-  <SidebarNav />
+
 
   <article class="bg-brand-bg text-brand-white min-h-screen">
     <header class="max-w-[1200px] mx-auto px-6 sm:px-10 pt-16 pb-10 lg:pt-20 lg:pb-12 space-y-4">
@@ -70,11 +69,11 @@ if (typeof entry.render === 'function') {
       )}
     </header>
 
-    <div class="max-w-[900px] mx-auto px-6 sm:px-10 pb-16 prose prose-invert prose-img:rounded-2xl prose-a:text-brand-accent prose-strong:text-brand-white post-body">
+    <div class="max-w-[760px] mx-auto px-6 sm:px-10 pb-16 prose prose-invert prose-img:rounded-2xl prose-a:text-brand-accent prose-strong:text-brand-white post-body">
       <Content />
     </div>
 
-    <div class="max-w-[900px] mx-auto px-6 sm:px-10 pb-16">
+    <div class="max-w-[760px] mx-auto px-6 sm:px-10 pb-16">
       <a
         href="/noticias"
         class="inline-flex items-center gap-2 text-sm font-semibold tracking-[0.14em] uppercase text-brand-white/80 hover:text-brand-accent"

@@ -1,6 +1,5 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import SidebarNav from '../components/SidebarNav.astro';
 import { formatYouTubeDate, getYouTubeLibrary, getYouTubeVideos } from '../lib/youtube';
 
 const { videos, loadError } = await getYouTubeVideos(6);
@@ -24,11 +23,11 @@ const libraryRest = playlists.slice(1);
 ---
 
 <Layout title="Arte y Vida TV">
-  <SidebarNav />
+
 
   <section class="relative overflow-hidden bg-brand-bg pb-14 pt-20 text-brand-white lg:pb-18 lg:pt-24">
     <div class="absolute inset-0 opacity-80 bg-[radial-gradient(circle_at_top_right,rgba(197,48,149,0.24),transparent_28%),radial-gradient(circle_at_left,rgba(49,204,231,0.2),transparent_26%),linear-gradient(180deg,rgba(255,255,255,0.02),rgba(255,255,255,0))]"></div>
-    <div class="relative mx-auto grid max-w-[1280px] grid-cols-1 items-start gap-10 px-6 sm:px-10 lg:grid-cols-12 lg:gap-14 xl:max-w-[1440px]">
+    <div class="relative mx-auto grid max-w-[1280px] grid-cols-1 items-start gap-10 px-6 sm:px-10 lg:grid-cols-12 lg:gap-14">
       <div class="space-y-5 lg:col-span-4">
         <p class="text-xs font-black uppercase tracking-[0.3em] text-brand-secondary">Arte y Vida TV</p>
         <h1 class="text-3xl font-black leading-tight sm:text-4xl md:text-5xl">Una pantalla para nuestra memoria audiovisual.</h1>
@@ -111,7 +110,7 @@ const libraryRest = playlists.slice(1);
   </section>
 
   <section class="bg-brand-white/5 py-16 text-brand-white lg:py-20">
-    <div class="mx-auto max-w-[1280px] space-y-8 px-6 sm:px-10 xl:max-w-[1440px]">
+    <div class="mx-auto max-w-[1280px] space-y-8 px-6 sm:px-10">
       <div class="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
         <div>
           <p class="text-xs font-black uppercase tracking-[0.3em] text-brand-accent">En vitrina</p>
@@ -149,7 +148,7 @@ const libraryRest = playlists.slice(1);
   </section>
 
   <section id="biblioteca-proyectos" class="bg-brand-bg py-16 text-brand-white lg:py-20">
-    <div class="mx-auto max-w-[1280px] space-y-8 px-6 sm:px-10 xl:max-w-[1440px]">
+    <div class="mx-auto max-w-[1280px] space-y-8 px-6 sm:px-10">
       <div class="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
         <div>
           <p class="text-xs font-black uppercase tracking-[0.3em] text-brand-secondary">Colecciones</p>

@@ -1,6 +1,5 @@
 ---
 import ProjectGallery from '../components/ProjectGallery.astro';
-import SidebarNav from '../components/SidebarNav.astro';
 import { getArchiveProjectByKey } from '../lib/projectArchive';
 import Layout from '../layouts/Layout.astro';
 
@@ -10,10 +9,10 @@ const reportUrl =
 ---
 
 <Layout title="Arte y Voz">
-  <SidebarNav />
+
 
   <section class="bg-brand-bg pb-14 pt-20 text-brand-white lg:pb-16 lg:pt-24">
-    <div class="mx-auto grid max-w-[1280px] grid-cols-1 items-start gap-10 px-6 sm:px-10 lg:grid-cols-12 lg:gap-14 xl:max-w-[1440px]">
+    <div class="mx-auto grid max-w-[1280px] grid-cols-1 items-start gap-10 px-6 sm:px-10 lg:grid-cols-12 lg:gap-14">
       <div class="space-y-5 lg:col-span-7">
         <p class="text-xs font-black uppercase tracking-[0.3em] text-brand-secondary">Arte y Voz</p>
         <h1 class="text-4xl font-black leading-tight md:text-5xl">
@@ -43,7 +42,7 @@ const reportUrl =
   </section>
 
   <section class="bg-brand-white/5 py-16 text-brand-white lg:py-20">
-    <div class="mx-auto max-w-[1280px] px-6 sm:px-10 xl:max-w-[1440px]">
+    <div class="mx-auto max-w-[1280px] px-6 sm:px-10">
       {archiveProject ? (
         <ProjectGallery galleryId="arte-y-voz" title={archiveProject.title} images={archiveProject.images} />
       ) : (

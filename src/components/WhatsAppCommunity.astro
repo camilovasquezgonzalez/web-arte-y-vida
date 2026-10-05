@@ -1,0 +1,189 @@
+---
+const groupUrl = 'https://chat.whatsapp.com/L0G6EQCsFi1H5V2vxCCiZS';
+---
+
+<aside class="whatsapp-community" aria-label="Grupo de WhatsApp de programación">
+  <details data-whatsapp-community>
+    <summary aria-label="Mostrar u ocultar invitación al grupo de WhatsApp">
+      <span class="whatsapp-community__icon" aria-hidden="true">
+        <svg viewBox="0 0 32 32" role="img">
+          <path fill="currentColor" d="M16.02 3A12.8 12.8 0 0 0 5.1 22.48L3 29l6.73-2.02A12.93 12.93 0 1 0 16.02 3Zm0 23.63c-2.08 0-4.1-.57-5.86-1.65l-.42-.25-3.99 1.2 1.23-3.88-.27-.43a10.51 10.51 0 1 1 9.31 5.01Zm5.76-7.87c-.32-.16-1.87-.92-2.16-1.03-.29-.11-.5-.16-.71.16-.21.31-.81 1.03-1 1.24-.18.21-.37.24-.68.08-.32-.16-1.33-.49-2.53-1.56a9.46 9.46 0 0 1-1.75-2.18c-.18-.32-.02-.49.14-.64.14-.14.32-.37.47-.55.16-.19.21-.32.32-.53.1-.21.05-.4-.03-.56-.08-.16-.71-1.71-.97-2.34-.26-.62-.52-.54-.71-.55h-.61c-.21 0-.55.08-.84.4-.29.31-1.1 1.08-1.1 2.63 0 1.55 1.13 3.05 1.29 3.26.16.21 2.22 3.39 5.38 4.75.75.32 1.34.52 1.8.67.76.24 1.44.21 1.98.13.61-.09 1.87-.77 2.14-1.5.26-.74.26-1.37.18-1.5-.08-.13-.29-.21-.6-.37Z"/>
+        </svg>
+      </span>
+      <span class="whatsapp-community__summary-label">Programación</span>
+      <span class="whatsapp-community__summary-close" aria-hidden="true">×</span>
+    </summary>
+
+    <div class="whatsapp-community__panel">
+      <div class="whatsapp-community__eyebrow"><span aria-hidden="true"></span> Grupo oficial</div>
+      <div class="whatsapp-community__mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32">
+          <path fill="currentColor" d="M16.02 3A12.8 12.8 0 0 0 5.1 22.48L3 29l6.73-2.02A12.93 12.93 0 1 0 16.02 3Zm0 23.63c-2.08 0-4.1-.57-5.86-1.65l-.42-.25-3.99 1.2 1.23-3.88-.27-.43a10.51 10.51 0 1 1 9.31 5.01Zm5.76-7.87c-.32-.16-1.87-.92-2.16-1.03-.29-.11-.5-.16-.71.16-.21.31-.81 1.03-1 1.24-.18.21-.37.24-.68.08-.32-.16-1.33-.49-2.53-1.56a9.46 9.46 0 0 1-1.75-2.18c-.18-.32-.02-.49.14-.64.14-.14.32-.37.47-.55.16-.19.21-.32.32-.53.1-.21.05-.4-.03-.56-.08-.16-.71-1.71-.97-2.34-.26-.62-.52-.54-.71-.55h-.61c-.21 0-.55.08-.84.4-.29.31-1.1 1.08-1.1 2.63 0 1.55 1.13 3.05 1.29 3.26.16.21 2.22 3.39 5.38 4.75.75.32 1.34.52 1.8.67.76.24 1.44.21 1.98.13.61-.09 1.87-.77 2.14-1.5.26-.74.26-1.37.18-1.5-.08-.13-.29-.21-.6-.37Z"/>
+        </svg>
+      </div>
+      <h2>La cultura llega directo a tu teléfono.</h2>
+      <p>Únete al grupo de programación y recibe próximas actividades, talleres y encuentros de Arte y Vida.</p>
+      <a href={groupUrl} target="_blank" rel="noreferrer" aria-label="Unirme al grupo de programación en WhatsApp">
+        <svg viewBox="0 0 32 32" aria-hidden="true">
+          <path fill="currentColor" d="M16.02 3A12.8 12.8 0 0 0 5.1 22.48L3 29l6.73-2.02A12.93 12.93 0 1 0 16.02 3Zm0 23.63c-2.08 0-4.1-.57-5.86-1.65l-.42-.25-3.99 1.2 1.23-3.88-.27-.43a10.51 10.51 0 1 1 9.31 5.01Zm5.76-7.87c-.32-.16-1.87-.92-2.16-1.03-.29-.11-.5-.16-.71.16-.21.31-.81 1.03-1 1.24-.18.21-.37.24-.68.08-.32-.16-1.33-.49-2.53-1.56a9.46 9.46 0 0 1-1.75-2.18c-.18-.32-.02-.49.14-.64.14-.14.32-.37.47-.55.16-.19.21-.32.32-.53.1-.21.05-.4-.03-.56-.08-.16-.71-1.71-.97-2.34-.26-.62-.52-.54-.71-.55h-.61c-.21 0-.55.08-.84.4-.29.31-1.1 1.08-1.1 2.63 0 1.55 1.13 3.05 1.29 3.26.16.21 2.22 3.39 5.38 4.75.75.32 1.34.52 1.8.67.76.24 1.44.21 1.98.13.61-.09 1.87-.77 2.14-1.5.26-.74.26-1.37.18-1.5-.08-.13-.29-.21-.6-.37Z"/>
+        </svg>
+        Unirme al grupo <span aria-hidden="true">↗</span>
+      </a>
+      <small>Solo información de programación cultural.</small>
+    </div>
+  </details>
+</aside>
+
+<script>
+  document.querySelectorAll<HTMLDetailsElement>('[data-whatsapp-community]').forEach(widget => {
+    document.addEventListener('click', event => {
+      if (widget.open && event.target instanceof Node && !widget.contains(event.target)) widget.open = false;
+    });
+    document.addEventListener('keydown', event => {
+      if (widget.open && event.key === 'Escape') {
+        widget.open = false;
+        widget.querySelector<HTMLElement>('summary')?.focus();
+      }
+    });
+  });
+</script>
+
+<style>
+  .whatsapp-community {
+    position: fixed;
+    right: max(18px, env(safe-area-inset-right));
+    bottom: max(18px, env(safe-area-inset-bottom));
+    z-index: 40;
+    font-family: var(--font-body);
+  }
+
+  .whatsapp-community details { position: relative; }
+
+  .whatsapp-community summary {
+    display: flex;
+    min-height: 58px;
+    align-items: center;
+    gap: 10px;
+    margin-left: auto;
+    padding: 8px 18px 8px 9px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 999px;
+    background: #25d366;
+    color: #04140a;
+    box-shadow: 0 18px 55px rgba(0, 0, 0, 0.42), 0 0 0 4px rgba(37, 211, 102, 0.08);
+    cursor: pointer;
+    list-style: none;
+    transition: transform 180ms ease, background 180ms ease, box-shadow 180ms ease;
+  }
+
+  .whatsapp-community summary::-webkit-details-marker { display: none; }
+  .whatsapp-community summary:hover { transform: translateY(-2px); background: #38e276; }
+  .whatsapp-community summary:focus-visible { outline: 3px solid #fed100; outline-offset: 4px; }
+
+  .whatsapp-community__icon {
+    display: grid;
+    width: 40px;
+    height: 40px;
+    place-items: center;
+    border-radius: 999px;
+    background: #07170c;
+    color: #25d366;
+  }
+
+  .whatsapp-community__icon svg { width: 25px; height: 25px; }
+  .whatsapp-community__summary-label { font-size: 12px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
+  .whatsapp-community__summary-close { display: none; font-size: 25px; font-weight: 400; line-height: 1; }
+  .whatsapp-community details[open] .whatsapp-community__summary-label { display: none; }
+  .whatsapp-community details[open] .whatsapp-community__summary-close { display: inline; }
+
+  .whatsapp-community__panel {
+    position: absolute;
+    right: 0;
+    bottom: 72px;
+    width: min(320px, calc(100vw - 36px));
+    padding: 22px;
+    overflow: hidden;
+    border: 1px solid rgba(37, 211, 102, 0.48);
+    border-radius: 28px;
+    background:
+      radial-gradient(circle at 100% 0%, rgba(37, 211, 102, 0.16), transparent 38%),
+      #07110b;
+    color: #f3f1eb;
+    box-shadow: 0 28px 80px rgba(0, 0, 0, 0.58);
+    animation: whatsapp-panel-in 220ms ease-out both;
+  }
+
+  .whatsapp-community__eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: rgba(243, 241, 235, 0.84);
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+  }
+
+  .whatsapp-community__eyebrow span {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: #25d366;
+    box-shadow: 0 0 0 5px rgba(37, 211, 102, 0.15);
+  }
+
+  .whatsapp-community__mark {
+    display: grid;
+    width: 64px;
+    height: 64px;
+    margin-top: 24px;
+    place-items: center;
+    border-radius: 22px;
+    background: rgba(37, 211, 102, 0.12);
+    color: #25d366;
+  }
+
+  .whatsapp-community__mark svg { width: 38px; height: 38px; }
+  .whatsapp-community__panel h2 { margin-top: 18px; font-family: var(--font-display); font-size: 25px; line-height: 1.08; }
+  .whatsapp-community__panel p { margin-top: 12px; color: rgba(243, 241, 235, 0.68); font-size: 13px; line-height: 1.65; }
+
+  .whatsapp-community__panel > a {
+    display: flex;
+    min-height: 50px;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    margin-top: 20px;
+    padding: 12px 18px;
+    border-radius: 999px;
+    background: #25d366;
+    color: #04140a;
+    font-size: 13px;
+    font-weight: 800;
+    transition: transform 180ms ease, background 180ms ease;
+  }
+
+  .whatsapp-community__panel > a:hover { transform: translateY(-2px); background: #4bea83; }
+  .whatsapp-community__panel > a:focus-visible { outline: 3px solid #fed100; outline-offset: 3px; }
+  .whatsapp-community__panel > a svg { width: 21px; height: 21px; }
+  .whatsapp-community__panel small { display: block; margin-top: 12px; color: rgba(243, 241, 235, 0.45); font-size: 10px; text-align: center; }
+
+  @keyframes whatsapp-panel-in {
+    from { opacity: 0; transform: translateY(10px) scale(.98); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+  }
+
+  @media (max-width: 520px) {
+    .whatsapp-community__summary-label { display: none; }
+    .whatsapp-community summary { width: 58px; padding: 8px; }
+    .whatsapp-community details[open] summary { width: 58px; }
+    .whatsapp-community details[open] .whatsapp-community__icon { display: none; }
+    .whatsapp-community details[open] .whatsapp-community__summary-close { display: block; width: 40px; text-align: center; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .whatsapp-community__panel { animation: none; }
+    .whatsapp-community summary,
+    .whatsapp-community__panel > a { transition: none; }
+  }
+</style>

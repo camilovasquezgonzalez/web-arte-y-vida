@@ -30,15 +30,13 @@ const updatedLabel = updatedAt
 <section id="proximas-actividades" aria-labelledby="agenda-heading" tabindex="-1" class="scroll-mt-24 bg-brand-white/5 text-brand-white">
   <div class="mx-auto grid max-w-[1280px] grid-cols-1 items-start gap-10 px-5 py-16 sm:px-10 sm:py-20 lg:grid-cols-12 lg:gap-16 lg:py-28">
     <div class="lg:col-span-4 space-y-4">
-      <SectionHeading id="agenda-heading" kicker="Encuentro y participación" heading="Próximas actividades" description="Programación disponible de Reactivemos el Teatro" />
+      <SectionHeading id="agenda-heading" kicker="Encuentro y participación" heading="Próximas actividades" description="Programación de Arte y Vida y Reactivemos el Teatro" />
       <div class="flex flex-col items-stretch gap-3 sm:flex-row sm:flex-wrap sm:items-center">
         <a
-          href="https://tcultura.com/eventos/?ciudad=336"
-          target="_blank"
-          rel="noreferrer"
+          href="/agenda"
           class="inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-brand-accent px-5 py-2.5 text-xs font-black uppercase tracking-[0.2em] text-brand-bg shadow-[0_12px_40px_rgba(254,209,0,0.28)] transition-transform duration-300 hover:-translate-y-[2px]"
         >
-          Consultar Tcultura
+          Ver agenda completa
         </a>
         <span class="text-xs uppercase tracking-[0.18em] text-brand-white/60">
           {items.length > 0 ? `${items.length} ${items.length === 1 ? 'actividad destacada' : 'actividades destacadas'}` : 'Consulta la programación'}
@@ -51,7 +49,7 @@ const updatedLabel = updatedAt
         </div>
       ) : (
         <p class="text-sm leading-relaxed text-brand-white/60">
-          Reserva tu entrada o revisa los detalles de cada actividad directamente desde la plataforma oficial.
+          Revisa fechas, lugares y formas de participación en cada actividad confirmada.
         </p>
       )}
     </div>

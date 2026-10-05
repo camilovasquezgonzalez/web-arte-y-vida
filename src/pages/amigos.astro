@@ -3,6 +3,14 @@ import Layout from '../layouts/Layout.astro';
 
 const plans = [
   {
+    name: '$2.500',
+    subtitle: 'Aporte base',
+    descr: 'Una forma accesible de sumarte cada mes y ayudar a sostener la comunidad de Arte y Vida.',
+    link: 'https://mpago.la/2TpcJb9',
+    image: '/blanco-scaled.webp',
+    imageFit: 'contain',
+  },
+  {
     name: '$5.000',
     subtitle: 'Materiales esenciales',
     descr: 'Ayuda a financiar materiales para talleres gratuitos y actividades abiertas a la comunidad.',
@@ -89,7 +97,7 @@ const impactItems = [
         </p>
       </div>
 
-      <div class="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-4">
+      <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
         {plans.map((plan, index) => (
           <a
             href={plan.link}
@@ -98,11 +106,22 @@ const impactItems = [
             class="reveal-card group overflow-hidden rounded-[32px] border border-brand-white/10 bg-brand-bg/80 shadow-[0_20px_70px_rgba(0,0,0,0.3)] transition-all duration-300 hover:-translate-y-1 hover:border-brand-accent/60"
             style={`animation-delay: ${index * 90}ms;`}
           >
-            <div class="h-40 bg-cover bg-center" style={`background-image: linear-gradient(180deg,rgba(0,0,0,0.22),rgba(0,0,0,0.58)), url('${plan.image}')`}></div>
-            <div class="space-y-3 px-5 py-5">
+            <div class="relative h-40 overflow-hidden bg-black">
+              <img
+                src={plan.image}
+                alt=""
+                loading="lazy"
+                class:list={['h-full w-full', plan.imageFit === 'contain' ? 'object-contain p-4' : 'object-cover']}
+              />
+              <div class="absolute inset-0 bg-gradient-to-b from-black/10 to-black/60"></div>
+            </div>
+            <div class="flex min-h-[230px] flex-col space-y-3 px-5 py-5">
               <div class="text-2xl font-black">{plan.name}</div>
               <div class="text-xs uppercase tracking-[0.22em] text-brand-accent">{plan.subtitle}</div>
               <p class="text-sm leading-relaxed text-brand-white/72">{plan.descr}</p>
+              <span class="mt-auto inline-flex items-center gap-2 pt-3 text-xs font-black uppercase tracking-[0.16em] text-brand-accent">
+                Suscribirme <span aria-hidden="true">↗</span>
+              </span>
             </div>
           </a>
         ))}

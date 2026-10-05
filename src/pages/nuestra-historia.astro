@@ -1,112 +1,149 @@
 ---
 import { getArchiveProjectByKey } from '../lib/projectArchive';
+import { programs } from '../data/programs';
 import Layout from '../layouts/Layout.astro';
 
 const expoArchive = getArchiveProjectByKey('Expo Arte y Vida - muestra de talleres a fin de año 2025');
 const orquestaArchive = getArchiveProjectByKey('Orquesta Arte y Vida 2025');
 
-const pillars = [
+const milestones = [
   {
-    title: 'FormArte',
+    period: '2020–2021',
+    title: 'Cultura comunitaria y articulación regional',
     description:
-      'Procesos de formación artística para infancias, juventudes y personas adultas, con foco en acceso gratuito y continuidad territorial.',
+      'Arte y Vida impulsó “Arte y Vida en el Territorio: Sintonizar y Fortalecer en conjunto” y colaboró en “Visibilizando las OCC Ñuble”, conectando organizaciones culturales comunitarias de la región.',
+    source: 'Cuenta Pública Ñuble 2021',
+    href: 'https://cultura.gob.cl/cuentapublica/wp-content/uploads/sites/28/2021/05/nuble_cpr_2021.pdf',
   },
   {
-    title: 'EduCultura',
+    period: '2022',
+    title: 'Un actor cultural reconocido en Coelemu',
     description:
-      'Programación cultural abierta para la comunidad, con funciones, mediaciones, conciertos, encuentros y activación de espacios públicos.',
+      'El Plan Municipal de Cultura identificó a la corporación como gestora de eventos y actividades culturales, y su modelo de gestión fue compartido en el primer Encuentro Ciudadano de Culturas Comunitarias.',
+    source: 'Plan Municipal de Cultura de Coelemu',
+    href: 'https://www.cultura.gob.cl/redcultura/wp-content/uploads/sites/69/2023/06/pmc-coelemu-2022-2025.pdf',
   },
   {
-    title: 'InvestigAcción',
+    period: '2024',
+    title: 'Más redes para la cultura de Ñuble',
     description:
-      'Diagnóstico participativo, memoria comunitaria y producción cultural situada para responder a las necesidades del territorio.',
+      'El proyecto “Fortaleciendo la Red Cultural Ñuble” fue seleccionado por el Ministerio de las Culturas, ampliando la colaboración y el intercambio entre agentes del ecosistema regional.',
+    source: 'Fondos de Cultura',
+    href: 'https://www.fondosdecultura.cl/wp-content/uploads/2024/05/Rex-2117-Fija-Seleccion-Ecosistema-Creativo-DD_1526767_240813_P.pdf',
+  },
+  {
+    period: '2024–2025',
+    title: 'Memoria creada con los barrios',
+    description:
+      'Un proceso sociocultural llegó a cinco juntas vecinales urbanas y rurales de Coelemu. Talleres, murales, documentales y programación en Casa Taller pusieron en valor historias contadas por sus protagonistas.',
+    source: 'La Discusión',
+    href: 'https://ladiscusion.cl/corporacion-arte-y-vida-culmina-proyecto-sociocultural-en-coelemu/',
+  },
+  {
+    period: '2026',
+    title: 'El teatro vuelve a encontrarse con su comunidad',
+    description:
+      'Con Reactivemos el Teatro, la corporación sostiene programación de artes escénicas y suma un sistema de medición para conocer su impacto cultural, social y territorial.',
+    source: 'Data Cultura',
+    href: 'https://datacultura.org/casos/reactivemos-el-teatro/',
   },
 ];
 ---
 
-<Layout title="Nuestra historia">
-
-
-  <section class="bg-brand-bg pb-14 pt-20 text-brand-white lg:pb-16 lg:pt-24">
+<Layout
+  title="Nuestra historia"
+  description="Conoce el recorrido de Corporación Arte y Vida: cultura comunitaria, memoria, formación y cuidado del territorio desde Coelemu y el Valle del Itata."
+  canonical="https://arteyvida.cl/nuestra-historia"
+>
+  <section class="bg-brand-bg pb-14 pt-20 text-brand-white lg:pb-20 lg:pt-24">
     <div class="mx-auto grid max-w-[1280px] grid-cols-1 items-start gap-10 px-6 sm:px-10 lg:grid-cols-12 lg:gap-14">
       <div class="space-y-5 lg:col-span-7">
-        <p class="text-xs font-black uppercase tracking-[0.3em] text-brand-secondary">Historia</p>
-        <h1 class="text-4xl font-black leading-tight md:text-5xl">
-          Arte y Vida nace en Coelemu para activar cultura, comunidad y territorio.
+        <p class="text-xs font-black uppercase tracking-[0.3em] text-brand-secondary">Nuestra historia</p>
+        <h1 class="text-4xl font-black leading-tight md:text-6xl">
+          Una historia tejida desde Coelemu, con la comunidad y el territorio.
         </h1>
-        <p class="max-w-3xl text-base leading-relaxed text-brand-white/70 md:text-lg">
-          La Corporación Cultural y Social Arte y Vida surge con el propósito de fortalecer el desarrollo cultural,
-          social y medioambiental de la comuna y su entorno, articulando artes, patrimonio, naturaleza y participación
-          comunitaria.
+        <p class="max-w-3xl text-base leading-relaxed text-brand-white/75 md:text-lg">
+          La Corporación Cultural y Social Arte y Vida es una organización sin fines de lucro nacida en Coelemu. Su recorrido une creación artística, formación, memoria, patrimonio, participación y cuidado de la naturaleza para ampliar el acceso a la cultura en el Valle del Itata.
         </p>
       </div>
 
-      <div class="space-y-4 rounded-3xl border border-brand-white/10 bg-brand-white/5 p-6 shadow-[0_22px_80px_rgba(0,0,0,0.32)] lg:col-span-5">
-        <p class="text-xs font-black uppercase tracking-[0.24em] text-brand-accent">Identidad viva</p>
+      <aside class="space-y-4 rounded-3xl border border-brand-white/10 bg-brand-white/5 p-6 shadow-[0_22px_80px_rgba(0,0,0,0.32)] lg:col-span-5" aria-label="Identidad de Arte y Vida">
+        <p class="text-xs font-black uppercase tracking-[0.24em] text-brand-accent">Cultura · Comunidad · Territorio</p>
         <p class="text-sm leading-relaxed text-brand-white/75">
-          Desde sus inicios, la corporación ha impulsado talleres, mediación cultural, acciones medioambientales y
-          espacios de encuentro que fortalecen la identidad local, el bienestar y el tejido social.
+          El trabajo crece desde la escucha: reconoce intereses y saberes locales, vincula a artistas y organizaciones, y convierte talleres, escenarios y espacios públicos en lugares de encuentro.
         </p>
         <div class="flex flex-wrap gap-3">
-          <a
-            href="/proyectos"
-            class="inline-flex items-center gap-2 rounded-full bg-brand-accent px-5 py-3 text-xs font-black uppercase tracking-[0.2em] text-brand-bg shadow-[0_12px_40px_rgba(254,209,0,0.28)] transition-transform duration-300 hover:-translate-y-[2px]"
-          >
-            Ver proyectos
-          </a>
-          <a
-            href="/contacto"
-            class="inline-flex items-center gap-2 rounded-full border border-brand-white/15 px-5 py-3 text-xs font-black uppercase tracking-[0.2em] text-brand-white transition-colors hover:border-brand-accent/70 hover:text-brand-accent"
-          >
-            Contacto
-          </a>
+          <a href="/proyectos" class="inline-flex items-center rounded-full bg-brand-accent px-5 py-3 text-xs font-black uppercase tracking-[0.2em] text-brand-bg transition-transform duration-300 hover:-translate-y-[2px]">Ver proyectos</a>
+          <a href="/transparencia" class="inline-flex items-center rounded-full border border-brand-white/15 px-5 py-3 text-xs font-black uppercase tracking-[0.2em] text-brand-white transition-colors hover:border-brand-accent/70 hover:text-brand-accent">Memorias anuales</a>
         </div>
+      </aside>
+    </div>
+  </section>
+
+  <section class="bg-brand-white/5 py-16 text-brand-white lg:py-24" aria-labelledby="recorrido-heading">
+    <div class="mx-auto max-w-[1280px] px-6 sm:px-10">
+      <div class="grid grid-cols-1 gap-8 lg:grid-cols-12 lg:gap-14">
+        <div class="lg:col-span-4">
+          <p class="text-xs font-black uppercase tracking-[0.3em] text-brand-accent">Recorrido</p>
+          <h2 id="recorrido-heading" class="mt-4 text-3xl font-black leading-tight md:text-4xl">Hitos de una organización en movimiento.</h2>
+          <p class="mt-5 max-w-md text-sm leading-relaxed text-brand-white/65">
+            Este recorrido reúne antecedentes publicados por instituciones culturales, medios regionales y organizaciones colaboradoras.
+          </p>
+        </div>
+
+        <ol class="relative space-y-5 before:absolute before:bottom-8 before:left-[19px] before:top-8 before:w-px before:bg-brand-white/15 lg:col-span-8">
+          {milestones.map((milestone) => (
+            <li class="relative grid grid-cols-[40px_1fr] gap-4 rounded-3xl border border-brand-white/10 bg-brand-bg/65 p-5 sm:p-6">
+              <span class="relative z-10 mt-1 flex h-10 w-10 items-center justify-center rounded-full border border-brand-accent/60 bg-brand-bg text-xs font-black text-brand-accent" aria-hidden="true">●</span>
+              <div>
+                <p class="text-xs font-black uppercase tracking-[0.22em] text-brand-secondary">{milestone.period}</p>
+                <h3 class="mt-2 text-xl font-bold leading-tight md:text-2xl">{milestone.title}</h3>
+                <p class="mt-3 text-sm leading-relaxed text-brand-white/72">{milestone.description}</p>
+                <a href={milestone.href} target="_blank" rel="noreferrer" class="mt-4 inline-flex min-h-11 items-center gap-2 text-xs font-bold uppercase tracking-[0.14em] text-brand-accent hover:underline">
+                  Fuente: {milestone.source} <span aria-hidden="true">↗</span>
+                </a>
+              </div>
+            </li>
+          ))}
+        </ol>
       </div>
     </div>
   </section>
 
-  <section class="bg-brand-white/5 py-16 text-brand-white lg:py-20">
+  <section class="bg-brand-bg py-16 text-brand-white lg:py-24">
     <div class="mx-auto grid max-w-[1280px] grid-cols-1 items-start gap-10 px-6 sm:px-10 lg:grid-cols-12 lg:gap-14">
       <div class="space-y-4 lg:col-span-5">
-        <p class="text-xs font-black uppercase tracking-[0.3em] text-brand-accent">Quiénes somos</p>
-        <h2 class="text-3xl font-black leading-tight">
-          Una corporación sin fines de lucro que trabaja con arte, memoria y medioambiente.
-        </h2>
+        <p class="text-xs font-black uppercase tracking-[0.3em] text-brand-accent">Una práctica situada</p>
+        <h2 class="text-3xl font-black leading-tight">Arte, memoria y medioambiente con vocación pública.</h2>
         <p class="max-w-xl text-sm leading-relaxed text-brand-white/70">
-          Nuestro trabajo integra cultura, artes escénicas, música, danza, cine, patrimonio y medioambiente, siempre
-          con una mirada territorial y de acceso comunitario.
+          A lo largo de los años, Arte y Vida ha combinado talleres para distintas edades, música, danza, cine, artes escénicas, mediación, investigación y recuperación de memorias locales. La Casa Taller en Pedro León Gallo 547 es parte de esa historia: un lugar donde la comunidad puede crear, aprender y reunirse.
         </p>
       </div>
 
       <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:col-span-7">
-        <img
-          src={expoArchive?.coverImage ?? '/expo-09682-scaled.webp'}
-          alt="Personas participando en procesos artísticos de Arte y Vida"
-          class="h-full min-h-[280px] w-full rounded-3xl border border-brand-white/10 object-cover shadow-[0_20px_70px_rgba(0,0,0,0.3)]"
-          loading="lazy"
-        />
-        <img
-          src={orquestaArchive?.coverImage ?? '/DSC06842-scaled.webp'}
-          alt="Concierto y presentación artística impulsada por Arte y Vida"
-          class="h-full min-h-[280px] w-full rounded-3xl border border-brand-white/10 object-cover shadow-[0_20px_70px_rgba(0,0,0,0.3)]"
-          loading="lazy"
-        />
+        <img src={expoArchive?.coverImage ?? '/expo-09682-scaled.webp'} alt="Comunidad participando en los procesos formativos de Arte y Vida" class="h-full min-h-[280px] w-full rounded-3xl border border-brand-white/10 object-cover shadow-[0_20px_70px_rgba(0,0,0,0.3)]" loading="lazy" />
+        <img src={orquestaArchive?.coverImage ?? '/DSC06842-scaled.webp'} alt="Presentación musical impulsada por Arte y Vida" class="h-full min-h-[280px] w-full rounded-3xl border border-brand-white/10 object-cover shadow-[0_20px_70px_rgba(0,0,0,0.3)]" loading="lazy" />
       </div>
     </div>
   </section>
 
-  <section class="bg-brand-bg pb-20 text-brand-white">
+  <section class="bg-brand-white/5 py-16 text-brand-white lg:py-24" aria-labelledby="programas-historia-heading">
     <div class="mx-auto max-w-[1280px] space-y-8 px-6 sm:px-10">
-      <div>
-        <p class="text-xs font-black uppercase tracking-[0.3em] text-brand-secondary">Áreas de acción</p>
-        <h2 class="text-3xl font-black leading-tight">Tres líneas para sostener el trabajo territorial.</h2>
+      <div class="max-w-3xl">
+        <p class="text-xs font-black uppercase tracking-[0.3em] text-brand-secondary">Programas</p>
+        <h2 id="programas-historia-heading" class="mt-4 text-3xl font-black leading-tight md:text-4xl">Cuatro programas para sostener el trabajo territorial.</h2>
+        <p class="mt-4 text-sm leading-relaxed text-brand-white/70">Hoy la experiencia acumulada se organiza en cuatro programas complementarios, desde la formación y la circulación cultural hasta la memoria y la conciencia medioambiental.</p>
       </div>
 
-      <div class="grid grid-cols-1 gap-6 md:grid-cols-3">
-        {pillars.map((pillar) => (
-          <article class="rounded-3xl border border-brand-white/10 bg-brand-white/5 p-6 shadow-[0_20px_70px_rgba(0,0,0,0.28)]">
-            <h3 class="mb-3 text-xl font-bold">{pillar.title}</h3>
-            <p class="text-sm leading-relaxed text-brand-white/75">{pillar.description}</p>
+      <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
+        {programs.map((program, index) => (
+          <article class="rounded-3xl border border-brand-white/10 bg-brand-bg/70 p-6 shadow-[0_20px_70px_rgba(0,0,0,0.2)]">
+            <div class="mb-5 flex items-center gap-3" aria-hidden="true">
+              <span class="h-2 w-8 rounded-full" style={`background: ${program.color}`}></span>
+              <span class="text-xs tracking-widest text-brand-white/50">0{index + 1}</span>
+            </div>
+            <h3 class="mb-3 text-xl font-bold">{program.name}</h3>
+            <p class="text-sm leading-relaxed text-brand-white/75">{program.description}</p>
           </article>
         ))}
       </div>

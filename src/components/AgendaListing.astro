@@ -18,7 +18,7 @@ const groups = groupEventsByMonth(agenda.items);
     </fieldset>
   )}
   <p data-filter-count role="status" aria-live="polite" aria-atomic="true" class="mb-5 text-sm text-brand-muted">{agenda.items.length ? `${agenda.items.length} ${agenda.items.length === 1 ? 'actividad disponible' : 'actividades disponibles'}` : ''}</p>
-  {agenda.status === 'partial' && agenda.items.length > 0 && <p class="mb-6 max-w-2xl text-sm text-brand-muted">Esta selección puede ampliarse. Consulta también las novedades de Reactivemos el Teatro en Tcultura.</p>}
+  {agenda.status === 'partial' && agenda.items.length > 0 && <p class="mb-6 max-w-2xl text-sm text-brand-muted">Mostramos las actividades confirmadas por Arte y Vida. La selección de Reactivemos el Teatro puede ampliarse cuando Tcultura vuelva a estar disponible.</p>}
   {groups.map(group => (
     <section data-month-group class="mb-12" aria-labelledby={`month-${group.key}`}>
       <h2 id={`month-${group.key}`} class="mb-6 border-b border-brand-white/15 pb-4 text-2xl capitalize sm:text-3xl">{group.label}</h2>

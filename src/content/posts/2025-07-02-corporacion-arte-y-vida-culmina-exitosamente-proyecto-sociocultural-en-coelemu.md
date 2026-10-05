@@ -19,7 +19,7 @@ Ricardo Valderrama, Coordinador general del proyecto nos comenta: “Como Corpor
 
 ## Un proyecto territorial con enfoque comunitario
 
-La iniciativa desplegó una amplia programación artística y cultural en cinco juntas vecinales de Coelemu, abarcando tanto sectores urbanos como rurales de la comuna. El proyecto se estructuró en torno a los tres ejes estratégicos de la corporación: FormArte, EduCultura e InvestigAcción, cada uno diseñado para responder a las necesidades específicas identificadas en los territorios. Además, se abrieron las puertas de la casa de Arte y Vida, con una programación veraniega para todo público.
+La iniciativa desplegó una amplia programación artística y cultural en cinco juntas vecinales de Coelemu, abarcando tanto sectores urbanos como rurales de la comuna. El trabajo de la corporación se organiza actualmente en cuatro programas: FormArte, EduCultura, InvestigAcción y Acción Futuro, que integra la conciencia medioambiental y el cuidado del territorio. Cada uno responde a necesidades específicas identificadas junto a las comunidades. Además, se abrieron las puertas de la casa de Arte y Vida, con una programación veraniega para todo público.
 
 #### _Casa Abierta: Un espacio de encuentro para toda la comunidad_
 

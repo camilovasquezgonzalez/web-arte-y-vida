@@ -2,15 +2,24 @@ import type { EventProvider } from '../types/event';
 import { getTculturaAgenda } from './tcultura.ts';
 import { normalizeTculturaEvent } from './tcultura-events.ts';
 import { combineEventSources } from './events.ts';
+import { getLocalAgenda } from './local-events.ts';
 
 // Add providers here; every provider returns the same event and availability contract.
-const providers: EventProvider[] = [{
-  id: 'tcultura',
-  async load() {
-    const result = await getTculturaAgenda({ limit: 200 });
-    return { ...result, items: result.items.map(normalizeTculturaEvent).filter(item => item !== null) };
+const providers: EventProvider[] = [
+  {
+    id: 'arte-y-vida',
+    async load() {
+      return getLocalAgenda();
+    },
   },
-}];
+  {
+    id: 'tcultura',
+    async load() {
+      const result = await getTculturaAgenda({ limit: 200 });
+      return { ...result, items: result.items.map(normalizeTculturaEvent).filter(item => item !== null) };
+    },
+  },
+];
 
 export async function getAgenda(limit?: number) {
   const results = await Promise.all(providers.map(async provider => {

@@ -6,6 +6,12 @@ const { event } = Astro.props;
 const closed = /agotad|cancelad|finalizad|cerrad/i.test(event.status);
 const href = event.registrationUrl || event.detailUrl;
 const label = event.registrationUrl && !closed ? 'Inscribirme' : 'Ver actividad';
+const isPoster = event.id === 'accion-futuro-paisajismo-flora-nativa-2026';
+const description = event.description && (isPoster || event.description.length <= 180)
+  ? event.description
+  : event.description
+    ? `${event.description.slice(0, 177).trimEnd()}…`
+    : undefined;
 ---
 <article class="event-card flex h-full min-w-0 flex-col rounded-3xl border border-brand-white/15 bg-brand-bg" data-event-card data-category={event.category ?? ''}>
   <div class="px-5 pb-4 pt-6 sm:px-6">
@@ -13,7 +19,7 @@ const label = event.registrationUrl && !closed ? 'Inscribirme' : 'Ver actividad'
     <h3 class="mt-3 text-2xl leading-tight">{event.title}</h3>
     {event.category && <p class="mt-3 text-xs font-semibold uppercase tracking-[0.12em] text-brand-secondary">{event.category}</p>}
   </div>
-  {event.image && <img src={event.image} alt="" loading="lazy" width="640" height="360" class="aspect-video w-full object-cover" />}
+  {event.image && <img src={event.image} alt="" loading="lazy" width={isPoster ? 818 : 640} height={isPoster ? 1028 : 360} class:list={['w-full object-cover', isPoster ? 'aspect-[4/5]' : 'aspect-video']} />}
   <div class="flex flex-1 flex-col gap-4 px-5 pb-6 pt-5 sm:px-6">
     <dl class="space-y-2 text-sm text-brand-muted">
       {event.venue && <div><dt class="sr-only">Lugar</dt><dd>{event.venue}{event.locality ? ` · ${event.locality}` : ''}</dd></div>}
@@ -25,10 +31,10 @@ const label = event.registrationUrl && !closed ? 'Inscribirme' : 'Ver actividad'
       {event.free === true && <span class="rounded-full border border-brand-secondary/40 px-3 py-1.5">Gratuita</span>}
       {event.free !== true && event.price && <span>{new Intl.NumberFormat('es-CL', { style: 'currency', currency: event.price.currency }).format(event.price.amount)}</span>}
     </div>
-    {event.description && <p class="text-sm leading-relaxed text-brand-muted">{event.description.length > 180 ? `${event.description.slice(0, 177).trimEnd()}…` : event.description}</p>}
+    {description && <p class="text-sm leading-relaxed text-brand-muted">{description}</p>}
     {event.accessibilityInfo && <p class="text-sm text-brand-muted">Accesibilidad: {event.accessibilityInfo}</p>}
     <div class="mt-auto space-y-3 pt-2">
-      {href ? <a href={href} aria-label={`${label}: ${event.title}. Servicio externo: ${event.source.label}`} class="inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-brand-accent px-5 py-3 text-sm font-semibold text-brand-bg hover:bg-brand-white">{label}<span aria-hidden="true">↗</span></a> : <p class="text-sm text-brand-muted">Próximamente más información.</p>}
+      {href ? <a href={href} aria-label={`${label}: ${event.title}. Servicio externo: ${event.source.label}`} class="inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-brand-accent px-5 py-3 text-sm font-semibold text-brand-bg hover:bg-brand-white">{label}<span aria-hidden="true">↗</span></a> : <p class="text-sm text-brand-muted">{event.free ? 'Actividad gratuita.' : 'Próximamente más información.'}</p>}
       <p class="text-xs text-brand-muted">{href ? 'Servicio externo' : 'Publicado en'} · {event.source.label}</p>
     </div>
   </div>

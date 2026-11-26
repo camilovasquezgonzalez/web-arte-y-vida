@@ -6,21 +6,47 @@ categories:
   - "educacion-ambiental"
   - "alimentacion-saludable"
 coverImage: "/noticias/raices-vivas-de-trehuaco/reunion-coordinacion.webp"
+editorial:
+  eyebrow: "Acción Futuro · Reportaje territorial"
+  lead: "La iniciativa, financiada con $20 millones a través del Fondo de Promoción de Entornos Saludables 2026 del Sistema Elige Vivir Sano, beneficiará directamente a 20 estudiantes de la Escuela Básica Valle Lonquén, mediante talleres educativos y la habilitación de un huerto escolar con invernadero."
+  location: "Trehuaco, Región de Ñuble"
+  coverCaption: "Reunión de coordinación con la directora y la jefa de UTP de la Escuela Básica Valle Lonquén."
+  stats:
+    - value: "$20 millones"
+      label: "Financiamiento del proyecto"
+    - value: "20"
+      label: "Estudiantes beneficiarios directos"
+    - value: "7 meses"
+      label: "Proceso educativo"
+    - value: "12 meses"
+      label: "Duración total del proyecto"
+  sections:
+    - id: "primer-hito"
+      label: "El primer hito"
+    - id: "aprendizaje"
+      label: "Aprender desde la experiencia"
+    - id: "saberes"
+      label: "Saberes del territorio"
+    - id: "continuidad"
+      label: "Un espacio que permanezca"
 ---
 
-*La iniciativa, financiada con $20 millones a través del Fondo de Promoción de Entornos Saludables 2026 del Sistema Elige Vivir Sano, beneficiará directamente a 20 estudiantes de la Escuela Básica Valle Lonquén, mediante talleres educativos y la habilitación de un huerto escolar con invernadero.*
+
+<h2 id="primer-hito">El primer hito: coordinación y diagnóstico</h2>
 
 **Trehuaco, noviembre de 2026.** La Corporación Cultural y Social Arte y Vida de Coelemu dio inicio a las actividades de su proyecto **«Raíces Vivas de Trehuaco: alimentación saludable, huerto escolar y saberes del territorio»**, mediante una visita a la Escuela Básica Valle Lonquén, establecimiento donde se desarrollará esta iniciativa orientada a promover hábitos de vida saludables y fortalecer el vínculo entre la educación, la alimentación y el medioambiente.
 
-![Reunión de coordinación con la directora y la jefa de UTP de la Escuela Básica Valle Lonquén](/noticias/raices-vivas-de-trehuaco/reunion-coordinacion.webp)
 
 El hito inicial contempló una reunión de coordinación con la directora del establecimiento, instancia que permitió abordar los principales aspectos de la implementación, las necesidades de la comunidad educativa y la planificación de las futuras actividades. Asimismo, se realizó una visita técnica encabezada por **Jacinta Wells, técnica agrícola del proyecto**, quien efectuó un diagnóstico inicial del espacio destinado al huerto escolar, con el propósito de orientar las mejoras y adecuaciones necesarias para su funcionamiento.
 
-![Visita técnica y diagnóstico inicial del espacio destinado al huerto escolar](/noticias/raices-vivas-de-trehuaco/diagnostico-tecnico.webp)
+<figure class="story-figure">
+  <img src="/noticias/raices-vivas-de-trehuaco/diagnostico-tecnico.webp" alt="Visita técnica y diagnóstico inicial del espacio destinado al huerto escolar" width="1440" height="1080" loading="lazy" decoding="async" />
+  <figcaption>Visita técnica y diagnóstico inicial del espacio destinado al huerto escolar.</figcaption>
+</figure>
 
 Esta primera etapa constituye un paso fundamental para desarrollar una intervención pertinente a las condiciones del establecimiento, integrando las características de su entorno y las necesidades de quienes participarán en las actividades.
 
-### Aprender sobre alimentación saludable desde la experiencia
+<h2 id="aprendizaje">Aprender sobre alimentación saludable desde la experiencia</h2>
 
 El proyecto, adjudicado por Arte y Vida en el marco del Fondo de Promoción de Entornos Saludables 2026, perteneciente al Sistema Elige Vivir Sano del Ministerio de Desarrollo Social y Familia, contempla una ejecución de doce meses y una inversión de **$20 millones**.
 
@@ -30,11 +56,14 @@ Los contenidos abordarán temáticas como alimentación equilibrada, hidratació
 
 Uno de los principales componentes de la iniciativa será el fortalecimiento del huerto escolar existente y la **construcción de un invernadero educativo**, además de la incorporación de herramientas, materiales y condiciones de riego y cultivo que permitan utilizar este espacio como un recurso permanente de aprendizaje.
 
-![Estado actual del huerto escolar antes de las mejoras contempladas por el proyecto](/noticias/raices-vivas-de-trehuaco/huerto-escolar.webp)
+<figure class="story-figure">
+  <img src="/noticias/raices-vivas-de-trehuaco/huerto-escolar.webp" alt="Estado actual del huerto escolar antes de las mejoras contempladas por el proyecto" width="1440" height="1080" loading="lazy" decoding="async" />
+  <figcaption>Estado actual del huerto escolar, antes de las mejoras contempladas por el proyecto.</figcaption>
+</figure>
 
 La programación también considera tres talleres prácticos vinculados a la preparación del suelo, siembra, mantención y cosecha, promoviendo la participación activa del estudiantado en las distintas etapas del cultivo.
 
-### Rescatar los saberes del territorio
+<h2 id="saberes">Rescatar los saberes del territorio</h2>
 
 Además de los contenidos técnicos y educativos, «Raíces Vivas de Trehuaco» incorpora una dimensión comunitaria que reconoce el valor de los conocimientos agrícolas y alimentarios presentes en el territorio.
 
@@ -42,11 +71,14 @@ A través de un encuentro intergeneracional en colaboración con la **Agrupació
 
 De esta manera, el proyecto propone comprender la alimentación saludable no solo desde sus beneficios nutricionales, sino también desde su relación con el patrimonio, el medioambiente y los saberes que forman parte de la identidad territorial.
 
-### Un espacio educativo que permanezca en el tiempo
+<h2 id="continuidad">Un espacio educativo que permanezca en el tiempo</h2>
 
 Impulsada desde **Acción Futuro**, el área socioambiental de Arte y Vida, esta iniciativa da continuidad al trabajo que la corporación ha desarrollado junto a comunidades educativas del Valle del Itata, promoviendo experiencias de aprendizaje vinculadas al cuidado de la naturaleza y la participación comunitaria.
 
-![Fachada de la Escuela Básica Valle Lonquén, comuna de Trehuaco](/noticias/raices-vivas-de-trehuaco/escuela-valle-lonquen.webp)
+<figure class="story-figure">
+  <img src="/noticias/raices-vivas-de-trehuaco/escuela-valle-lonquen.webp" alt="Fachada de la Escuela Básica Valle Lonquén, comuna de Trehuaco" width="1440" height="1080" loading="lazy" decoding="async" />
+  <figcaption>Escuela Básica Valle Lonquén, comuna de Trehuaco.</figcaption>
+</figure>
 
 Más allá de las actividades formativas, uno de los propósitos centrales es que la Escuela Básica Valle Lonquén cuente con un huerto y un invernadero operativos, junto con herramientas y conocimientos que permitan proyectar su utilización una vez finalizada la intervención.
 
@@ -54,10 +86,9 @@ Tras este primer hito de coordinación y diagnóstico, el proyecto avanzará en 
 
 Con «Raíces Vivas de Trehuaco», la Corporación Arte y Vida reafirma su compromiso con la educación, el bienestar y el desarrollo territorial, promoviendo espacios donde los aprendizajes prácticos, el encuentro entre generaciones y el cuidado del entorno contribuyan a construir comunidades más saludables y conscientes de su patrimonio natural y cultural.
 
----
-
-**Proyecto financiado por el Fondo de Promoción de Entornos Saludables 2026, del Sistema Elige Vivir Sano, Ministerio de Desarrollo Social y Familia.**
-
-**Ejecuta:** Corporación Cultural y Social Arte y Vida de Coelemu.
-
-**Contacto:** [corpo@arteyvida.cl](mailto:corpo@arteyvida.cl) | [www.arteyvida.cl](https://www.arteyvida.cl)
+<aside class="story-credit" aria-label="Créditos institucionales">
+  <span class="story-credit-kicker">Financiamiento y ejecución</span>
+  <p><strong>Proyecto financiado por el Fondo de Promoción de Entornos Saludables 2026, del Sistema Elige Vivir Sano, Ministerio de Desarrollo Social y Familia.</strong></p>
+  <p><strong>Ejecuta:</strong> Corporación Cultural y Social Arte y Vida de Coelemu.</p>
+  <p><strong>Contacto:</strong> <a href="mailto:corpo@arteyvida.cl">corpo@arteyvida.cl</a> · <a href="https://www.arteyvida.cl">www.arteyvida.cl</a></p>
+</aside>

@@ -1,5 +1,6 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import EditorialStory from '../../components/EditorialStory.astro';
 import { getCollection } from 'astro:content';
 import { formatCategoryLabel } from '../../lib/contentLabels';
 
@@ -24,6 +25,7 @@ if (!entry) {
 }
 
 let Content;
+const editorial = entry.data.editorial;
 
 const rawCategories = Array.isArray(entry.data.categories) ? entry.data.categories : [];
 const displayCategories = rawCategories
@@ -45,9 +47,14 @@ if (typeof entry.render === 'function') {
 }
 ---
 
-<Layout title={entry.data.title}>
+<Layout title={entry.data.title} description={editorial?.lead} canonical={editorial ? `https://www.arteyvida.cl/posts/${slug}` : undefined}>
 
 
+  {editorial ? (
+    <EditorialStory title={entry.data.title} date={entry.data.date} coverImage={entry.data.coverImage} categories={categoriesToShow} editorial={editorial}>
+      <Content />
+    </EditorialStory>
+  ) : (
   <article class="bg-brand-bg text-brand-white min-h-screen">
     <header class="max-w-[1200px] mx-auto px-6 sm:px-10 pt-16 pb-10 lg:pt-20 lg:pb-12 space-y-4">
       <p class="text-xs font-black uppercase tracking-[0.3em] text-brand-accent">Noticia</p>
@@ -83,6 +90,7 @@ if (typeof entry.render === 'function') {
       </a>
     </div>
   </article>
+  )}
 </Layout>
 
 <style>

@@ -5,6 +5,17 @@ categories:
   - "proyecto-territorial"
   - "barrios"
 coverImage: "/CVG02216-scaled.webp"
+editorial:
+  eyebrow: "Cultura comunitaria · Noticias"
+  lead: "Arte y Vida inicia junto al Gobierno Regional de Ñuble una iniciativa participativa para fortalecer la identidad cultural y la memoria de los barrios de la región."
+  location: "Chillán, Región de Ñuble"
+  coverCaption: "Registro fotográfico de Arte y Vida."
+  stats:
+    - value: "13"
+      label: "Comunas contempladas"
+    - value: "21"
+      label: "Juntas de vecinos contempladas"
+  sections: []
 ---
 
 _Chillán, 29 de enero de 2024._

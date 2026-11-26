@@ -5,19 +5,38 @@ categories:
   - "programacion-cultural"
   - "barrios"
 coverImage: "/DSC00230-scaled.webp"
+editorial:
+  eyebrow: "Cultura comunitaria · Noticias"
+  lead: "La iniciativa, financiada por el programa Puntos de Cultura Comunitaria del Ministerio de las Culturas, benefició a cinco juntas vecinales urbanas y rurales durante cinco meses de intensa actividad artística y cultural"
+  location: "Coelemu, Región de Ñuble"
+  coverCaption: "Registro fotográfico de Arte y Vida."
+  stats:
+    - value: "5"
+      label: "Juntas vecinales"
+    - value: "5 meses"
+      label: "De actividad cultural"
+  sections:
+    - id: "un-proyecto-territorial-con-enfoque-comunitario"
+      label: "Un proyecto territorial con enfoque comunitario"
+    - id: "impacto-y-alcance-territorial"
+      label: "Impacto y alcance territorial"
+    - id: "un-modelo-replicable-de-gestion-cultural-territorial"
+      label: "Un modelo replicable de gestión cultural territorial"
 ---
-
-### **La iniciativa, financiada por el programa Puntos de Cultura Comunitaria del Ministerio de las Culturas, benefició a cinco juntas vecinales urbanas y rurales durante cinco meses de intensa actividad artística y cultural**
 
 _Coelemu, julio de 2025_ – La Corporación Arte y Vida anuncia la exitosa culminación de su proyecto sociocultural, desarrollado entre diciembre de 2024 y abril de 2025 en el marco del programa Puntos de Cultura Comunitaria del Ministerio de las Culturas, las Artes y el Patrimonio de la Región de Ñuble.
 
 Ricardo Valderrama, Coordinador general del proyecto nos comenta: “Como Corporación Arte y Vida, sostenemos firmemente la convicción de que cuando las personas logran conectarse con sus intereses, habilidades, talentos y expresiones identitarias, es decir, con su cultura, y al mismo tiempo reconocen y valoran su territorio y entorno, se generan procesos de reflexión profunda que inciden positivamente en su calidad de vida. Esta conexión íntima con lo propio permite no solo el desarrollo personal, sino también fortalece los lazos comunitarios y la conciencia colectiva.”
 
-![](/DSC05456-1024x683.webp)
+<figure class="story-figure">
+  <img src="/DSC05456-1024x683.webp" alt="Registro fotográfico de la noticia: Corporación Arte y Vida culmina exitosamente proyecto sociocultural en Coelemu" loading="lazy" decoding="async" />
+</figure>
 
-![](/DSC05820-1024x683.webp)
+<figure class="story-figure">
+  <img src="/DSC05820-1024x683.webp" alt="Registro fotográfico de la noticia: Corporación Arte y Vida culmina exitosamente proyecto sociocultural en Coelemu" loading="lazy" decoding="async" />
+</figure>
 
-## Un proyecto territorial con enfoque comunitario
+<h2 id="un-proyecto-territorial-con-enfoque-comunitario">Un proyecto territorial con enfoque comunitario</h2>
 
 La iniciativa desplegó una amplia programación artística y cultural en cinco juntas vecinales de Coelemu, abarcando tanto sectores urbanos como rurales de la comuna. El trabajo de la corporación se organiza actualmente en cuatro programas: FormArte, EduCultura, InvestigAcción y Acción Futuro, que integra la conciencia medioambiental y el cuidado del territorio. Cada uno responde a necesidades específicas identificadas junto a las comunidades. Además, se abrieron las puertas de la casa de Arte y Vida, con una programación veraniega para todo público.
 
@@ -31,11 +50,17 @@ Durante los meses de verano, la casa taller Arte y Vida se transformó en un pun
 
 - **Programación familiar**: Una jornada dedicada especialmente a las infancias, que combinó espectáculos de títeres y magia, generando momentos de alegría y asombro para los más pequeños.
 
-![](/Casa-Abierta-1-1024x683.webp)
+<figure class="story-figure">
+  <img src="/Casa-Abierta-1-1024x683.webp" alt="Registro fotográfico de la noticia: Corporación Arte y Vida culmina exitosamente proyecto sociocultural en Coelemu" loading="lazy" decoding="async" />
+</figure>
 
-![](/Mago-1024x683.webp)
+<figure class="story-figure">
+  <img src="/Mago-1024x683.webp" alt="Registro fotográfico de la noticia: Corporación Arte y Vida culmina exitosamente proyecto sociocultural en Coelemu" loading="lazy" decoding="async" />
+</figure>
 
-![](/Teatro-1024x683.webp)
+<figure class="story-figure">
+  <img src="/Teatro-1024x683.webp" alt="Registro fotográfico de la noticia: Corporación Arte y Vida culmina exitosamente proyecto sociocultural en Coelemu" loading="lazy" decoding="async" />
+</figure>
 
 #### _Programación territorial: Arte y cultura en los barrios_
 
@@ -49,11 +74,15 @@ A partir de un proceso de diagnóstico participativo liderado por el profesional
 
 **Conversatorios especializados**: Espacios de reflexión en torno a temáticas de medioambiente y bienestar, fomentando el diálogo ciudadano sobre temas de relevancia local.
 
-![](/DSC08125-1024x683.webp)
+<figure class="story-figure">
+  <img src="/DSC08125-1024x683.webp" alt="Registro fotográfico de la noticia: Corporación Arte y Vida culmina exitosamente proyecto sociocultural en Coelemu" loading="lazy" decoding="async" />
+</figure>
 
-![](/DSC08673-1024x683.webp)
+<figure class="story-figure">
+  <img src="/DSC08673-1024x683.webp" alt="Registro fotográfico de la noticia: Corporación Arte y Vida culmina exitosamente proyecto sociocultural en Coelemu" loading="lazy" decoding="async" />
+</figure>
 
-## Impacto y alcance territorial
+<h2 id="impacto-y-alcance-territorial">Impacto y alcance territorial</h2>
 
 El proyecto benefició directamente a cinco juntas de vecinos representativas de la diversidad territorial de Coelemu:
 
@@ -63,11 +92,15 @@ El proyecto benefició directamente a cinco juntas de vecinos representativas de
 
 La convocatoria logró reunir a personas de todas las edades, desde las infancias hasta los adultos mayores, cumpliendo con el objetivo de generar programación inclusiva y multigeneracional. En el caso de los conciertos y obras teatrales, la invitación abierta permitió que toda la comunidad coelemana pudiera participar, mientras que los productos de reconstrucción histórica generaron un impacto que se proyecta más allá del período de ejecución del proyecto.
 
-![](/Mural-2-1024x683.webp)
+<figure class="story-figure">
+  <img src="/Mural-2-1024x683.webp" alt="Registro fotográfico de la noticia: Corporación Arte y Vida culmina exitosamente proyecto sociocultural en Coelemu" loading="lazy" decoding="async" />
+</figure>
 
-![](/Murale-1024x683.webp)
+<figure class="story-figure">
+  <img src="/Murale-1024x683.webp" alt="Registro fotográfico de la noticia: Corporación Arte y Vida culmina exitosamente proyecto sociocultural en Coelemu" loading="lazy" decoding="async" />
+</figure>
 
-## Un modelo replicable de gestión cultural territorial
+<h2 id="un-modelo-replicable-de-gestion-cultural-territorial">Un modelo replicable de gestión cultural territorial</h2>
 
 La exitosa implementación de este proyecto sociocultural confirma la efectividad del modelo de trabajo territorial desarrollado por la Corporación Arte y Vida. La iniciativa logró su objetivo central de aportar programación cultural de calidad en zonas tradicionalmente menos beneficiadas por este tipo de actividades, siempre en coherencia con la misión institucional de generar instancias significativas de encuentro con el arte y la cultura.
 

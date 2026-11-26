@@ -1,0 +1,151 @@
+---
+interface Editorial {
+  eyebrow: string;
+  lead: string;
+  location: string;
+  coverCaption: string;
+  stats: { value: string; label: string }[];
+  sections: { id: string; label: string }[];
+}
+interface Props {
+  title: string;
+  date: Date | string;
+  coverImage?: string;
+  categories: string[];
+  editorial: Editorial;
+}
+const { title, date, coverImage, categories, editorial } = Astro.props;
+const formattedDate = new Intl.DateTimeFormat('es-CL', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'America/Santiago' }).format(new Date(date));
+---
+<article class="editorial-story">
+  <header class="story-header">
+    <div class="story-shell">
+      <a class="story-back" href="/noticias"><span aria-hidden="true">←</span> Todas las noticias</a>
+      <div class="story-hero">
+        <div class="story-intro">
+          <div class="story-eyebrow"><span></span>{editorial.eyebrow}</div>
+          <h1>{title}</h1>
+          <p class="story-deck">{editorial.lead}</p>
+          <div class="story-byline">
+            <span>Corporación Arte y Vida</span>
+            <time datetime={new Date(date).toISOString()}>{formattedDate}</time>
+            <span>{editorial.location}</span>
+          </div>
+        </div>
+        {coverImage && (
+          <figure class="story-cover">
+            <img src={coverImage} alt={editorial.coverCaption} width="1440" height="1080" fetchpriority="high" decoding="async" />
+            <figcaption>{editorial.coverCaption}</figcaption>
+          </figure>
+        )}
+      </div>
+      <section class="story-facts" aria-label="El proyecto en cifras">
+        <div class="story-facts-title">El proyecto en cifras</div>
+        <dl class="story-facts-grid">
+          {editorial.stats.map(stat => (
+            <div class="story-stat">
+              <dt>{stat.label}</dt>
+              <dd>{stat.value}</dd>
+            </div>
+          ))}
+        </dl>
+      </section>
+    </div>
+  </header>
+  <div class="story-shell story-reading-grid">
+    <aside class="story-rail">
+      <nav aria-label="En esta noticia" class="story-contents">
+        <p>En esta noticia</p>
+        <ol>
+          {editorial.sections.map((section, i) => (
+            <li><a href={`#${section.id}`}><span aria-hidden="true">{String(i+1).padStart(2,'0')}</span>{section.label}</a></li>
+          ))}
+        </ol>
+      </nav>
+      <div class="story-tags" aria-label="Categorías">
+        {categories.map(category => <span>{category}</span>)}
+      </div>
+    </aside>
+    <div class="story-copy">
+      <slot />
+      <a class="story-back story-back-bottom" href="/noticias"><span aria-hidden="true">←</span> Volver a noticias</a>
+    </div>
+  </div>
+</article>
+<style>
+  .editorial-story {
+    --story-paper: #10110f;
+    --story-ink: var(--color-brand-white);
+    --story-muted: var(--color-brand-muted);
+    --story-accent: var(--color-brand-accent);
+    --story-rule: rgba(243,241,235,.17);
+    background: var(--color-brand-bg);
+    color: var(--story-ink);
+  }
+  .story-shell { max-width: 1320px; margin-inline: auto; padding-inline: clamp(20px, 4vw, 64px); }
+  .story-header { padding-block: clamp(2.3rem, 5.8vw, 5.5rem) 0; }
+  .story-back { color: var(--story-muted); display: inline-flex; align-items: center; gap: .65rem; font-size: .76rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; text-decoration: none; }
+  .story-back span { color: var(--story-accent); font-size: 1.4rem; line-height: 1; }
+  .story-back:hover { color: var(--story-accent); }
+  .story-hero { display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr); gap: clamp(2rem, 5vw, 5rem); align-items: center; margin-block: clamp(2.1rem, 4vw, 4rem) 2.8rem; }
+  .story-eyebrow { display: flex; gap: .65rem; align-items: center; color: var(--story-accent); text-transform: uppercase; letter-spacing: .15em; font-size: .73rem; font-weight: 700; margin-bottom: 1.3rem; }
+  .story-eyebrow span { width: 2rem; height: 2px; flex: 0 0 auto; background: currentColor; }
+  .story-intro h1 { font-family: var(--font-display); font-size: clamp(2.45rem,4.15vw,4.2rem); font-weight: 600; line-height: 1.08; letter-spacing: -.045em; margin: 0 0 1.45rem; text-wrap: pretty; }
+  .story-deck { font-size: clamp(1rem,1.35vw,1.18rem); line-height: 1.72; color: var(--story-muted); margin: 0; }
+  .story-byline { display: flex; flex-wrap: wrap; gap: .45rem 1rem; align-items: center; font-size: .76rem; color: var(--story-muted); border-top: 1px solid var(--story-rule); margin-top: 1.8rem; padding-top: 1.1rem; }
+  .story-byline span:first-child { font-weight: 600; color: var(--story-ink); }
+  .story-cover { margin: 0; min-width: 0; }
+  .story-cover img { width: 100%; height: auto; border-radius: 3px; }
+  .story-cover figcaption { font-size: .76rem; line-height: 1.55; color: var(--story-muted); margin-top: .75rem; padding-left: .85rem; border-left: 2px solid var(--story-accent); }
+  .story-facts { border-top: 1px solid var(--story-rule); border-bottom: 1px solid var(--story-rule); padding-block: 1.3rem 1.8rem; }
+  .story-facts-title { font-size: .73rem; font-weight: 700; letter-spacing: .17em; text-transform: uppercase; color: var(--story-muted); margin-bottom: 1.4rem; }
+  .story-facts-grid { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 1rem; margin: 0; }
+  .story-stat { display: flex; flex-direction: column-reverse; gap: .35rem; padding-left: 1.25rem; border-left: 1px solid var(--story-rule); }
+  .story-stat:first-child { padding-left: 0; border-left: 0; }
+  .story-stat dt { color: var(--story-muted); font-size: .82rem; line-height: 1.45; }
+  .story-stat dd { margin: 0; color: var(--story-accent); font-family: var(--font-display); font-size: clamp(1.8rem,3.3vw,3.4rem); line-height: 1.05; letter-spacing: -.045em; font-weight: 600; }
+  .story-reading-grid { display: grid; grid-template-columns: minmax(160px,220px) minmax(0,800px); gap: clamp(2rem,6vw,6rem); justify-content: center; padding-block: clamp(3rem,7vw,6.4rem); align-items: start; }
+  .story-rail { position: sticky; top: calc(var(--site-header-height, 73px) + 2rem); }
+  .story-contents p { color: var(--story-ink); margin: 0 0 1rem; font-size: .75rem; font-weight: 700; text-transform: uppercase; letter-spacing: .13em; }
+  .story-contents ol { margin: 0; padding: 0; list-style: none; border-top: 1px solid var(--story-rule); }
+  .story-contents a { display: flex; align-items: baseline; gap: .7rem; border-bottom: 1px solid var(--story-rule); padding: .9rem 0; color: var(--story-muted); line-height: 1.45; font-size: .86rem; text-decoration: none; }
+  .story-contents a:hover { color: var(--story-ink); }
+  .story-contents a span { font-size: .72rem; color: var(--story-accent); font-variant-numeric: tabular-nums; }
+  .story-tags { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: 1.8rem; }
+  .story-tags span { border: 1px solid var(--story-rule); color: var(--story-muted); padding: .3rem .5rem; font-size: .68rem; line-height: 1.2; border-radius: 3px; }
+  .story-copy { min-width: 0; max-width: 800px; font-size: clamp(1rem,1.4vw,1.13rem); line-height: 1.83; }
+  .story-copy :global(p) { color: var(--story-muted); line-height: 1.83; margin: 0 0 1.35em; max-width: 70ch; text-wrap: pretty; }
+  .story-copy :global(strong) { color: var(--story-ink); font-weight: 700; }
+  .story-copy :global(h2) { font-family: var(--font-display); color: var(--story-ink); font-size: clamp(1.8rem,3vw,2.65rem); letter-spacing: -.025em; line-height: 1.17; border-top: 1px solid var(--story-rule); padding-top: 1.7rem; margin: 3.4rem 0 1.35rem; text-wrap: balance; scroll-margin-top: calc(var(--site-header-height,73px) + 1.5rem); }
+  .story-copy :global(h2:first-child) { border-top: 0; margin-top: 0; padding-top: 0; }
+  .story-copy :global(a:not(.story-back)) { color: var(--story-accent); text-decoration: underline; text-underline-offset: 3px; overflow-wrap: anywhere; }
+  .story-copy :global(.story-figure) { margin: 2.5rem 0 2.75rem; }
+  .story-copy :global(.story-figure img) { width: 100%; height: auto; border-radius: 3px; }
+  .story-copy :global(.story-figure figcaption) { border-bottom: 1px solid var(--story-rule); padding: .7rem 0 .85rem; font-size: .77rem; line-height: 1.55; color: var(--story-muted); }
+  .story-copy :global(.story-credit) { background: var(--story-paper); border-top: 3px solid var(--story-accent); padding: clamp(1.2rem,4vw,2rem); margin-top: 3.2rem; font-size: .93rem; }
+  .story-copy :global(.story-credit-kicker) { display: block; font-size: .71rem; letter-spacing: .14em; text-transform: uppercase; font-weight: 700; color: var(--story-accent); margin-bottom: .9rem; }
+  .story-copy :global(.story-credit p:last-child) { margin-bottom: 0; }
+  .story-back-bottom { margin-top: 2.5rem; }
+  @media (max-width: 960px) {
+    .story-hero { grid-template-columns: minmax(0,1fr); gap: 1.8rem; }
+    .story-intro h1 { max-width: 24ch; font-size: clamp(2.25rem,6.3vw,4.2rem); }
+    .story-deck { max-width: 70ch; }
+    .story-cover img { max-height: 630px; object-fit: contain; object-position: left; }
+    .story-reading-grid { grid-template-columns: minmax(0,800px); gap: 2.5rem; }
+    .story-rail { position: static; }
+    .story-contents ol { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); column-gap: 1.2rem; }
+    .story-tags { margin-top: 1rem; }
+  }
+  @media (max-width: 560px) {
+    .story-shell { padding-inline: 20px; }
+    .story-hero { margin-block: 1.65rem 1.9rem; }
+    .story-intro h1 { font-size: clamp(2rem,9vw,2.75rem); }
+    .story-deck { font-size: 1rem; }
+    .story-facts-grid { grid-template-columns: repeat(2,minmax(0,1fr)); gap: 1.2rem .8rem; }
+    .story-stat { padding-left: .8rem; }
+    .story-stat:nth-child(odd) { padding-left: 0; border-left: 0; }
+    .story-stat dd { font-size: clamp(1.55rem,6.6vw,2.2rem); }
+    .story-contents ol { grid-template-columns: 1fr; }
+    .story-copy :global(h2) { margin-top: 2.6rem; }
+  }
+</style>

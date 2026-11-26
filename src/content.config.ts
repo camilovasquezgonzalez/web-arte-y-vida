@@ -13,7 +13,7 @@ const posts = defineCollection({
       lead: z.string(),
       location: z.string(),
       coverCaption: z.string(),
-      stats: z.array(z.object({ value: z.string(), label: z.string() })).min(1),
+      stats: z.array(z.object({ value: z.string(), label: z.string() })),
       sections: z.array(z.object({ id: z.string(), label: z.string() })),
     }).optional(),
   }),

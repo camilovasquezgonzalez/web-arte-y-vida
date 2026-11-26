@@ -1,4 +1,7 @@
 const categoryLabelOverrides: Record<string, string> = {
+  'accion-futuro': 'Acción Futuro',
+  'educacion-ambiental': 'educación ambiental',
+  'alimentacion-saludable': 'alimentación saludable',
   'agenda-cultural': 'agenda cultural',
   'educacion-artistica': 'educación artística',
   'gestion-cultural': 'gestión cultural',

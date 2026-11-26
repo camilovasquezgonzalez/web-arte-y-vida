@@ -69,8 +69,8 @@ Lo aprendido en el festival tiene un destino claro: el **Cineclub Arte y Vida**,
 Estas experiencias dan continuidad, además, a la línea audiovisual que Arte y Vida ha construido en los últimos años a través de trabajo documental, apreciación cinematográfica y rescate de la memoria local. Entre sus proyectos recientes destacan el documental **“Flores y Sombras”**, sobre la historia del cementerio de Coelemu, y diversas jornadas dedicadas al cine documental, el patrimonio y el archivo.
 
 <figure class="story-figure">
-  <img src="/noticias/ficvaldivia-2026/flores-y-sombras-rodaje.webp" alt="Rodaje del documental Flores y Sombras" loading="lazy" decoding="async" />
-  <figcaption>Rodaje del documental Flores y Sombras</figcaption>
+  <img src="/noticias/ficvaldivia-2026/flores-y-sombras-rodaje.webp" alt="Registro del cortometraje Inhumar, realizado en el Taller de Cine de Arte y Vida." loading="lazy" decoding="async" />
+  <figcaption>Registro del cortometraje Inhumar, realizado en el Taller de Cine de Arte y Vida.</figcaption>
 </figure>
 
 <figure class="story-figure">
